@@ -1,1 +1,13 @@
+<<<<<<< HEAD
 {}
+=======
+{
+  "hosting": [
+    {
+      "target": "join",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}
+>>>>>>> 999e6f9d75d5945cad2a60e37be5299aa0ea2e0a
