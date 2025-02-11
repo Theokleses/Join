@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "join-68e48": {
+      "hosting": {
+        "join": [
+          "join-68e48"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "join-68e48"
+  }
+}
