@@ -1,1 +1,6 @@
-@import '../../../styles.scss'
+@use "../../../styles.scss";
+
+main {
+  background-color: blue;
+  height: 10vh;
+}

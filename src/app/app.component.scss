@@ -1,0 +1,15 @@
+@use "../styles.scss" as *;
+
+main {
+  max-width: 1920px;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  background-color: antiquewhite;
+
+  #headerAndRouterOutlet {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
