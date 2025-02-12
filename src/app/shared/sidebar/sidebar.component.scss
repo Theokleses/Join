@@ -1,5 +1,53 @@
+@use "../../../styles.scss" as *;
+
 main {
-  background-color: red;
+  background-color: $darkblue;
   height: 100vh;
   width: 30vh;
+}
+
+.content {
+  @include dF(space-between, center);
+  flex-direction: column;
+  padding-top: 40px;
+  gap: 200px;
+}
+
+.menu {
+  @include dF();
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+  width: 100%;
+
+  a {
+    width: 100%;
+    height: 40px;
+    text-decoration: none;
+    color: white;
+
+    &:hover {
+      background-color: rgb(77, 97, 126);
+    }
+  }
+
+  img {
+    padding-right: 12px;
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.privacy-imprint {
+  @include dF();
+  flex-direction: column;
+  gap: 12px;
+
+  a {
+    text-decoration: none;
+    color: white;
+    &:hover {
+      color: $lightblue;
+    }
+  }
 }
