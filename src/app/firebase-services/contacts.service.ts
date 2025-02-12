@@ -17,13 +17,12 @@ export class ContactsService implements OnDestroy {
       collection(this.firestore, 'contacts'),
       (contacts) => {
         this.contactlist = [];
-        console.clear();
         contacts.forEach((contact) => {
-          console.log(contact.id, contact.data());
           this.contactlist.push(
             this.setContactObject(contact.id, contact.data()),
           );
         });
+        this.contactlist.sort((a, b) => a.firstname.localeCompare(b.firstname));
       },
     );
   }

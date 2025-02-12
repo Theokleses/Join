@@ -3,4 +3,13 @@ main {
   padding: 0;
   background-color: green;
   min-height: 90vh;
+
+  display: flex;
+
+  #contactlist {
+    flex: 1;
+  }
+  #contactoverview {
+    flex: 3;
+  }
 }

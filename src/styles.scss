@@ -6,6 +6,7 @@ $lightblue: rgb(42, 170, 226);
 $blue: rgb(0, 124, 238);
 $red: rgb(255, 61, 0);
 $orange: rgb(254, 168, 0);
+$grey: #f6f7f8;
 
 //mixin for content-limit
 @mixin contentmax() {
@@ -28,9 +29,39 @@ $orange: rgb(254, 168, 0);
   padding-right: 50px;
 }
 
-// * {
-//   outline: 3px solid red;
-// }
+.pad {
+  padding: 0 50px;
+}
+
+.dark-btn {
+  background-color: $darkblue;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1rem;
+  font-family: "inter";
+  border-radius: 1rem;
+  padding: 0.5em 1rem;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $lightblue;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+  }
+}
+
+#initials {
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  aspect-ratio: 1/1;
+}
 
 body,
 html {
@@ -43,6 +74,7 @@ html {
   overflow-x: hidden;
   overflow-y: auto;
   height: 100%;
+  box-sizing: border-box;
 
   p {
     margin: 0;
