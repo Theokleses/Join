@@ -6,6 +6,7 @@ main {
   height: 100vh;
   display: flex;
   overflow-y: hidden;
+  @include contentmax();
 
   #headerAndRouterOutlet {
     flex: 1;

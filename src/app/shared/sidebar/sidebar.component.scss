@@ -8,21 +8,27 @@ main {
 
 .content {
   @include dF(space-between, center);
+  @include contentmax();
   flex-direction: column;
-  padding-top: 40px;
-  gap: 200px;
+  padding: 40px 0;
+  width: 100%;
+  height: 90%;
 }
 
 .menu {
-  @include dF();
+  @include dF(center, center);
   flex-direction: column;
   gap: 12px;
   text-align: center;
   width: 100%;
+  flex-grow: 1;
 
   a {
+    display: flex;
+    align-items: center;
+    // justify-content: center;
     width: 100%;
-    height: 40px;
+    height: 50px;
     text-decoration: none;
     color: white;
 
@@ -31,7 +37,14 @@ main {
     }
   }
 
+  .link {
+    @include dF();
+    width: 100%;
+  }
+  
   img {
+    margin-left: 140px;
+    vertical-align: middle;
     padding-right: 12px;
     height: 24px;
     width: 24px;
