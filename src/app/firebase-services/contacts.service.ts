@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { inject } from '@angular/core';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { Icontacts } from '../interfaces/icontacts';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,8 @@ export class ContactsService implements OnDestroy {
   unsubscribe: () => void;
 
   contactlist: Icontacts[] = [];
+  // selectedContactId?: string = '';
+  selectedContactId$ = new BehaviorSubject<string | undefined>(undefined); // BehaviorSubject für selectedContactId
 
   constructor() {
     this.unsubscribe = onSnapshot(
@@ -36,6 +39,14 @@ export class ContactsService implements OnDestroy {
       phonenumber: obj.phonenumber,
       status: obj.status,
     };
+  }
+
+  // setSelectedContactId(id?: string) {
+  //   this.selectedContactId = id;
+  // }
+
+  setSelectedContactId(id?: string) {
+    this.selectedContactId$.next(id); // Wert des BehaviorSubject aktualisieren
   }
 
   ngOnDestroy() {

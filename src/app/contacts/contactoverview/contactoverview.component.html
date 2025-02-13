@@ -6,6 +6,7 @@
   </div>
   <div id="contact-overview-body" class="pad">
     <!-- TODO hier kommt die Component rein die das Vorschaubild anzeigt vom Kontakt der angeklickt wurde -->
+<<<<<<< HEAD
     <!-- <div class="under-contacts">
       <div class="contact-left">
         <div class="avatar">DM</div>
@@ -35,5 +36,24 @@
       <p>Phone</p>
       <span>+49 2211200312</span>
     </div> -->
+=======
+    @if (selectedContact) {
+      <div id="contact-details">
+        <div id="initials" style="background-color: red">
+          <p>
+            {{ selectedContact.firstname[0].toUpperCase()
+            }}{{ selectedContact.lastname[0].toUpperCase() }}
+          </p>
+        </div>
+        <h3>{{ selectedContact.firstname }} {{ selectedContact.lastname }}</h3>
+        <p><strong>Email:</strong> {{ selectedContact.email }}</p>
+        <p><strong>Phone:</strong> {{ selectedContact.phonenumber }}</p>
+      </div>
+    } @else {
+      <div>
+        <p>Please select a contact to view details.</p>
+      </div>
+    }
+>>>>>>> 206cfc56077705ac650a5b33a65a225d14507a04
   </div>
 </main>
