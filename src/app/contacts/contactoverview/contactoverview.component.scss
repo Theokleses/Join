@@ -10,7 +10,7 @@ main {
     gap: 0.5rem;
 
     h2 {
-      font-size: 4rem;
+      font-size: 6rem;
       margin: 0;
       line-height: 0;
     }
@@ -30,5 +30,47 @@ main {
       color: $darkblue;
       font-size: 2rem;
     }
+  }
+  #contact-overview-body {
+
+    h3 {
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    a {
+      color: rgba(42, 54, 71, 1)
+    }
+
+    .under-contacts {
+      @include dF(start, center, 40px);
+      padding-top: 3rem;
+    }
+
+    .edit-delete {
+      display: flex;
+      gap: 2rem;
+      margin-top: 0.5rem;
+    }
+    .center-line {
+      // @include dF(start, center 8px);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      background-color: rgba(255, 122, 0, 1);
+      border: 3px solid white;
+    }
+
   }
 }
