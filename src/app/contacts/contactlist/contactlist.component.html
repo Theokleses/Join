@@ -7,7 +7,7 @@
   <div id="contactlist">
     @for (contact of contacts.contactlist; track $index) {
       <!-- TODO hier auch ein (click) einfügen um ContactOverlay anzuzeigen übergib den index damit die komponente danach im array suchen kann -->
-      <div id="contact-container">
+      <div id="contact-container" (click)="showmessage(contact.id)">
         <div id="initials" [ngStyle]="{ 'background-color': getColor($index) }">
           <p>
             {{ contact.firstname[0].toUpperCase()
