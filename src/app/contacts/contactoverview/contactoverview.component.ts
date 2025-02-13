@@ -1,9 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ContactsService } from '../../firebase-services/contacts.service';
-<<<<<<< HEAD
-=======
 import { Icontacts } from '../../interfaces/icontacts';
->>>>>>> 206cfc56077705ac650a5b33a65a225d14507a04
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,12 +12,6 @@ import { CommonModule } from '@angular/common';
 })
 export class ContactoverviewComponent {
   public contacts = inject(ContactsService);
-<<<<<<< HEAD
-  constructor() {
-    this.contacts;
-  }
-  
-=======
   selectedContact: Icontacts | null = null; // Variable für den ausgewählten Kontakt
   constructor() {
     this.contacts;
@@ -38,5 +29,4 @@ export class ContactoverviewComponent {
       }
     });
   }
->>>>>>> 206cfc56077705ac650a5b33a65a225d14507a04
 }
