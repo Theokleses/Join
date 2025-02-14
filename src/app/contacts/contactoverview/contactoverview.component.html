@@ -6,6 +6,9 @@
   </div>
   <div id="contact-overview-body" class="pad">
     @if (selectedContact) {
+      <app-contactedit
+        [ngStyle]="{ display: isEditing ? 'block' : 'none' }"
+      ></app-contactedit>
       <div id="contact-details">
         <div class="under-contacts">
           <div
