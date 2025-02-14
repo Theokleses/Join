@@ -12,21 +12,29 @@ import { CommonModule } from '@angular/common';
 })
 export class ContactoverviewComponent {
   public contacts = inject(ContactsService);
-  selectedContact: Icontacts | null = null; // Variable für den ausgewählten Kontakt
+  selectedContact: Icontacts | null = null;
+  idToDelete: string = '';
+
   constructor() {
     this.contacts;
   }
+
   ngOnInit(): void {
-    // Abonniere das selectedContactId$-Observable
     this.contacts.selectedContactId$.subscribe((id) => {
       if (id) {
-        // Finde den Kontakt in der contactlist anhand der ID
         this.selectedContact =
           this.contacts.contactlist.find((contact) => contact.id === id) ||
           null;
       } else {
-        this.selectedContact = null; // Setze selectedContact auf null, wenn keine ID vorhanden ist
+        this.selectedContact = null;
       }
     });
+  }
+
+  async editContact() {}
+
+  async deleteContact() {
+    this.idToDelete = this.contacts.selectedContactId$.value || '';
+    alert(this.idToDelete);
   }
 }

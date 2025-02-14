@@ -12,25 +12,26 @@ export class ContactsService implements OnDestroy {
   unsubscribe: () => void;
 
   contactlist: Icontacts[] = [];
-  // selectedContactId?: string = '';
-  selectedContactId$ = new BehaviorSubject<string | undefined>(undefined); // BehaviorSubject für selectedContactId
+  selectedContactId$ = new BehaviorSubject<string | undefined>(undefined);
 
   constructor() {
     this.unsubscribe = onSnapshot(
       collection(this.firestore, 'contacts'),
       (contacts) => {
         this.contactlist = [];
+        let index = 0;
         contacts.forEach((contact) => {
           this.contactlist.push(
-            this.setContactObject(contact.id, contact.data()),
+            this.setContactObject(contact.id, contact.data(), index),
           );
+          index++;
         });
         this.contactlist.sort((a, b) => a.firstname.localeCompare(b.firstname));
       },
     );
   }
 
-  setContactObject(id: string, obj: any): Icontacts {
+  setContactObject(id: string, obj: any, index: number): Icontacts {
     return {
       id: id,
       email: obj.email,
@@ -38,15 +39,25 @@ export class ContactsService implements OnDestroy {
       lastname: obj.lastname,
       phonenumber: obj.phonenumber,
       status: obj.status,
+      initialBg: this.getColor(index),
     };
   }
 
-  // setSelectedContactId(id?: string) {
-  //   this.selectedContactId = id;
-  // }
+  getColor(index: number): string {
+    const colors = [
+      '#FF7A00',
+      '#9327FF',
+      '#6E52FF',
+      '#FC71FF',
+      '#FFBB2B',
+      '#1FD7C1',
+      '#462F8A',
+    ];
+    return colors[index % colors.length];
+  }
 
   setSelectedContactId(id?: string) {
-    this.selectedContactId$.next(id); // Wert des BehaviorSubject aktualisieren
+    this.selectedContactId$.next(id);
   }
 
   ngOnDestroy() {

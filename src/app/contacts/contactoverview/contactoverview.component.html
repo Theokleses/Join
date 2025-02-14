@@ -5,51 +5,55 @@
     <span>Better with a team</span>
   </div>
   <div id="contact-overview-body" class="pad">
-    <!-- TODO hier kommt die Component rein die das Vorschaubild anzeigt vom Kontakt der angeklickt wurde -->
     @if (selectedContact) {
-    <div id="contact-details">
-      <div class="under-contacts">
-        <div id="initials" style="background-color: red">
-          <p>
-            {{ selectedContact.firstname[0].toUpperCase()
-            }}{{ selectedContact.lastname[0].toUpperCase() }}
-          </p>
+      <div id="contact-details">
+        <div class="under-contacts">
+          <div
+            id="initials"
+            [ngStyle]="{ 'background-color': selectedContact.initialBg }"
+          >
+            <p>
+              {{ selectedContact.firstname[0].toUpperCase()
+              }}{{ selectedContact.lastname[0].toUpperCase() }}
+            </p>
+          </div>
+          <div class="contact-right">
+            <h3>
+              {{ selectedContact.firstname }} {{ selectedContact.lastname }}
+            </h3>
+            <div class="edit-delete">
+              <a class="center-line" href="#" (click)="editContact()"
+                ><img
+                  src="./assets/img/06_contacts/edit.png"
+                  alt="Edit-icon"
+                />Edit</a
+              >
+              <a class="center-line" href="#" (click)="deleteContact()"
+                ><img
+                  src="./assets/img/06_contacts/delete.png"
+                  alt="Delete-icon"
+                />Delete</a
+              >
+            </div>
+          </div>
         </div>
-        <div class="contact-right">
-          <h3>
-            {{ selectedContact.firstname }} {{ selectedContact.lastname }}
-          </h3>
-          <div class="edit-delete">
-            <a class="center-line" href="#"
-              ><img
-                src="./assets/img/06_contacts/edit.png"
-                alt="Edit-icon"
-              />Edit</a
-            >
-            <a class="center-line" href="#"
-              ><img
-                src="./assets/img/06_contacts/delete.png"
-                alt="Delete-icon"
-              />Delete</a
-            >
+
+        <div class="contact-info">
+          <div class="contact-header">
+            <span>Contact Information</span>
+          </div>
+          <div class="contact-data">
+            <p><strong>Email</strong></p>
+            <p>{{ selectedContact.email }}</p>
+            <p><strong>Phone</strong></p>
+            <p>{{ selectedContact.phonenumber }}</p>
           </div>
         </div>
       </div>
-
-      <div class="contact-info">
-        <div class="contact-header">
-          <span>Contact Information</span>
-        </div>
-        <div class="contact-data">
-        <p><strong>Email</strong></p> <p>{{ selectedContact.email }}</p>
-        <p><strong>Phone</strong></p> <p>{{ selectedContact.phonenumber }}</p>
-      </div>
-      </div>
-    </div>
     } @else {
-    <div class="select-contact">
-      <p>Please select a contact to view details.</p>
-    </div>
+      <div class="select-contact">
+        <p>Please select a contact to view details.</p>
+      </div>
     }
   </div>
 </main>

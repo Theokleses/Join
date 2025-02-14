@@ -5,4 +5,5 @@ export interface Icontacts {
   lastname: string;
   phonenumber: string;
   status: string;
+  initialBg: string;
 }
