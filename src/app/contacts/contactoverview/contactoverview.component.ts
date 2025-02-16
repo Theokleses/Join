@@ -15,7 +15,6 @@ export class ContactoverviewComponent {
   public contacts = inject(ContactsService);
   selectedContact: Icontacts | null = null;
   idToDelete: string = '';
-  isEditing: boolean = false;
 
   constructor() {
     this.contacts;
@@ -31,10 +30,6 @@ export class ContactoverviewComponent {
         this.selectedContact = null;
       }
     });
-  }
-
-  editContact() {
-    this.isEditing = !this.isEditing;
   }
 
   async deleteContact() {

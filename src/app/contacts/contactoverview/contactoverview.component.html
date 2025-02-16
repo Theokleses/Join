@@ -7,7 +7,8 @@
   <div id="contact-overview-body" class="pad">
     @if (selectedContact) {
       <app-contactedit
-        [ngStyle]="{ display: isEditing ? 'block' : 'none' }"
+        [selectedContact]="selectedContact"
+        [ngStyle]="{ display: contacts.isEditing ? 'block' : 'none' }"
       ></app-contactedit>
       <div id="contact-details">
         <div class="under-contacts">
@@ -25,7 +26,10 @@
               {{ selectedContact.firstname }} {{ selectedContact.lastname }}
             </h3>
             <div class="edit-delete">
-              <a class="center-line" href="#" (click)="editContact()"
+              <a
+                class="center-line"
+                href="#"
+                (click)="contacts.toggleDialogEdit()"
                 ><img
                   src="./assets/img/06_contacts/edit.png"
                   alt="Edit-icon"

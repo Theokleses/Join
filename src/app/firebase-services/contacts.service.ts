@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ContactsService implements OnDestroy {
   firestore: Firestore = inject(Firestore);
   unsubscribe: () => void;
-
+  isEditing: boolean = false;
   contactlist: Icontacts[] = [];
   selectedContactId$ = new BehaviorSubject<string | undefined>(undefined);
 
@@ -27,6 +27,9 @@ export class ContactsService implements OnDestroy {
           index++;
         });
         this.contactlist.sort((a, b) => a.firstname.localeCompare(b.firstname));
+      },
+      (error) => {
+        console.error('Error fetching contacts:', error);
       },
     );
   }
@@ -58,6 +61,10 @@ export class ContactsService implements OnDestroy {
 
   setSelectedContactId(id?: string) {
     this.selectedContactId$.next(id);
+  }
+
+  toggleDialogEdit() {
+    this.isEditing = !this.isEditing;
   }
 
   ngOnDestroy() {
