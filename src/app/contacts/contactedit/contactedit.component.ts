@@ -9,7 +9,7 @@ import {
 import { Icontacts } from '../../interfaces/icontacts';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { doc, updateDoc, collection, getFirestore } from 'firebase/firestore';
+import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
 import { ContactsService } from '../../firebase-services/contacts.service';
 
 @Component({
@@ -22,16 +22,13 @@ import { ContactsService } from '../../firebase-services/contacts.service';
 export class ContacteditComponent {
   @Input() selectedContact: Icontacts | null = null;
 
-  // firstname: string = '';
-  // lastname: string = '';
-  // email: string = '';
-  // phonenumber: string = '';
   firstname?: string = '';
   lastname?: string = '';
   email?: string = '';
   phonenumber?: string = '';
 
   public contacts = inject(ContactsService);
+  private firestore: Firestore = inject(Firestore);
 
   constructor() {}
 
@@ -70,7 +67,7 @@ export class ContacteditComponent {
     if (this.selectedContact && this.selectedContact.id && this.isFormValid()) {
       try {
         const contactRef = doc(
-          this.contacts.firestore,
+          this.firestore,
           'contacts',
           this.selectedContact.id,
         );
@@ -80,7 +77,8 @@ export class ContacteditComponent {
           lastname: this.lastname,
           phonenumber: this.phonenumber,
         });
-        console.log('Contact updated successfully');
+        // console.log('Contact updated successfully');
+        this.contacts.toggleDialogEdit();
       } catch (error) {
         console.error('Error updating contact:', error);
       }
