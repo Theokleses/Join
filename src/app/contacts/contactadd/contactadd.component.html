@@ -1,1 +1,64 @@
-<p>contactadd works!</p>
+<main>
+
+    <div id="left-side">
+      <img src="../../../assets/img/main-logo-white.png" alt="" id="logo" />
+      <h2>Add contact</h2>
+      <img src="../../../assets/img/blueLine.png" alt="" id="blueLine" />
+    </div>
+    <div id="right-side">
+      <div id="right-side-right">
+        <a href="">X</a>
+        <div id="inputs">
+          <form (ngSubmit)="addNewContact()">
+            <div id="firstname-container">
+              <label for="firstname">First name:</label>
+              <input
+                id="firstname"
+                type="text"
+                [(ngModel)]="newContact.firstname"
+                name="firstname"
+                required
+              />
+            </div>
+
+            <div id="lastname-container">
+              <label for="lastname">Last name:</label>
+              <input
+                id="lastname"
+                type="text"
+                [(ngModel)]="newContact.lastname"
+                name="lastname"
+                required
+              />
+            </div>
+
+            <div id="email-container">
+              <label for="email">E-Mail:</label>
+              <input
+                id="email"
+                type="email"
+                [(ngModel)]="newContact.email"
+                name="email"
+                required
+              />
+            </div>
+
+            <div id="phonenumber-container">
+              <label for="phonenumber">Phone:</label>
+              <input
+                id="phonenumber"
+                type="tel"
+                [(ngModel)]="newContact.phonenumber"
+                name="phonenumber"
+                required
+              />
+            </div>
+            <div id="btn-section">
+              <button type="submit">Add contact</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+</main>

@@ -1,10 +1,12 @@
 <main class="pad">
   <!-- TODO (click)=komponente zum adden -->
-  <button class="dark-btn">
+  <button class="dark-btn" (click)= "contacts.toggleDialogAdd()">
     Add new Contact
     <img src="../../../assets/img/06_contacts/person_add.png" alt="" />
   </button>
+  <app-contactadd    [ngStyle]="{ display: contacts.isAdding ? 'block' : 'none' }"></app-contactadd>
   <div id="contactlist">
+    
     @for (contact of contacts.contactlist; track $index) {
       <div
         id="contact-container"

@@ -1,0 +1,148 @@
+@use "../../../styles.scss" as *;
+
+main {
+  width: 100%;
+  max-width: 1000px;
+  min-width: 1000px;
+  height: 50vh;
+  border-radius: 2rem;
+  border-top-left-radius: 2rem;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  border: none;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  #left-side {
+    background-color: $darkblue;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 3rem;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    img {
+      width: 100px;
+      height: auto;
+      margin: 0 0 2rem 0;
+      padding: 0;
+    }
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding: 0;
+      font-size: 4rem;
+      color: white;
+    }
+  }
+
+  #right-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 3rem;
+    gap: 3rem;
+    #right-side-left {
+      border: 2px solid white;
+      box-shadow: 0px 0px 2px black;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      #initials {
+        height: 6rem !important;
+        width: 6rem !important;
+        font-size: 3rem !important;
+      }
+    }
+    #right-side-right {
+      display: flex;
+      justify-content: start;
+      flex-direction: column;
+      gap: 2rem;
+      flex: 3;
+      height: 100%;
+      width: 100%;
+      a {
+        text-align: end;
+        color: $darkblue;
+        font-size: 1.5rem;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      #inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        #firstname-container,
+        #lastname-container,
+        #email-container,
+        #phonenumber-container {
+          display: flex;
+          justify-content: start;
+          align-items: center;
+          input {
+            width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1.2rem;
+            margin-right: -2rem;
+            margin-bottom: 2rem;
+            &::placeholder {
+              color: rgba(0, 0, 0, 0.2);
+            }
+          }
+          img {
+            height: 75%;
+            width: auto;
+          }
+        }
+      }
+
+      #btn-section {
+        display: flex;
+        justify-content: start;
+        gap: 1rem;
+        button {
+          border: none;
+          border-radius: 1rem;
+          padding: 0.75rem 1.5rem;
+          font-size: 1.5rem;
+          transition:
+            background-color 0.3s ease,
+            box-shadow 0.3s ease;
+        }
+        #delete {
+          color: $darkblue;
+          background-color: transparent;
+          border: 1px solid $darkblue;
+          &:hover {
+            border: 1px solid $lightblue;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          }
+        }
+        #save {
+          color: white;
+          background-color: $darkblue;
+          &:hover {
+            background-color: $lightblue;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          }
+        }
+      }
+    }
+  }
+}

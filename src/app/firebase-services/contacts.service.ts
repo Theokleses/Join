@@ -1,6 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { inject } from '@angular/core';
-import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  onSnapshot,
+  addDoc,
+} from '@angular/fire/firestore';
 import { Icontacts } from '../interfaces/icontacts';
 import { BehaviorSubject } from 'rxjs';
 
@@ -11,6 +16,7 @@ export class ContactsService implements OnDestroy {
   firestore: Firestore = inject(Firestore);
   unsubscribe: () => void;
   isEditing: boolean = false;
+  isAdding: boolean = false;
   contactlist: Icontacts[] = [];
   selectedContactId$ = new BehaviorSubject<string | undefined>(undefined);
 
@@ -22,7 +28,7 @@ export class ContactsService implements OnDestroy {
         let index = 0;
         contacts.forEach((contact) => {
           this.contactlist.push(
-            this.setContactObject(contact.id, contact.data(), index),
+            this.setContactObject(contact.id, contact.data(), index)
           );
           index++;
         });
@@ -30,7 +36,7 @@ export class ContactsService implements OnDestroy {
       },
       (error) => {
         console.error('Error fetching contacts:', error);
-      },
+      }
     );
   }
 
@@ -63,8 +69,21 @@ export class ContactsService implements OnDestroy {
     this.selectedContactId$.next(id);
   }
 
+  async addContact(contacts: Omit<Icontacts, 'id' | 'initialBg'>) {
+    try {
+      await addDoc(collection(this.firestore, 'contacts'), contacts);
+      console.log('Kontakt erfolgreich hinzugefügt');
+    } catch (error) {
+      console.error('Fehler beim Hinzufügen des Kontakts:', error);
+    }
+  }
+
   toggleDialogEdit() {
     this.isEditing = !this.isEditing;
+  }
+
+  toggleDialogAdd() {
+    this.isAdding = !this.isAdding;
   }
 
   ngOnDestroy() {
