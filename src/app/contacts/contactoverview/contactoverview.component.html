@@ -10,6 +10,7 @@
         [selectedContact]="selectedContact"
         [ngStyle]="{ display: contacts.isEditing ? 'block' : 'none' }"
       ></app-contactedit>
+      <div id="contact-details-container">
       <div id="contact-details" [class.slide-in]="showAnimation">
         <div class="under-contacts">
           <div
@@ -57,6 +58,7 @@
           </div>
         </div>
       </div>
+    </div>
     } @else {
       <div class="select-contact">
         <p>Please select a contact to view details.</p>
