@@ -106,3 +106,29 @@ main {
     }
   }
 }
+
+#contact-details-container {
+  overflow: hidden;
+}
+
+#contact-details {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.slide-in {
+  animation: slideInFromRight 0.3s ease-out forwards;
+}

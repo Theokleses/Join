@@ -3,6 +3,7 @@ import { ContactsService } from '../../firebase-services/contacts.service';
 import { Icontacts } from '../../interfaces/icontacts';
 import { CommonModule } from '@angular/common';
 import { ContacteditComponent } from '../contactedit/contactedit.component';
+import { Firestore,doc, deleteDoc} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-contactoverview',
@@ -13,8 +14,10 @@ import { ContacteditComponent } from '../contactedit/contactedit.component';
 })
 export class ContactoverviewComponent {
   public contacts = inject(ContactsService);
+  firestore: Firestore = inject(Firestore);
   selectedContact: Icontacts | null = null;
   idToDelete: string = '';
+  showAnimation: boolean = false;
 
   constructor() {
     this.contacts;
@@ -26,14 +29,28 @@ export class ContactoverviewComponent {
         this.selectedContact =
           this.contacts.contactlist.find((contact) => contact.id === id) ||
           null;
+          this.triggerAnimation();
       } else {
         this.selectedContact = null;
       }
     });
   }
 
-  async deleteContact() {
-    this.idToDelete = this.contacts.selectedContactId$.value || '';
-    alert(this.idToDelete);
+  triggerAnimation() {
+    this.showAnimation = false; // Klasse entfernen
+    setTimeout(() => {
+      this.showAnimation = true; // Klasse wieder hinzufügen
+    }); // Kurze Verzögerung, um das Neurendern zu erzwingen
   }
+
+  async deleteContact() {
+    try {
+      this.idToDelete = this.contacts.selectedContactId$.value || '';
+      await deleteDoc(doc(this.firestore, "contacts", this.idToDelete));
+      this.selectedContact = null;
+    } catch (error) {
+      console.error("Fehler beim Löschen des Dokuments: ", error);
+    }
+
+}
 }

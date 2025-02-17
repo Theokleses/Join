@@ -10,7 +10,7 @@
         [selectedContact]="selectedContact"
         [ngStyle]="{ display: contacts.isEditing ? 'block' : 'none' }"
       ></app-contactedit>
-      <div id="contact-details">
+      <div id="contact-details" [class.slide-in]="showAnimation">
         <div class="under-contacts">
           <div
             id="initials"
