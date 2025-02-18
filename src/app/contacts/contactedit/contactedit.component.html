@@ -68,7 +68,13 @@
           /><img src="../../../assets/img/06_contacts/phone.png" alt="" />
         </div>
         <div id="btn-section">
-          <button id="delete" (click)="clearInputs()">Delete</button>
+          <button
+            id="delete"
+            (click)="contacts.deleteContact()"
+            [disabled]="!contacts.selectedContactId$.value"
+          >
+            Delete
+          </button>
           <button
             id="save"
             (click)="updateInFirestore()"

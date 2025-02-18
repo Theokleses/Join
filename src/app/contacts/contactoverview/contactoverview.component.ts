@@ -3,7 +3,7 @@ import { ContactsService } from '../../firebase-services/contacts.service';
 import { Icontacts } from '../../interfaces/icontacts';
 import { CommonModule } from '@angular/common';
 import { ContacteditComponent } from '../contactedit/contactedit.component';
-import { Firestore,doc, deleteDoc} from '@angular/fire/firestore';
+import { Firestore, doc, deleteDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-contactoverview',
@@ -29,7 +29,7 @@ export class ContactoverviewComponent {
         this.selectedContact =
           this.contacts.contactlist.find((contact) => contact.id === id) ||
           null;
-          this.triggerAnimation();
+        this.triggerAnimation();
       } else {
         this.selectedContact = null;
       }
@@ -46,11 +46,10 @@ export class ContactoverviewComponent {
   async deleteContact() {
     try {
       this.idToDelete = this.contacts.selectedContactId$.value || '';
-      await deleteDoc(doc(this.firestore, "contacts", this.idToDelete));
+      await deleteDoc(doc(this.firestore, 'contacts', this.idToDelete));
       this.selectedContact = null;
     } catch (error) {
-      console.error("Fehler beim Löschen des Dokuments: ", error);
+      console.error('Fehler beim Löschen des Dokuments: ', error);
     }
-
-}
+  }
 }
