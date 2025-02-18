@@ -29,6 +29,7 @@ export class ContacteditComponent {
 
   public contacts = inject(ContactsService);
   private firestore: Firestore = inject(Firestore);
+  updateSuccess: boolean = false;
 
   constructor() {}
 
@@ -77,7 +78,13 @@ export class ContacteditComponent {
           lastname: this.lastname,
           phonenumber: this.phonenumber,
         });
-        this.contacts.toggleDialogEdit();
+
+        this.updateSuccess = true;
+
+        setTimeout(() => {
+          this.updateSuccess = false;
+          this.contacts.toggleDialogEdit();
+        }, 2000);
       } catch (error) {
         console.error('Error updating contact:', error);
       }

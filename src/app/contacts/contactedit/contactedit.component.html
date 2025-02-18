@@ -4,91 +4,98 @@
     <h2>Edit contact</h2>
     <img src="../../../assets/img/blueLine.png" alt="" id="blueLine" />
   </div>
-  <div id="right-side">
-    <div id="right-side-left">
-      <div
-        id="initials"
-        [ngStyle]="{ 'background-color': selectedContact?.initialBg }"
-      >
-        <p>
-          {{ selectedContact?.firstname?.[0]?.toUpperCase() ?? ""
-          }}{{ selectedContact?.lastname?.[0]?.toUpperCase() ?? "" }}
-        </p>
-      </div>
-    </div>
-
-    <div id="right-side-right">
-      <a (click)="contacts.toggleDialogEdit()">X</a>
-
-      <div id="inputs">
-        <div id="firstname-container">
-          <input
-            [(ngModel)]="firstname"
-            type="text"
-            name="firstname"
-            id="firstname"
-            placeholder="Firstname"
-            required
-            value="test"
-          />
-          <img src="../../../assets/img/06_contacts/person.png" alt="" />
-        </div>
-
-        <div id="lastname-container">
-          <input
-            [(ngModel)]="lastname"
-            type="text"
-            name="lastname"
-            id="lastname"
-            placeholder="Lastname"
-            required
-          />
-          <img src="../../../assets/img/06_contacts/person.png" alt="" />
-        </div>
-
-        <div id="email-container">
-          <input
-            [(ngModel)]="email"
-            type="text"
-            name="email"
-            id="email"
-            placeholder="E-Mail"
-            required
-          /><img src="../../../assets/img/06_contacts/mail.png" alt="" />
-        </div>
-
-        <div id="phonenumber-container">
-          <input
-            [(ngModel)]="phonenumber"
-            type="tel"
-            name="phonenumber"
-            id="phonenumber"
-            placeholder="Phonenumber"
-            required
-          /><img src="../../../assets/img/06_contacts/phone.png" alt="" />
-        </div>
-        <div id="btn-section">
-          <button
-            id="delete"
-            (click)="contacts.deleteContact()"
-            [disabled]="!contacts.selectedContactId$.value"
-          >
-            Delete
-          </button>
-          <button
-            id="save"
-            (click)="updateInFirestore()"
-            [disabled]="!isFormValid()"
-            [ngStyle]="{
-              'background-color': isFormValid() ? '#0044cc' : 'grey',
-              color: isFormValid() ? 'white' : '#ccc',
-              cursor: isFormValid() ? 'pointer' : 'not-allowed',
-            }"
-          >
-            Save ✓
-          </button>
+  @if (!updateSuccess) {
+    <div id="right-side">
+      <div id="right-side-left">
+        <div
+          id="initials"
+          [ngStyle]="{ 'background-color': selectedContact?.initialBg }"
+        >
+          <p>
+            {{ selectedContact?.firstname?.[0]?.toUpperCase() ?? ""
+            }}{{ selectedContact?.lastname?.[0]?.toUpperCase() ?? "" }}
+          </p>
         </div>
       </div>
+
+      <div id="right-side-right">
+        <div *ngIf="!updateSuccess"></div>
+        <a (click)="contacts.toggleDialogEdit()">X</a>
+
+        <div id="inputs">
+          <div id="firstname-container">
+            <input
+              [(ngModel)]="firstname"
+              type="text"
+              name="firstname"
+              id="firstname"
+              placeholder="Firstname"
+              required
+              value="test"
+            />
+            <img src="../../../assets/img/06_contacts/person.png" alt="" />
+          </div>
+
+          <div id="lastname-container">
+            <input
+              [(ngModel)]="lastname"
+              type="text"
+              name="lastname"
+              id="lastname"
+              placeholder="Lastname"
+              required
+            />
+            <img src="../../../assets/img/06_contacts/person.png" alt="" />
+          </div>
+
+          <div id="email-container">
+            <input
+              [(ngModel)]="email"
+              type="text"
+              name="email"
+              id="email"
+              placeholder="E-Mail"
+              required
+            /><img src="../../../assets/img/06_contacts/mail.png" alt="" />
+          </div>
+
+          <div id="phonenumber-container">
+            <input
+              [(ngModel)]="phonenumber"
+              type="tel"
+              name="phonenumber"
+              id="phonenumber"
+              placeholder="Phonenumber"
+              required
+            /><img src="../../../assets/img/06_contacts/phone.png" alt="" />
+          </div>
+          <div id="btn-section">
+            <button
+              id="delete"
+              (click)="contacts.deleteContact()"
+              [disabled]="!contacts.selectedContactId$.value"
+            >
+              Delete
+            </button>
+            <button
+              id="save"
+              (click)="updateInFirestore()"
+              [disabled]="!isFormValid()"
+              [ngStyle]="{
+                'background-color': isFormValid() ? '#0044cc' : 'grey',
+                color: isFormValid() ? 'white' : '#ccc',
+                cursor: isFormValid() ? 'pointer' : 'not-allowed',
+              }"
+            >
+              Save ✓
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  } @else {
+    <div id="right-side">
+      <h3 id="success-message">Contact successfully updated!</h3>
+    </div>
+  }
 </main>

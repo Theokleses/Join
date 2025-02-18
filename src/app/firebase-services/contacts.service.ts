@@ -111,7 +111,7 @@ export class ContactsService implements OnDestroy {
 
     try {
       await deleteDoc(doc(this.firestore, 'contacts', selectedContactId));
-      this.selectedContactId$.next(undefined); // Ausgewählte Kontakt-ID nach dem Löschen zurücksetzen
+      this.selectedContactId$.next(undefined);
     } catch (error) {
       console.error('Fehler beim Löschen des Dokuments: ', error);
     }

@@ -145,3 +145,65 @@ main {
     }
   }
 }
+
+@media (max-width: 1050px) {
+  main {
+    width: 700px;
+    min-width: unset;
+    #left-side {
+      width: 250px;
+      img {
+      }
+      h2 {
+      }
+    }
+
+    #right-side {
+      flex: 1;
+      flex-direction: column;
+      position: relative;
+      padding: 1rem;
+
+      #right-side-left {
+        #initials {
+        }
+      }
+      #right-side-right {
+        a {
+          position: absolute;
+          top: 1rem;
+
+          &:hover {
+          }
+        }
+
+        #inputs {
+          #firstname-container,
+          #lastname-container,
+          #email-container,
+          #phonenumber-container {
+            input {
+              &::placeholder {
+              }
+            }
+            img {
+            }
+          }
+        }
+
+        #btn-section {
+          button {
+          }
+          #delete {
+            &:hover {
+            }
+          }
+          #save {
+            &:hover {
+            }
+          }
+        }
+      }
+    }
+  }
+}
