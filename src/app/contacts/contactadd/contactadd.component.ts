@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ContactsService } from '../../firebase-services/contacts.service';
 import { Icontacts } from '../../interfaces/icontacts';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-contactadd',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './contactadd.component.html',
   styleUrl: './contactadd.component.scss',
 })
@@ -18,7 +19,14 @@ export class ContactaddComponent {
     phonenumber: '',
     status: 'active',
   };
+
   constructor(public contactsService: ContactsService) {}
+
+  showAnimation: boolean = false;
+
+  ngOnInit(): void {
+    this.showAnimation = true;
+  }
 
   addNewContact() {
     if (
