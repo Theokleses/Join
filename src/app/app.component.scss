@@ -1,5 +1,15 @@
 @use "../styles.scss" as *;
 
+#bg-layout {
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
 main {
   max-width: 1920px;
   width: 100%;

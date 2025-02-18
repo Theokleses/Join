@@ -1,3 +1,10 @@
+<div
+  id="bg-layout"
+  (click)="contacts.handleDialogToggle()"
+  [ngStyle]="{
+    display: contacts.isEditing || contacts.isAdding ? 'block' : 'none',
+  }"
+></div>
 <main>
   <div id="sidebar">
     <app-sidebar></app-sidebar>

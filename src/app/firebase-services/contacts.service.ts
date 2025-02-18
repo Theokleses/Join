@@ -88,6 +88,14 @@ export class ContactsService implements OnDestroy {
     this.isAdding = !this.isAdding;
   }
 
+  handleDialogToggle() {
+    if (this.isEditing) {
+      this.toggleDialogEdit();
+    } else if (this.isAdding) {
+      this.toggleDialogAdd();
+    }
+  }
+
   ngOnDestroy() {
     if (this.unsubscribe) {
       this.unsubscribe();

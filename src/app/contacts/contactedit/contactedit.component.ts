@@ -77,7 +77,6 @@ export class ContacteditComponent {
           lastname: this.lastname,
           phonenumber: this.phonenumber,
         });
-        // console.log('Contact updated successfully');
         this.contacts.toggleDialogEdit();
       } catch (error) {
         console.error('Error updating contact:', error);
