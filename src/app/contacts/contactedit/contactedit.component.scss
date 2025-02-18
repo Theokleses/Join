@@ -172,38 +172,91 @@ main {
         a {
           position: absolute;
           top: 1rem;
-
-          &:hover {
-          }
-        }
-
-        #inputs {
-          #firstname-container,
-          #lastname-container,
-          #email-container,
-          #phonenumber-container {
-            input {
-              &::placeholder {
-              }
-            }
-            img {
-            }
-          }
-        }
-
-        #btn-section {
-          button {
-          }
-          #delete {
-            &:hover {
-            }
-          }
-          #save {
-            &:hover {
-            }
-          }
         }
       }
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  main {
+    height: 100vh;
+    max-width: none;
+    min-width: 100vw;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  #left-side {
+    background-color: $darkblue;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    width: 100% !important;
+    padding: 0 3rem;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    img {
+      width: 60px !important;
+      height: auto;
+      margin-top: 2rem !important;
+      padding: 0;
+    }
+    h2 {
+      font-size: 2rem !important;
+      margin: 0;
+      line-height: 0;
+    }
+  }
+
+  #right-side {
+    max-height: 50%;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  #right-side-left {
+    margin-top: -7rem;
+  }
+
+  #right-side-right {
+    flex: 1;
+    a {
+      position: absolute;
+      top: 0 !important;
+    }
+
+    #inputs {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      width: 80vw !important;
+    }
+    #firstname-container,
+    #lastname-container,
+    #email-container,
+    #phonenumber-container {
+      input {
+        width: 80vw !important;
+        padding: 0.5rem 0.8rem;
+      }
+    }
+  }
+
+  h1 {
+    font-size: 5rem;
+  }
+
+  #btn-section {
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+    width: 100%;
+    button {
+      padding: 0.5rem !important;
     }
   }
 }
