@@ -122,3 +122,15 @@ html {
   font-weight: 800;
   src: url("../src/assets/fonts/inter-v18-latin-800.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
+@media(max-width: 1050px){
+
+  h1{
+    font-size: 5rem;
+  }
+
+  h2 {
+    font-size: 3rem;
+    margin: 0;
+  }
+}
