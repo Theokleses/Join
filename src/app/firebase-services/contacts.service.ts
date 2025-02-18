@@ -5,6 +5,8 @@ import {
   collection,
   onSnapshot,
   addDoc,
+  doc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { Icontacts } from '../interfaces/icontacts';
 import { BehaviorSubject } from 'rxjs';
@@ -28,7 +30,7 @@ export class ContactsService implements OnDestroy {
         let index = 0;
         contacts.forEach((contact) => {
           this.contactlist.push(
-            this.setContactObject(contact.id, contact.data(), index)
+            this.setContactObject(contact.id, contact.data(), index),
           );
           index++;
         });
@@ -36,7 +38,7 @@ export class ContactsService implements OnDestroy {
       },
       (error) => {
         console.error('Error fetching contacts:', error);
-      }
+      },
     );
   }
 
@@ -89,6 +91,21 @@ export class ContactsService implements OnDestroy {
   ngOnDestroy() {
     if (this.unsubscribe) {
       this.unsubscribe();
+    }
+  }
+
+  async deleteContact() {
+    const selectedContactId = this.selectedContactId$.value;
+    if (!selectedContactId) {
+      console.error('Kein Kontakt zum Löschen ausgewählt');
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(this.firestore, 'contacts', selectedContactId));
+      this.selectedContactId$.next(undefined); // Ausgewählte Kontakt-ID nach dem Löschen zurücksetzen
+    } catch (error) {
+      console.error('Fehler beim Löschen des Dokuments: ', error);
     }
   }
 }
