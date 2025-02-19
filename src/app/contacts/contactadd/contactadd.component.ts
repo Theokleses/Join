@@ -22,6 +22,9 @@ export class ContactaddComponent {
 
   constructor(public contactsService: ContactsService) {}
 
+  isEditing: boolean = false;
+  isAdding: boolean = false;
+  showOverview: boolean = false;
   showAnimation: boolean = false;
 
   ngOnInit(): void {
@@ -40,6 +43,22 @@ export class ContactaddComponent {
     } else {
       console.error('Bitte alle Felder ausfüllen!');
     }
+  }
+
+  handleDialogToggle() {
+    if (this.isEditing) {
+      this.toggleDialogEdit();
+    } else if (this.isAdding) {
+      this.toggleDialogAdd();
+    }
+  }
+
+  toggleDialogEdit() {
+    this.isEditing = !this.isEditing;
+  }
+
+  toggleDialogAdd() {
+    this.isAdding = !this.isAdding;
   }
 
   clearForm() {

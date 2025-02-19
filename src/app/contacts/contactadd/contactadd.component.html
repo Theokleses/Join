@@ -1,3 +1,12 @@
+<div
+  id="bg-layout"
+  (click)="contactsService.handleDialogToggle()"
+  [ngStyle]="{
+    display: contactsService.isAdding ? 'block' : 'none',
+  }"
+></div>
+
+
 <main [class.slide-in]="showAnimation">
   <div id="left-side">
     <img src="../../../assets/img/main-logo-white.png" alt="" id="logo" />
