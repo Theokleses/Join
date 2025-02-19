@@ -9,24 +9,21 @@
   ></app-contactadd>
   <div id="contactlist">
     @for (contact of contacts.contactlist; track $index) {
-      <div
-        id="contact-container"
-        (click)="contacts.setSelectedContactId(contact.id)"
-      >
-        <div
-          id="initials"
-          [ngStyle]="{ 'background-color': contact.initialBg }"
-        >
-          <p>
-            {{ contact.firstname[0].toUpperCase()
-            }}{{ contact.lastname[0].toUpperCase() }}
-          </p>
-        </div>
-        <div id="name-email">
-          <p>{{ contact.firstname }} {{ contact.lastname }}</p>
-          <p>{{ contact.email }}</p>
-        </div>
+    <div
+      id="contact-container"
+      (click)="contacts.setSelectedContactId(contact.id)"
+    >
+      <div id="initials" [ngStyle]="{ 'background-color': contact.initialBg }">
+        <p>
+          {{ contact.firstname[0].toUpperCase()
+          }}{{ contact.lastname[0].toUpperCase() }}
+        </p>
       </div>
+      <div id="name-email">
+        <p>{{ contact.firstname }} {{ contact.lastname }}</p>
+        <p>{{ contact.email }}</p>
+      </div>
+    </div>
     }
   </div>
 </main>

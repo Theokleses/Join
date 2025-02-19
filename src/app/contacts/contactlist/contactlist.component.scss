@@ -10,10 +10,10 @@ main {
   button {
     margin: 1rem 0;
   }
+
   #contactlist {
     overflow-y: auto;
     height: 100%;
-
     scrollbar-color: $lightblue white;
     scrollbar-width: thin;
 

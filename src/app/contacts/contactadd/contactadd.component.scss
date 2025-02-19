@@ -4,7 +4,6 @@ main {
   width: 100%;
   max-width: 1000px;
   min-width: 1000px;
-  height: 50vh;
   border-radius: 2rem;
   border-top-left-radius: 2rem;
   display: flex;
@@ -191,6 +190,14 @@ main {
     width: 100%;
     flex-direction: column;
     overflow-y: hidden;
+    border-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    box-shadow: 0;
+  }
+
+  #logo {
+    display: none;
   }
 
   #left-side {
@@ -200,8 +207,9 @@ main {
     justify-content: center;
     flex-direction: column;
     padding: 0 3rem;
-    border-top-left-radius: 2rem;
-    border-bottom-left-radius: 2rem;
+    border-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
     img {
       width: 60px !important;
       height: auto;
@@ -261,11 +269,30 @@ main {
 }
 
 @media (max-width: 900px) {
-  #logo {
-    display: none;
-  }
-
   #left-side {
     margin-bottom: 60px;
+  }
+}
+
+@media (max-width: 500px) {
+  label {
+    display: none;
+  }
+  h2 {
+    font-size: 2rem !important;
+    margin: 0;
+  }
+  #btn-section {
+    display: flex;
+    justify-content: start;
+    gap: 0.5rem;
+    margin-top: 20px;
+    button {
+      border: none;
+      border-radius: 1rem;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
   }
 }
