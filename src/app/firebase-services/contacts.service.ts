@@ -86,7 +86,6 @@ export class ContactsService implements OnDestroy {
 
   toggleOverview() {
     this.showOverview = !this.showOverview;
-    console.log(this.showOverview);
   }
 
   toggleDialogEdit() {
