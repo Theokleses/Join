@@ -63,13 +63,14 @@
       </div>
     </div>
 
-    <div class="dots-img" (click)="toggleEditDelete()">
-      <img src="/assets/img/02_menubar/dots-icon.png" alt="Option-dots" />
+    <div class="dots-img">
+      <img (click)="toggleEditDelete()" src="/assets/img/02_menubar/dots-icon.png" alt="Option-dots" />
     </div>
     <div
-      class="edit-delete"
+      class="edit-delete-mobile"
       [ngStyle]="{ display: showEditDelete ? 'flex' : 'none' }"
     >
+    <div class="dialog">
       <a class="center-line" href="#"
         ><img
           src="./assets/img/06_contacts/edit.png"
@@ -85,7 +86,7 @@
         />Delete</a
       >
     </div>
-
+  </div>
     } @else {
     <div class="select-contact">
       <p>Please select a contact to view details.</p>
