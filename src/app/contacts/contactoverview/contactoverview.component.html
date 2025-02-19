@@ -1,4 +1,7 @@
 <main>
+  <div class="left-arrow">
+    <img (click)="backToContacts()" src="/assets/img/01_login/arrow-left-line.png" alt="Left-arrow" />
+  </div>
   <div id="contact-overview-header" class="pad">
     <h2>Contacts</h2>
     <span>|</span>
@@ -6,63 +9,87 @@
   </div>
   <div id="contact-overview-body" class="pad">
     @if (selectedContact) {
-      <app-contactedit
-        [selectedContact]="selectedContact"
-        [ngStyle]="{ display: contacts.isEditing ? 'block' : 'none' }"
-      ></app-contactedit>
-      <div id="contact-details-container">
-        <div id="contact-details" [class.slide-in]="showAnimation">
-          <div class="under-contacts">
-            <div
-              id="initials"
-              [ngStyle]="{ 'background-color': selectedContact.initialBg }"
-            >
-              <p>
-                {{ selectedContact.firstname[0].toUpperCase()
-                }}{{ selectedContact.lastname[0].toUpperCase() }}
-              </p>
-            </div>
-            <div class="contact-right">
-              <h3>
-                {{ selectedContact.firstname }} {{ selectedContact.lastname }}
-              </h3>
-              <div class="edit-delete">
-                <a
-                  class="center-line"
-                  href="#"
-                  (click)="contacts.toggleDialogEdit()"
-                  ><img
-                    src="./assets/img/06_contacts/edit.png"
-                    alt="Edit-icon"
-                  />Edit</a
-                >
-                <a class="center-line" href="#" (click)="deleteContact()"
-                  ><img
-                    src="./assets/img/06_contacts/delete.png"
-                    alt="Delete-icon"
-                  />Delete</a
-                >
-              </div>
-            </div>
+    <app-contactedit
+      [selectedContact]="selectedContact"
+      [ngStyle]="{ display: contacts.isEditing ? 'block' : 'none' }"
+    ></app-contactedit>
+    <div id="contact-details-container">
+      <div id="contact-details" [class.slide-in]="showAnimation">
+        <div class="under-contacts">
+          <div
+            id="initials"
+            [ngStyle]="{ 'background-color': selectedContact.initialBg }"
+          >
+            <p>
+              {{ selectedContact.firstname[0].toUpperCase()
+              }}{{ selectedContact.lastname[0].toUpperCase() }}
+            </p>
           </div>
-
-          <div class="contact-info">
-            <div class="contact-header">
-              <span>Contact Information</span>
-            </div>
-            <div class="contact-data">
-              <p><strong>Email</strong></p>
-              <p>{{ selectedContact.email }}</p>
-              <p><strong>Phone</strong></p>
-              <p>{{ selectedContact.phonenumber }}</p>
+          <div class="contact-right">
+            <h3>
+              {{ selectedContact.firstname }} {{ selectedContact.lastname }}
+            </h3>
+            <div class="edit-delete">
+              <a
+                class="center-line"
+                href="#"
+                (click)="contacts.toggleDialogEdit()"
+                ><img
+                  src="./assets/img/06_contacts/edit.png"
+                  alt="Edit-icon"
+                />Edit</a
+              >
+              <a class="center-line" href="#" (click)="deleteContact()"
+                ><img
+                  src="./assets/img/06_contacts/delete.png"
+                  alt="Delete-icon"
+                />Delete</a
+              >
             </div>
           </div>
         </div>
+
+        <div class="contact-info">
+          <div class="contact-header">
+            <span>Contact Information</span>
+          </div>
+          <div class="contact-data">
+            <p><strong>Email</strong></p>
+            <p>{{ selectedContact.email }}</p>
+            <p><strong>Phone</strong></p>
+            <p>{{ selectedContact.phonenumber }}</p>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="dots-img" (click)="toggleEditDelete()">
+      <img src="/assets/img/02_menubar/dots-icon.png" alt="Option-dots" />
+    </div>
+    <div
+      class="edit-delete"
+      [ngStyle]="{ display: showEditDelete ? 'flex' : 'none' }"
+    >
+      <a class="center-line" href="#"
+        ><img
+          src="./assets/img/06_contacts/edit.png"
+          alt="Edit-icon"
+          (click)="contacts.toggleDialogEdit()"
+        />Edit</a
+      >
+      <a class="center-line" href="#"
+        ><img
+          src="./assets/img/06_contacts/delete.png"
+          alt="Delete-icon"
+          (click)="deleteContact()"
+        />Delete</a
+      >
+    </div>
+
     } @else {
-      <div class="select-contact">
-        <p>Please select a contact to view details.</p>
-      </div>
+    <div class="select-contact">
+      <p>Please select a contact to view details.</p>
+    </div>
     }
   </div>
 </main>
