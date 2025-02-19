@@ -7,8 +7,6 @@
   width: 100vw;
   height: 100vh;
   z-index: 1;
-  margin-top: -50vh !important;
-  margin-left: -50vw !important;
   transition: none !important;
 }
 main {
@@ -189,7 +187,6 @@ main {
     flex-direction: column;
     z-index: 2000 !important;
   }
-
   #left-side {
     background-color: $darkblue;
     display: flex;
@@ -268,15 +265,23 @@ main {
 
 @media (max-width: 600px) {
   main {
-    margin-top: -10vh;
+    width: 90vw !important;
   }
-  // #bg-layout {
-  //   background-color: rgba(0, 0, 0, 0.2);
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   width: 100%;
-  //   height: 100%;
-  //   z-index: 1;
-  // }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translate(-50%, -50%) translateX(100vw);
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.slide-in {
+  animation: slideInFromRight 0.3s ease-out forwards;
 }

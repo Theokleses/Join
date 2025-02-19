@@ -173,7 +173,7 @@ main {
         width: 6rem;
       }
     }
- 
+
     @media (max-width: 660px) {
       .under-contacts {
         gap: 10px;
@@ -207,10 +207,10 @@ main {
   animation: slideInFromRight 0.3s ease-out forwards;
 }
 
-app-contactedit {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-}
+// app-contactedit {
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   z-index: 1;
+// }
