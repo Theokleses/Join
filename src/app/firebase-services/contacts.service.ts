@@ -21,7 +21,7 @@ export class ContactsService implements OnDestroy {
   isAdding: boolean = false;
   contactlist: Icontacts[] = [];
   selectedContactId$ = new BehaviorSubject<string | undefined>(undefined);
-  showOverview: boolean = false;
+  showOverview: boolean = true;
 
   constructor() {
     this.unsubscribe = onSnapshot(
@@ -70,9 +70,7 @@ export class ContactsService implements OnDestroy {
 
   setSelectedContactId(id?: string) {
     this.selectedContactId$.next(id);
-    if (window.innerWidth < 600) {
-      this.toggleOverview();
-    }
+    this.toggleOverview();
   }
 
   async addContact(contacts: Omit<Icontacts, 'id' | 'initialBg'>) {
@@ -85,7 +83,9 @@ export class ContactsService implements OnDestroy {
   }
 
   toggleOverview() {
-    this.showOverview = !this.showOverview;
+    if (window.innerWidth <= 600) {
+      this.showOverview = !this.showOverview;
+    }
   }
 
   toggleDialogEdit() {

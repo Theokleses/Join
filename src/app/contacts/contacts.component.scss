@@ -9,6 +9,7 @@ main {
 
   #contactoverview {
     flex: 3;
+    display: block;
   }
 
   @media (max-width: 600px) {
