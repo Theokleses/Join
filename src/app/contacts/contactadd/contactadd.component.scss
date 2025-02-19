@@ -83,7 +83,8 @@ main {
       height: 100%;
       width: 100%;
       a {
-        text-align: end;
+        align-self: end;
+        cursor: pointer;
         color: $darkblue;
         font-size: 1.5rem;
         &:hover {
