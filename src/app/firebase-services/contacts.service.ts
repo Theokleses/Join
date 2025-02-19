@@ -24,8 +24,6 @@ export class ContactsService implements OnDestroy {
   contactlist: Icontacts[] = [];
   selectedContactId$ = new BehaviorSubject<string | undefined>(undefined);
 
-  // showOverview: boolean = true;
-
   constructor() {
     this.unsubscribe = onSnapshot(
       collection(this.firestore, 'contacts'),

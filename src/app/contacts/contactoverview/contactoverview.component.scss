@@ -36,6 +36,14 @@ main {
         font-size: 3rem;
       }
     }
+
+    @media (max-width: 600px) {
+      .left-arrow {
+        img {
+          display: block !important;
+        }
+      }
+    }
   }
 
   @media (max-width: 1265px) {
@@ -73,6 +81,16 @@ main {
   @media (max-width: 660px) {
     .pad {
       padding-left: 20px;
+    }
+  }
+
+  .left-arrow {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    .left-arrow {
+      display: block;
     }
   }
 
@@ -151,6 +169,10 @@ main {
       padding-top: 25px;
     }
 
+    .dots-img {
+      display: none;
+    }
+
     @media (max-width: 1265px) {
       .contact-right {
         > h3 {
@@ -179,8 +201,15 @@ main {
         gap: 10px;
       }
     }
+
+    @media (max-width: 600px) {
+      .dots-img {
+        display: block;
+      }
+    }
   }
 }
+
 #contact-details-container {
   overflow: hidden;
 }

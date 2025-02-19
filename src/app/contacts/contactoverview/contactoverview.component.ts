@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, HostListener } from '@angular/core';
 import { ContactsService } from '../../firebase-services/contacts.service';
 import { Icontacts } from '../../interfaces/icontacts';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,7 @@ export class ContactoverviewComponent {
   selectedContact: Icontacts | null = null;
   idToDelete: string = '';
   showAnimation: boolean = false;
+  showEditDelete: boolean = false;
 
   constructor() {
     this.contacts;
@@ -51,5 +52,25 @@ export class ContactoverviewComponent {
     } catch (error) {
       console.error('Fehler beim Löschen des Dokuments: ', error);
     }
+  }
+
+  toggleEditDelete() {
+    this.showEditDelete = !this.showEditDelete;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenWidth();
+  }
+
+
+  checkScreenWidth() {
+    if (window.innerWidth > 600) {
+      this.showEditDelete = false; 
+    }
+  }
+
+  backToContacts() {
+    this.contacts.showOverview = false;
   }
 }
