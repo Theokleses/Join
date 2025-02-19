@@ -21,6 +21,7 @@ export class ContactsService implements OnDestroy {
   isAdding: boolean = false;
   contactlist: Icontacts[] = [];
   selectedContactId$ = new BehaviorSubject<string | undefined>(undefined);
+  showOverview: boolean = true;
 
   constructor() {
     this.unsubscribe = onSnapshot(
@@ -69,6 +70,7 @@ export class ContactsService implements OnDestroy {
 
   setSelectedContactId(id?: string) {
     this.selectedContactId$.next(id);
+    this.toggleOverview();
   }
 
   async addContact(contacts: Omit<Icontacts, 'id' | 'initialBg'>) {
@@ -80,12 +82,35 @@ export class ContactsService implements OnDestroy {
     }
   }
 
+  toggleOverview() {
+    if (window.innerWidth <= 600) {
+      this.showOverview = !this.showOverview;
+    }
+  }
+
   toggleDialogEdit() {
     this.isEditing = !this.isEditing;
   }
 
   toggleDialogAdd() {
     this.isAdding = !this.isAdding;
+  }
+
+  getGroupedContacts(): { letter: string; contacts: Icontacts[] }[] {
+    const grouped = new Map<string, Icontacts[]>();
+
+    this.contactlist.forEach((contact) => {
+      const letter = contact.firstname.charAt(0).toUpperCase();
+      if (!grouped.has(letter)) {
+        grouped.set(letter, []);
+      }
+      grouped.get(letter)!.push(contact);
+    });
+
+    return Array.from(grouped, ([letter, contacts]) => ({
+      letter,
+      contacts,
+    })).sort((a, b) => a.letter.localeCompare(b.letter));
   }
 
   handleDialogToggle() {

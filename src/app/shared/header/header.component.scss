@@ -8,19 +8,23 @@ main {
   padding-left: 100px;
   // box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
+
 p {
   font-size: 20px;
 }
+
 .header-text {
   display: flex;
   align-items: center;
 }
+
 .header-icons {
   padding-right: 40px;
   display: flex;
   align-items: center;
   gap: 16px;
 }
+
 .icon {
   cursor: pointer;
   transition: transform 0.3s ease;
@@ -28,9 +32,15 @@ p {
     transform: scale(1.2);
   }
 }
+
 .d-none {
   display: none;
 }
+
+.header-icon {
+  width: 45px;
+}
+
 .avatar {
   width: 50px;
   height: 50px;
@@ -49,6 +59,7 @@ p {
     cursor: pointer;
   }
 }
+
 .menu {
   background-color: rgba(42, 54, 71, 1);
   display: flex;
@@ -73,6 +84,9 @@ p {
 }
 
 @media (max-width: 1000px) {
+  main {
+    padding-left: 40px;
+  }
   .header-text {
     > p {
       display: none;

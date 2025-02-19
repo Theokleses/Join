@@ -3,11 +3,32 @@ main {
   padding: 0;
   min-height: 90vh;
   display: flex;
-
   #contactlist {
     flex: 1;
   }
+
   #contactoverview {
     flex: 3;
+    display: block;
   }
+
+  @media (max-width: 600px) {
+    #contactlist {
+      flex: 1;
+      display: block;
+    }
+
+    #contactoverview {
+      display: none;
+      position: absolute;
+      z-index: 10;
+      left: 0;
+      width: 100vw;
+      height: 90vh;
+    }
+  }
+}
+
+.no-scroll {
+  overflow: hidden;
 }
