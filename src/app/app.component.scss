@@ -24,3 +24,9 @@ main {
     flex-direction: column;
   }
 }
+
+@media (max-width: 600px) {
+  #bg-layout {
+    display: none;
+  }
+}

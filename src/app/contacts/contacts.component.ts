@@ -14,23 +14,7 @@ import { ContactsService } from '../firebase-services/contacts.service';
 })
 export class ContactsComponent {
   public contacts = inject(ContactsService);
-  sO = false;
   constructor() {
     this.contacts;
-
-    if (window.innerWidth <= 600) {
-      this.contacts.showOverview = false;
-    } else {
-      this.contacts.showOverview = true;
-    }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    if (window.innerWidth <= 600) {
-      this.contacts.showOverview = false;
-    } else {
-      this.contacts.showOverview = true;
-    }
   }
 }

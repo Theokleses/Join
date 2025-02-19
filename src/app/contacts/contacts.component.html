@@ -1,7 +1,5 @@
-<main [class.no-scroll]="contacts.showOverview">
+<!-- <main [class.no-scroll]="contacts.showOverview"> -->
+<main>
   <app-contactlist id="contactlist"></app-contactlist>
-  <app-contactoverview
-    id="contactoverview"
-    [ngStyle]="{ display: contacts.showOverview ? 'block' : 'none' }"
-  ></app-contactoverview>
+  <app-contactoverview id="contactoverview"></app-contactoverview>
 </main>
