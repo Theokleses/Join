@@ -7,7 +7,6 @@
   <div id="contact-overview-body" class="pad">
     @if (selectedContact) {
       <app-contactedit
-        [class.slide-in]="showAnimation"
         [selectedContact]="selectedContact"
         [ngStyle]="{ display: contacts.isEditing ? 'block' : 'none' }"
       ></app-contactedit>

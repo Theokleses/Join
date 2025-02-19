@@ -1,4 +1,11 @@
-<main>
+<div
+  id="bg-layout"
+  (click)="contacts.handleDialogToggle()"
+  [ngStyle]="{
+    display: contacts.isEditing || contacts.isAdding ? 'block' : 'none',
+  }"
+></div>
+<main [class.slide-in]="contacts.showAnimation">
   <div id="left-side">
     <img src="../../../assets/img/main-logo-white.png" alt="" id="logo" />
     <h2>Edit contact</h2>

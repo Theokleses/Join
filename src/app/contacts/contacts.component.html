@@ -1,4 +1,9 @@
 <main>
   <app-contactlist id="contactlist"></app-contactlist>
-  <app-contactoverview id="contactoverview"></app-contactoverview>
+  <app-contactoverview
+    id="contactoverview"
+    [ngStyle]="{
+      'z-index': contacts.showOverview ? 0 : -1,
+    }"
+  ></app-contactoverview>
 </main>

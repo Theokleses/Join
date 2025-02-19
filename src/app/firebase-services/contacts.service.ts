@@ -19,6 +19,8 @@ export class ContactsService implements OnDestroy {
   unsubscribe: () => void;
   isEditing: boolean = false;
   isAdding: boolean = false;
+  showOverview: boolean = false;
+  showAnimation: boolean = false;
   contactlist: Icontacts[] = [];
   selectedContactId$ = new BehaviorSubject<string | undefined>(undefined);
 
@@ -69,8 +71,16 @@ export class ContactsService implements OnDestroy {
     return colors[index % colors.length];
   }
 
+  triggerAnimation() {
+    this.showAnimation = false;
+    setTimeout(() => {
+      this.showAnimation = true;
+    });
+  }
+
   setSelectedContactId(id?: string) {
     this.selectedContactId$.next(id);
+    this.showOverview = true;
   }
 
   async addContact(contacts: Omit<Icontacts, 'id' | 'initialBg'>) {

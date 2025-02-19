@@ -31,7 +31,13 @@ export class ContacteditComponent {
   private firestore: Firestore = inject(Firestore);
   updateSuccess: boolean = false;
 
-  constructor() {}
+  constructor() {
+    this.contacts.triggerAnimation();
+  }
+
+  // ngOnInit(): void {
+  //   this.contacts.triggerAnimation();
+  // }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedContact'] && this.selectedContact) {
