@@ -37,7 +37,6 @@ main {
       font-weight: bold;
       color: $darkblue;
       padding: 0.5rem 0.5rem;
-      // background-color: white;
       position: relative;
 
       &:after {
@@ -56,7 +55,6 @@ main {
       display: flex;
       padding: 1rem;
       gap: 1rem;
-      overflow-y: hidden;
 
       &:hover {
         background-color: $grey;
@@ -85,6 +83,14 @@ main {
   }
 }
 
+@media (max-width: 1000px) {
+  main {
+    #contactlist {
+      height: 88%;
+    }
+  }
+}
+
 @media (max-width: 960px) {
   main {
     #contactlist {
@@ -101,8 +107,11 @@ main {
   main {
     padding: 0 2rem;
     position: relative;
+    #contactlist {
+      height: 100%;
+    }
     button {
-      z-index: 10;
+      z-index: 1;
       position: absolute;
       bottom: 4rem;
       right: 1rem;
