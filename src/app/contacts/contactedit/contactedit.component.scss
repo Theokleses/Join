@@ -107,7 +107,7 @@ main {
             border: 1px solid rgba(0, 0, 0, 0.2);
             border-radius: 0.5rem;
             padding: 0.5rem 1rem;
-            font-size: 1.2rem;
+            font-size: 1rem;
             margin-right: -2rem;
             &::placeholder {
               color: rgba(0, 0, 0, 0.2);
@@ -267,13 +267,16 @@ main {
 }
 
 @media (max-width: 600px) {
-  #bg-layout {
-    background-color: rgba(0, 0, 0, 0.2);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+  main {
+    margin-top: -10vh;
   }
+  // #bg-layout {
+  //   background-color: rgba(0, 0, 0, 0.2);
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 100%;
+  //   z-index: 1;
+  // }
 }
