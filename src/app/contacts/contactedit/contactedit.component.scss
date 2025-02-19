@@ -264,8 +264,16 @@ main {
 }
 
 @media (max-width: 600px) {
+  #bg-layout {
+    display: none !important;
+  }
   main {
-    width: 90vw !important;
+    top: 44% !important;
+    height: 100vh;
+    min-width: 100vw;
+    width: 100%;
+    flex-direction: column;
+    z-index: 2000 !important;
   }
 }
 
