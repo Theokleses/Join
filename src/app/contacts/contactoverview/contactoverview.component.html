@@ -6,64 +6,64 @@
   </div>
   <div id="contact-overview-body" class="pad">
     @if (selectedContact) {
-      <app-contactedit
-        [class.slide-in]="showAnimation"
-        [selectedContact]="selectedContact"
-        [ngStyle]="{ display: contacts.isEditing ? 'block' : 'none' }"
-      ></app-contactedit>
-      <div id="contact-details-container">
-        <div id="contact-details" [class.slide-in]="showAnimation">
-          <div class="under-contacts">
-            <div
-              id="initials"
-              [ngStyle]="{ 'background-color': selectedContact.initialBg }"
-            >
-              <p>
-                {{ selectedContact.firstname[0].toUpperCase()
-                }}{{ selectedContact.lastname[0].toUpperCase() }}
-              </p>
-            </div>
-            <div class="contact-right">
-              <h3>
-                {{ selectedContact.firstname }} {{ selectedContact.lastname }}
-              </h3>
-              <div class="edit-delete">
-                <a
-                  class="center-line"
-                  href="#"
-                  (click)="contacts.toggleDialogEdit()"
-                  ><img
-                    src="./assets/img/06_contacts/edit.png"
-                    alt="Edit-icon"
-                  />Edit</a
-                >
-                <a class="center-line" href="#" (click)="deleteContact()"
-                  ><img
-                    src="./assets/img/06_contacts/delete.png"
-                    alt="Delete-icon"
-                  />Delete</a
-                >
-              </div>
-            </div>
+    <app-contactedit
+      [class.slide-in]="showAnimation"
+      [selectedContact]="selectedContact"
+      [ngStyle]="{ display: contacts.isEditing ? 'block' : 'none' }"
+    ></app-contactedit>
+    <div id="contact-details-container">
+      <div id="contact-details" [class.slide-in]="showAnimation">
+        <div class="under-contacts">
+          <div
+            id="initials"
+            [ngStyle]="{ 'background-color': selectedContact.initialBg }"
+          >
+            <p>
+              {{ selectedContact.firstname[0].toUpperCase()
+              }}{{ selectedContact.lastname[0].toUpperCase() }}
+            </p>
           </div>
-
-          <div class="contact-info">
-            <div class="contact-header">
-              <span>Contact Information</span>
-            </div>
-            <div class="contact-data">
-              <p><strong>Email</strong></p>
-              <p>{{ selectedContact.email }}</p>
-              <p><strong>Phone</strong></p>
-              <p>{{ selectedContact.phonenumber }}</p>
+          <div class="contact-right">
+            <h3>
+              {{ selectedContact.firstname }} {{ selectedContact.lastname }}
+            </h3>
+            <div class="edit-delete">
+              <a
+                class="center-line"
+                href="#"
+                (click)="contacts.toggleDialogEdit()"
+                ><img
+                  src="./assets/img/06_contacts/edit.png"
+                  alt="Edit-icon"
+                />Edit</a
+              >
+              <a class="center-line" href="#" (click)="deleteContact()"
+                ><img
+                  src="./assets/img/06_contacts/delete.png"
+                  alt="Delete-icon"
+                />Delete</a
+              >
             </div>
           </div>
         </div>
+
+        <div class="contact-info">
+          <div class="contact-header">
+            <span>Contact Information</span>
+          </div>
+          <div class="contact-data">
+            <p><strong>Email</strong></p>
+            <p>{{ selectedContact.email }}</p>
+            <p><strong>Phone</strong></p>
+            <p>{{ selectedContact.phonenumber }}</p>
+          </div>
+        </div>
       </div>
+    </div>
     } @else {
-      <div class="select-contact">
-        <p>Please select a contact to view details.</p>
-      </div>
+    <div class="select-contact">
+      <p>Please select a contact to view details.</p>
+    </div>
     }
   </div>
 </main>
