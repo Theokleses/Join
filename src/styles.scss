@@ -7,6 +7,7 @@ $blue: rgb(0, 124, 238);
 $red: rgb(255, 61, 0);
 $orange: rgb(254, 168, 0);
 $grey: #f6f7f8;
+$darkgrey: #eeeeee;
 
 //mixin for content-limit
 @mixin contentmax() {
@@ -123,9 +124,8 @@ html {
   src: url("../src/assets/fonts/inter-v18-latin-800.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-@media(max-width: 1050px){
-
-  h1{
+@media (max-width: 1050px) {
+  h1 {
     font-size: 5rem;
   }
 

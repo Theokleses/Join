@@ -1,32 +1,36 @@
 <main>
-  <!-- TODO (click)=komponente zum adden -->
   <button class="dark-btn" (click)="contacts.toggleDialogAdd()">
-    Add new Contact
+    {{ getButtonText() }}
     <img src="../../../assets/img/06_contacts/person_add.png" alt="" />
   </button>
+
   <app-contactadd
     [ngStyle]="{ display: contacts.isAdding ? 'block' : 'none' }"
   ></app-contactadd>
+
   <div id="contactlist">
-    @for (contact of contacts.contactlist; track $index) {
-      <div
-        id="contact-container"
-        (click)="contacts.setSelectedContactId(contact.id)"
-      >
+    @for (group of contacts.getGroupedContacts(); track $index) {
+      <h2 class="contact-header">{{ group.letter }}</h2>
+      @for (contact of group.contacts; track $index) {
         <div
-          id="initials"
-          [ngStyle]="{ 'background-color': contact.initialBg }"
+          id="contact-container"
+          (click)="contacts.setSelectedContactId(contact.id)"
         >
-          <p>
-            {{ contact.firstname[0].toUpperCase()
-            }}{{ contact.lastname[0].toUpperCase() }}
-          </p>
+          <div
+            id="initials"
+            [ngStyle]="{ 'background-color': contact.initialBg }"
+          >
+            <p>
+              {{ contact.firstname[0].toUpperCase()
+              }}{{ contact.lastname[0].toUpperCase() }}
+            </p>
+          </div>
+          <div id="name-email">
+            <p>{{ contact.firstname }} {{ contact.lastname }}</p>
+            <p>{{ contact.email }}</p>
+          </div>
         </div>
-        <div id="name-email">
-          <p>{{ contact.firstname }} {{ contact.lastname }}</p>
-          <p>{{ contact.email }}</p>
-        </div>
-      </div>
+      }
     }
   </div>
 </main>

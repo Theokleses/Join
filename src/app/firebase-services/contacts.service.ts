@@ -88,6 +88,23 @@ export class ContactsService implements OnDestroy {
     this.isAdding = !this.isAdding;
   }
 
+  getGroupedContacts(): { letter: string; contacts: Icontacts[] }[] {
+    const grouped = new Map<string, Icontacts[]>();
+
+    this.contactlist.forEach((contact) => {
+      const letter = contact.firstname.charAt(0).toUpperCase();
+      if (!grouped.has(letter)) {
+        grouped.set(letter, []);
+      }
+      grouped.get(letter)!.push(contact);
+    });
+
+    return Array.from(grouped, ([letter, contacts]) => ({
+      letter,
+      contacts,
+    })).sort((a, b) => a.letter.localeCompare(b.letter));
+  }
+
   handleDialogToggle() {
     if (this.isEditing) {
       this.toggleDialogEdit();
