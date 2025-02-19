@@ -21,6 +21,7 @@ export class ContactsService implements OnDestroy {
   isAdding: boolean = false;
   contactlist: Icontacts[] = [];
   selectedContactId$ = new BehaviorSubject<string | undefined>(undefined);
+  showOverview: boolean = false;
 
   constructor() {
     this.unsubscribe = onSnapshot(
@@ -69,6 +70,9 @@ export class ContactsService implements OnDestroy {
 
   setSelectedContactId(id?: string) {
     this.selectedContactId$.next(id);
+    if (window.innerWidth < 600) {
+      this.toggleOverview();
+    }
   }
 
   async addContact(contacts: Omit<Icontacts, 'id' | 'initialBg'>) {
@@ -78,6 +82,11 @@ export class ContactsService implements OnDestroy {
     } catch (error) {
       console.error('Fehler beim Hinzufügen des Kontakts:', error);
     }
+  }
+
+  toggleOverview() {
+    this.showOverview = !this.showOverview;
+    console.log(this.showOverview);
   }
 
   toggleDialogEdit() {

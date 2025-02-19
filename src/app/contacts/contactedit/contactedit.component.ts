@@ -40,9 +40,7 @@ export class ContacteditComponent {
       this.email = this.selectedContact.email;
       this.phonenumber = this.selectedContact.phonenumber;
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      this.email?.match(emailRegex)
-        ? console.log('Correct')
-        : console.log('False');
+      this.email?.match(emailRegex) ? console.log() : console.log();
     }
   }
 

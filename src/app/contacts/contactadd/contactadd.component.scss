@@ -129,7 +129,9 @@ main {
           border-radius: 1rem;
           padding: 0.75rem 1.5rem;
           font-size: 1.5rem;
-          transition: background-color 0.3s ease, box-shadow 0.3s ease;
+          transition:
+            background-color 0.3s ease,
+            box-shadow 0.3s ease;
         }
         #delete {
           color: $darkblue;

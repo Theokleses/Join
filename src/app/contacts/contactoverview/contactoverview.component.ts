@@ -37,10 +37,10 @@ export class ContactoverviewComponent {
   }
 
   triggerAnimation() {
-    this.showAnimation = false; // Klasse entfernen
+    this.showAnimation = false;
     setTimeout(() => {
-      this.showAnimation = true; // Klasse wieder hinzufügen
-    }); // Kurze Verzögerung, um das Neurendern zu erzwingen
+      this.showAnimation = true;
+    });
   }
 
   async deleteContact() {
