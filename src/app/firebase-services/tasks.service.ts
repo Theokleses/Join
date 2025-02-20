@@ -4,15 +4,12 @@ import {
   Firestore,
   collection,
   onSnapshot,
-  addDoc,
-  doc,
-  deleteDoc,
   QuerySnapshot,
   DocumentData,
 } from '@angular/fire/firestore';
 import { Itasks } from '../interfaces/itasks';
 import { BehaviorSubject } from 'rxjs';
-import { updateDoc } from 'firebase/firestore';
+import { updateDoc, doc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -20,33 +17,43 @@ import { updateDoc } from 'firebase/firestore';
 export class TasksService implements OnDestroy {
   firestore: Firestore = inject(Firestore);
   unsubscribe: () => void;
-  todo: Itasks[] = [];
-  inProgress: Itasks[] = [];
-  awaitFeedback: Itasks[] = [];
-  done: Itasks[] = [];
-  taskList: Itasks[] = [];
+
+  todo$ = new BehaviorSubject<Itasks[]>([]);
+  inProgress$ = new BehaviorSubject<Itasks[]>([]);
+  awaitFeedback$ = new BehaviorSubject<Itasks[]>([]);
+  done$ = new BehaviorSubject<Itasks[]>([]);
+  taskList$ = new BehaviorSubject<Itasks[]>([]);
 
   constructor() {
     this.unsubscribe = onSnapshot(
       collection(this.firestore, 'tasks'),
       (tasks: QuerySnapshot<DocumentData>) => {
-        this.taskList = [];
-        this.todo = [];
-        this.inProgress = [];
-        this.awaitFeedback = [];
-        this.done = [];
-        console.log(this.taskList);
-        console.log(this.todo);
-        console.log(this.inProgress);
+        const taskList: Itasks[] = [];
+        const todo: Itasks[] = [];
+        const inProgress: Itasks[] = [];
+        const awaitFeedback: Itasks[] = [];
+        const done: Itasks[] = [];
 
         let index = 0;
         tasks.forEach((task) => {
           const taskData = task.data() as Itasks;
           const taskObject = this.setTaskObject(task.id, taskData, index);
-          this.taskList.push(taskObject);
-          this.categorizeTask(taskObject);
+          taskList.push(taskObject);
+          this.categorizeTask(
+            taskObject,
+            todo,
+            inProgress,
+            awaitFeedback,
+            done
+          );
           index++;
         });
+
+        this.taskList$.next(taskList);
+        this.todo$.next(todo);
+        this.inProgress$.next(inProgress);
+        this.awaitFeedback$.next(awaitFeedback);
+        this.done$.next(done);
       },
       (error) => {
         console.error('Error fetching tasks:', error);
@@ -63,15 +70,21 @@ export class TasksService implements OnDestroy {
     };
   }
 
-  categorizeTask(task: Itasks) {
+  categorizeTask(
+    task: Itasks,
+    todo: Itasks[],
+    inProgress: Itasks[],
+    awaitFeedback: Itasks[],
+    done: Itasks[]
+  ) {
     if (task.status === 'todo') {
-      this.todo.push(task);
+      todo.push(task);
     } else if (task.status === 'in progress') {
-      this.inProgress.push(task);
+      inProgress.push(task);
     } else if (task.status === 'feedback') {
-      this.awaitFeedback.push(task);
+      awaitFeedback.push(task);
     } else if (task.status === 'done') {
-      this.done.push(task);
+      done.push(task);
     }
   }
 
