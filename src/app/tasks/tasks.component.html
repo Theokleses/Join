@@ -1,1 +1,173 @@
-<p>tasks works!</p>
+<main>
+  <div id="padding">
+    <h2>Add Task</h2>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <div id="all-fields">
+        <div id="left-field">
+          <!-- Titel -->
+          <div class="label-input-container">
+            <label for="title">Title<span>*</span></label>
+            <input
+              type="text"
+              id="input-title"
+              placeholder="Enter a title"
+              formControlName="title"
+            />
+          </div>
+
+          <!-- Beschreibung -->
+          <div class="label-input-container">
+            <label for="description">Description</label>
+            <input
+              type="text"
+              id="input-description"
+              placeholder="Enter a Description"
+              formControlName="description"
+            />
+            <!-- Dropdown für Kontakte -->
+            <div class="label-input-container">
+              <label for="assignedTo">Assigned To<span>*</span></label>
+              <div class="dropdown">
+                <input
+                  type="text"
+                  class="dropdown-toggle"
+                  [placeholder]="isDropdownOpen ? '' : 'Select Contacts'"
+                  [(ngModel)]="searchQuery"
+                  (input)="filterContacts()"
+                  (focus)="openDropdown()"
+                  (blur)="onInputBlur()"
+                />
+                <!-- @if (isDropdownOpen) {
+                  <div class="dropdown-menu">
+                    @for (contact of contacts.contactlist; track contact.id) {
+                      <div
+                        class="dropdown-item"
+                        (click)="toggleContactSelection(contact.id)"
+                      >
+                        <div class="contact-info">
+                          <div
+                            class="initials-circle"
+                            [style.background]="contact.initialBg"
+                          >
+                            {{ contact.firstname.charAt(0) | uppercase
+                            }}{{ contact.lastname.charAt(0) | uppercase }}
+                          </div>
+                          <span
+                            >{{ contact.firstname }}
+                            {{ contact.lastname }}</span
+                          >
+                        </div>
+                        <input
+                          type="checkbox"
+                          [checked]="isContactSelected(contact.id)"
+                          (change)="toggleContactSelection(contact.id)"
+                        />
+                      </div>
+                    }
+                  </div>
+                } -->
+
+                @if (isDropdownOpen) {
+                  <div class="dropdown-menu">
+                    @for (contact of filteredContacts; track contact.id) {
+                      @if (contact.id) {
+                        <div
+                          class="dropdown-item"
+                          (mousedown)="preventBlur()"
+                          (click)="toggleContactSelection(contact.id)"
+                        >
+                          <div class="contact-info">
+                            <div
+                              class="initials-circle"
+                              [style.background]="contact.initialBg"
+                            >
+                              {{ contact.firstname.charAt(0) | uppercase
+                              }}{{ contact.lastname.charAt(0) | uppercase }}
+                            </div>
+                            <span
+                              >{{ contact.firstname }}
+                              {{ contact.lastname }}</span
+                            >
+                          </div>
+                          <input
+                            type="checkbox"
+                            [checked]="isContactSelected(contact.id)"
+                            (change)="
+                              toggleContactSelection(contact.id);
+                              $event.stopPropagation()
+                            "
+                          />
+                        </div>
+                      }
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="middle-field"></div>
+        <div id="right-field">
+          <div class="label-input-container">
+            <label for="date">Due date<span>*</span></label>
+            <input type="date" name="date" id="" required />
+          </div>
+          <div class="label-input-container">
+            <label for="date">Prio</label>
+            <div id="prio-btn">
+              <!-- TODO Var erstellen der isClicked vom button speichern und dem entsprechend bg color grün oder weis ngStyle macht -->
+              <button>
+                Urgent
+                <img
+                  src="../../assets/img/04_task/high-prio.png"
+                  alt="high prio"
+                />
+              </button>
+              <button>
+                Medium
+                <img
+                  src="../../assets/img/04_task/medium-prio.png"
+                  alt="high prio"
+                />
+              </button>
+              <button>
+                Low
+                <img
+                  src="../../assets/img/04_task/low-prio.png"
+                  alt="high prio"
+                />
+              </button>
+            </div>
+          </div>
+          <div class="label-input-container">
+            <label for="date">Category<span>*</span></label>
+            <input type="date" name="date" id="" required />
+          </div>
+          <div class="label-input-container">
+            <label for="subtasks">Subtasks</label>
+            <div id="input-subtask-container">
+              <input
+                type="text"
+                name="subtasks"
+                id=""
+                placeholder="Enter a title"
+              />
+              <span>+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Text & Buttons -->
+      <div id="infotext-btn-container">
+        <p><span>*</span>This field is required</p>
+        <div id="btn-container">
+          <button type="button" (click)="onClear()">Clear &#10007;</button>
+          <button type="submit" [disabled]="taskForm.invalid">
+            Add &#10004;
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>
