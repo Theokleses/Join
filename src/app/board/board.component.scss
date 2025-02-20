@@ -1,4 +1,54 @@
-main{
-    height: 100vh;
-    background-color: red;
+@use "../../styles.scss" as *;
+
+main {
+  height: 100vh;
+  background-color: $grey;
+}
+
+h2{
+    font-size: 56px;
+}
+
+.header {
+  @include dF(space-between, center);
+  @include pad();
+  height: 15vh;
+}
+
+.searchfield {
+  @include dF();
+  background-color: white;
+  border-radius: 10px;
+  border: 1.5px solid $darkgrey;
+  input {
+    width: 200px;
+    border: none;
+    padding: 4px 6px;
+    outline: none;
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+.searchbar {
+  @include dF();
+  gap: 12px;
+}
+
+.taskboard {
+  height: 85vh;
+  @include dF(space-evenly, flex-start);
+  @include pad();
+  gap: 100px;
+
+}
+
+.list-item {
+  width: 20%;
+}
+
+.headline {
+  @include dF(space-between, center);
 }
