@@ -16,21 +16,21 @@
     <div class="list-item">
       <div class="headline">
         <h3>To do</h3>
-        <img src="../../assets/img/05_board/plus button.png" alt="" />
+        <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
       </div>
       <div class="tasks">
         @for (task of todo; track task.id) {
         <div class="task">
           <div>User Story</div>
           <div class="description">
-            <h3>{{ task.title }}</h3>
+            <p class="task-title">{{ task.title }}</p>
             <p>{{ task.description }}</p>
           </div>
           <div class="progress">
 
           </div>
           <div class="contact">
-            <img src="../../assets/img/06_contacts/default-img.png" alt="">
+            <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
           </div>
         </div>
         }
@@ -40,21 +40,21 @@
     <div class="list-item">
       <div class="headline">
         <h3>In progress</h3>
-        <img src="../../assets/img/05_board/plus button.png" alt="" />
+        <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
       </div>
       <div class="tasks">
         @for (task of inProgress; track task.id) {
         <div class="task">
           <div>User Story</div>
           <div class="description">
-            <h3>{{ task.title }}</h3>
+            <p class="task-title">{{ task.title }}</p>
             <p>{{ task.description }}</p>
           </div>
           <div class="progress">
 
           </div>
           <div class="contact">
-            <img src="../../assets/img/06_contacts/default-img.png" alt="">
+            <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
           </div>
         </div>
         }
@@ -64,21 +64,21 @@
     <div class="list-item">
       <div class="headline">
         <h3>Await feedback</h3>
-        <img src="../../assets/img/05_board/plus button.png" alt="" />
+        <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
       </div>
       <div class="tasks">
         @for (task of awaitFeedback; track task.id) {
         <div class="task">
           <div>User Story</div>
           <div class="description">
-            <h3>{{ task.title }}</h3>
+            <p class="task-title">{{ task.title }}</p>
             <p>{{ task.description }}</p>
           </div>
           <div class="progress">
 
           </div>
           <div class="contact">
-            <img src="../../assets/img/06_contacts/default-img.png" alt="">
+            <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
           </div>
         </div>
         }
@@ -88,21 +88,21 @@
     <div class="list-item">
       <div class="headline">
         <h3>Done</h3>
-        <img src="../../assets/img/05_board/plus button.png" alt="" />
+        <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
       </div>
       <div class="tasks">
         @for (task of done; track task.id) {
         <div class="task">
           <div>User Story</div>
           <div class="description">
-            <h3>{{ task.title }}</h3>
+            <p class="task-title">{{ task.title }}</p>
             <p>{{ task.description }}</p>
           </div>
           <div class="progress">
 
           </div>
           <div class="contact">
-            <img src="../../assets/img/06_contacts/default-img.png" alt="">
+            <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
           </div>
         </div>
         }

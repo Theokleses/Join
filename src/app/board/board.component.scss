@@ -58,6 +58,7 @@ h2 {
   margin-bottom: 12px;
   border-radius: 20px;
   padding: 40px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .contact {
@@ -67,4 +68,10 @@ h2 {
     width: 40px;
     height: 40px;
   }
+}
+
+.task-title{
+  font-weight: 700;
+  margin-bottom: 12px;
+  margin-top: 12px;
 }
