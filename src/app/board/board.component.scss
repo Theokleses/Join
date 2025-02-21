@@ -5,8 +5,8 @@ main {
   background-color: $grey;
 }
 
-h2{
-    font-size: 56px;
+h2 {
+  font-size: 56px;
 }
 
 .header {
@@ -41,14 +41,30 @@ h2{
   height: 85vh;
   @include dF(space-evenly, flex-start);
   @include pad();
-  gap: 100px;
-
+  gap: 25px;
 }
 
 .list-item {
-  width: 20%;
+  width: 30%;
 }
 
 .headline {
   @include dF(space-between, center);
+}
+
+.task {
+  background-color: white;
+  gap: 12px;
+  margin-bottom: 12px;
+  border-radius: 20px;
+  padding: 40px 20px;
+}
+
+.contact {
+  @include dF(space-between, center);
+  img {
+    margin-top: 12px;
+    width: 40px;
+    height: 40px;
+  }
 }

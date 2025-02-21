@@ -1,76 +1,112 @@
 <main>
-    <div class="header">
+  <div class="header">
+    <div class="headline">
+      <h2>Board</h2>
+    </div>
+    <div class="searchbar">
+      <div class="searchfield">
+        <input type="search" placeholder="Search task..." />
+        <img src="../../assets/img/05_board/search.png" alt="search-icon" />
+      </div>
+      <button class="dark-btn">Add task +</button>
+    </div>
+  </div>
+
+  <div class="taskboard">
+    <div class="list-item">
       <div class="headline">
-        <h2>Board</h2>
+        <h3>To do</h3>
+        <img src="../../assets/img/05_board/plus button.png" alt="" />
       </div>
-      <div class="searchbar">
-        <div class="searchfield">
-          <input type="search" placeholder="Search task..." />
-          <img src="../../assets/img/05_board/search.png" alt="search-icon" />
+      <div class="tasks">
+        @for (task of todo; track task.id) {
+        <div class="task">
+          <div>User Story</div>
+          <div class="description">
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.description }}</p>
+          </div>
+          <div class="progress">
+
+          </div>
+          <div class="contact">
+            <img src="../../assets/img/06_contacts/default-img.png" alt="">
+          </div>
         </div>
-        <button class="dark-btn">Add task +</button>
-      </div>
-    </div>
-  
-    <div class="taskboard">
-      <div class="list-item">
-        <div class="headline">
-          <h3>To do</h3>
-          <img src="../../assets/img/05_board/plus button.png" alt="" />
-        </div>
-        <div class="tasks">
-          @for (task of todo; track task.id) {
-            <div class="task">
-              <h3>{{ task.title }}</h3>
-              <p>{{ task.description }}</p>
-            </div>
-          }
-        </div>
-      </div>
-  
-      <div class="list-item">
-        <div class="headline">
-          <h3>In progress</h3>
-          <img src="../../assets/img/05_board/plus button.png" alt="" />
-        </div>
-        <div class="tasks">
-          @for (task of inProgress; track task.id) {
-            <div class="task">
-              <h3>{{ task.title }}</h3>
-              <p>{{ task.description }}</p>
-            </div>
-          }
-        </div>
-      </div>
-  
-      <div class="list-item">
-        <div class="headline">
-          <h3>Await feedback</h3>
-          <img src="../../assets/img/05_board/plus button.png" alt="" />
-        </div>
-        <div class="tasks">
-          @for (task of awaitFeedback; track task.id) {
-            <div class="task">
-              <h3>{{ task.title }}</h3>
-              <p>{{ task.description }}</p>
-            </div>
-          }
-        </div>
-      </div>
-  
-      <div class="list-item">
-        <div class="headline">
-          <h3>Done</h3>
-          <img src="../../assets/img/05_board/plus button.png" alt="" />
-        </div>
-        <div class="tasks">
-          @for (task of done; track task.id) {
-            <div class="task">
-              <h3>{{ task.title }}</h3>
-              <p>{{ task.description }}</p>
-            </div>
-          }
-        </div>
+        }
       </div>
     </div>
-  </main>
+
+    <div class="list-item">
+      <div class="headline">
+        <h3>In progress</h3>
+        <img src="../../assets/img/05_board/plus button.png" alt="" />
+      </div>
+      <div class="tasks">
+        @for (task of inProgress; track task.id) {
+        <div class="task">
+          <div>User Story</div>
+          <div class="description">
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.description }}</p>
+          </div>
+          <div class="progress">
+
+          </div>
+          <div class="contact">
+            <img src="../../assets/img/06_contacts/default-img.png" alt="">
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="list-item">
+      <div class="headline">
+        <h3>Await feedback</h3>
+        <img src="../../assets/img/05_board/plus button.png" alt="" />
+      </div>
+      <div class="tasks">
+        @for (task of awaitFeedback; track task.id) {
+        <div class="task">
+          <div>User Story</div>
+          <div class="description">
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.description }}</p>
+          </div>
+          <div class="progress">
+
+          </div>
+          <div class="contact">
+            <img src="../../assets/img/06_contacts/default-img.png" alt="">
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="list-item">
+      <div class="headline">
+        <h3>Done</h3>
+        <img src="../../assets/img/05_board/plus button.png" alt="" />
+      </div>
+      <div class="tasks">
+        @for (task of done; track task.id) {
+        <div class="task">
+          <div>User Story</div>
+          <div class="description">
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.description }}</p>
+          </div>
+          <div class="progress">
+
+          </div>
+          <div class="contact">
+            <img src="../../assets/img/06_contacts/default-img.png" alt="">
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</main>
