@@ -6,4 +6,5 @@ export interface Icontacts {
   phonenumber: string;
   status: string;
   initialBg: string;
+  checked: boolean;
 }

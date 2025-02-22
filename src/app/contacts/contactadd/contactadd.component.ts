@@ -18,6 +18,7 @@ export class ContactaddComponent {
     email: '',
     phonenumber: '',
     status: 'active',
+    checked: false,
   };
 
   constructor(public contactsService: ContactsService) {}
@@ -68,6 +69,7 @@ export class ContactaddComponent {
       email: '',
       phonenumber: '',
       status: '',
+      checked: false,
     };
   }
 }

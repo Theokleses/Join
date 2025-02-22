@@ -53,6 +53,7 @@ export class ContactsService implements OnDestroy {
       phonenumber: obj.phonenumber,
       status: obj.status,
       initialBg: this.getColor(index),
+      checked: false,
     };
   }
 

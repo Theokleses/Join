@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, HostListener } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -23,6 +23,9 @@ export class TasksComponent {
   selectedContactIds: string[] = [];
   searchQuery: string = '';
   filteredContacts: any[] = [];
+  isUrgentClicked: boolean = false;
+  isMediumClicked: boolean = false;
+  isLowClicked: boolean = false;
 
   constructor(private fb: FormBuilder) {
     this.contacts;
@@ -31,77 +34,82 @@ export class TasksComponent {
       title: ['', Validators.required],
       description: [''],
       assignedTo: [[], Validators.required],
+      dueDate: ['', Validators.required],
+      category: ['', Validators.required],
     });
     // Initialisiere gefilterte Kontakte mit allen Kontakten
     this.filteredContacts = this.contacts.contactlist;
   }
 
-  // // Dropdown-Menü ein-/ausblenden
-  // toggleDropdown() {
-  //   this.isDropdownOpen = !this.isDropdownOpen;
-  //   if (this.isDropdownOpen) {
-  //     this.filterContacts(); // Beim Öffnen des Dropdowns Kontakte filtern
-  //   }
-  // }
+  checkContact(contactId: string, event: MouseEvent) {
+    console.log(contactId);
+    const contact = this.contacts.contactlist.find((c) => c.id === contactId);
 
-  // Dropdown-Menü öffnen
-  openDropdown() {
-    this.isDropdownOpen = true;
-    this.filterContacts(); // Beim Öffnen alle Kontakte anzeigen
+    if (contact) {
+      // Toggle den Checkbox-Zustand
+      contact.checked = !contact.checked;
+      this.contacts.contactlist = [...this.contacts.contactlist];
+      // Verhindere, dass das Event weiter propagiert wird (optional)
+      event.stopPropagation();
+    }
   }
 
-  // Dropdown-Menü schließen (mit Verzögerung)
-  onInputBlur() {
-    setTimeout(() => {
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    const dropdown = document.querySelector('.dropdown');
+    const input = document.querySelector('.dropdown-toggle');
+
+    if (dropdown && !dropdown.contains(event.target as Node)) {
       this.isDropdownOpen = false;
-    }, 200); // Verzögerung, um Klicks auf Kontakte zu verarbeiten
+    }
   }
 
-  // Verhindert, dass das Dropdown-Menü beim Klicken auf Kontakte geschlossen wird
-  preventBlur() {
-    this.isDropdownOpen = true;
-  }
+  onInputChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
 
-  // Dropdown-Menü schließen
-  closeDropdown() {
-    this.isDropdownOpen = false;
-  }
-
-  // Kontakte basierend auf dem Suchbegriff filtern
-  filterContacts() {
-    if (!this.searchQuery) {
-      this.filteredContacts = this.contacts.contactlist; // Zeige alle Kontakte an, wenn kein Suchbegriff eingegeben wurde
+    if (inputValue) {
+      if (!this.isDropdownOpen) {
+        this.isDropdownOpen = true;
+      }
+      console.log(`Du hast eingegeben: ${inputValue}`);
     } else {
-      const query = this.searchQuery.toLowerCase();
-      this.filteredContacts = this.contacts.contactlist.filter(
-        (contact) =>
-          contact.firstname.toLowerCase().startsWith(query) ||
-          contact.lastname.toLowerCase().startsWith(query),
-      );
+      this.isDropdownOpen = false;
     }
   }
 
-  // Überprüfen, ob ein Kontakt ausgewählt ist
-  isContactSelected(contactId: string | undefined): boolean {
-    if (!contactId) {
-      return false;
-    }
-    return this.selectedContactIds.includes(contactId);
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  // Kontakt auswählen/abwählen
-  toggleContactSelection(contactId: string | undefined) {
-    if (!contactId) {
-      return;
+  toggleUrgent() {
+    this.isUrgentClicked = !this.isUrgentClicked;
+    if (this.isMediumClicked) {
+      this.isMediumClicked = false;
     }
-    if (this.isContactSelected(contactId)) {
-      this.selectedContactIds = this.selectedContactIds.filter(
-        (id) => id !== contactId,
-      );
-    } else {
-      this.selectedContactIds.push(contactId);
+    if (this.isLowClicked) {
+      this.isLowClicked = false;
     }
-    this.taskForm.get('assignedTo')?.setValue(this.selectedContactIds);
+  }
+
+  toggleMedium() {
+    this.isMediumClicked = !this.isMediumClicked;
+    if (this.isUrgentClicked) {
+      this.isUrgentClicked = false;
+    }
+    if (this.isLowClicked) {
+      this.isLowClicked = false;
+    }
+  }
+
+  toggleLow() {
+    this.isLowClicked = !this.isLowClicked;
+    if (this.isUrgentClicked) {
+      this.isUrgentClicked = false;
+    }
+    if (this.isMediumClicked) {
+      this.isMediumClicked = false;
+    }
   }
 
   // Methode zum Absenden des Formulars
@@ -116,10 +124,15 @@ export class TasksComponent {
 
   // Methode zum Zurücksetzen des Formulars
   onClear() {
-    this.taskForm.reset();
+    this.taskForm.reset({
+      title: '',
+      description: '',
+      assignedTo: [],
+      dueDate: '',
+      category: '',
+    });
     this.selectedContactIds = [];
     this.isDropdownOpen = false;
     this.searchQuery = '';
-    this.filterContacts();
   }
 }
