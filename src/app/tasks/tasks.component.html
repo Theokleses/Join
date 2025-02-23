@@ -34,6 +34,9 @@
                   <input
                     type="text"
                     id="input-search"
+                    #inputSearch
+                    [(ngModel)]="inputValue"
+                    [ngModelOptions]="{ standalone: true }"
                     [placeholder]="isDropdownOpen ? '' : 'Select Contacts'"
                     (input)="onInputChange($event)"
                   />
@@ -48,7 +51,7 @@
                   id="contactlist"
                   [ngStyle]="{ display: isDropdownOpen ? 'block' : 'none' }"
                 >
-                  @for (contact of contacts.contactlist; track $index) {
+                  @for (contact of filteredContacts; track $index) {
                     @if (contact.id) {
                       <div
                         class="contact"
@@ -64,7 +67,7 @@
                           </p>
                         </div>
                         <div id="contact-name">
-                          {{ contact.firstname }}{{ contact.lastname }}
+                          {{ contact.firstname }} {{ contact.lastname }}
                         </div>
                         <div id="checkbox">
                           <input
@@ -74,6 +77,21 @@
                             [checked]="contact.checked"
                           />
                         </div>
+                      </div>
+                    }
+                  }
+                </div>
+                <div id="contact-initials">
+                  @for (contact of contacts.contactlist; track $index) {
+                    @if (contact.checked) {
+                      <div
+                        id="initials"
+                        [ngStyle]="{ 'background-color': contact.initialBg }"
+                      >
+                        <p>
+                          {{ contact.firstname[0].toUpperCase()
+                          }}{{ contact.lastname[0].toUpperCase() }}
+                        </p>
                       </div>
                     }
                   }

@@ -1,9 +1,16 @@
-import { Component, inject, HostListener } from '@angular/core';
+import {
+  Component,
+  inject,
+  HostListener,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  FormControl,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../firebase-services/contacts.service';
@@ -17,6 +24,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './tasks.component.scss',
 })
 export class TasksComponent {
+  @ViewChild('inputSearch') inputSearch!: ElementRef;
   public contacts = inject(ContactsService);
   taskForm: FormGroup;
   isDropdownOpen: boolean = false;
@@ -26,10 +34,10 @@ export class TasksComponent {
   isUrgentClicked: boolean = false;
   isMediumClicked: boolean = false;
   isLowClicked: boolean = false;
+  inputValue: string = '';
 
   constructor(private fb: FormBuilder) {
     this.contacts;
-    // Formular initialisieren
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
@@ -37,7 +45,6 @@ export class TasksComponent {
       dueDate: ['', Validators.required],
       category: ['', Validators.required],
     });
-    // Initialisiere gefilterte Kontakte mit allen Kontakten
     this.filteredContacts = this.contacts.contactlist;
   }
 
@@ -46,10 +53,8 @@ export class TasksComponent {
     const contact = this.contacts.contactlist.find((c) => c.id === contactId);
 
     if (contact) {
-      // Toggle den Checkbox-Zustand
       contact.checked = !contact.checked;
       this.contacts.contactlist = [...this.contacts.contactlist];
-      // Verhindere, dass das Event weiter propagiert wird (optional)
       event.stopPropagation();
     }
   }
@@ -57,29 +62,33 @@ export class TasksComponent {
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
     const dropdown = document.querySelector('.dropdown');
-    const input = document.querySelector('.dropdown-toggle');
-
     if (dropdown && !dropdown.contains(event.target as Node)) {
       this.isDropdownOpen = false;
+      this.inputValue = ''; // Leert das Eingabefeld
+      console.log('Dropdown geschlossen, inputValue geleert'); // Debugging
     }
   }
 
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
-    const inputValue = inputElement.value;
+    const inputValue = inputElement.value.toLowerCase();
 
     if (inputValue) {
-      if (!this.isDropdownOpen) {
-        this.isDropdownOpen = true;
-      }
-      console.log(`Du hast eingegeben: ${inputValue}`);
+      this.filteredContacts = this.contacts.contactlist.filter((contact) =>
+        contact.firstname.toLowerCase().startsWith(inputValue),
+      );
+      this.isDropdownOpen = true;
     } else {
-      this.isDropdownOpen = false;
+      this.filteredContacts = this.contacts.contactlist;
     }
   }
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
+    setTimeout(() => this.inputSearch?.nativeElement.focus(), 0);
+    if (this.isDropdownOpen) {
+      this.filteredContacts = this.contacts.contactlist;
+    }
   }
 
   toggleUrgent() {
@@ -112,17 +121,14 @@ export class TasksComponent {
     }
   }
 
-  // Methode zum Absenden des Formulars
   onSubmit() {
     if (this.taskForm.valid) {
       console.log('Formular-Daten:', this.taskForm.value);
-      // Hier können Sie die Daten weiterverarbeiten, z.B. an einen Service senden
     } else {
       console.log('Formular ist ungültig');
     }
   }
 
-  // Methode zum Zurücksetzen des Formulars
   onClear() {
     this.taskForm.reset({
       title: '',
