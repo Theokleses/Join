@@ -9,6 +9,7 @@ main {
   padding: 0 50px;
   button {
     margin: 1rem 0;
+    z-index: 2;
   }
 
   #contactlist {
@@ -16,6 +17,7 @@ main {
     height: 100%;
     scrollbar-color: $lightblue white;
     scrollbar-width: thin;
+    z-index: 1;
     
 
     &::-webkit-scrollbar {

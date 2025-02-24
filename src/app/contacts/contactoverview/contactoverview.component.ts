@@ -63,7 +63,6 @@ export class ContactoverviewComponent {
     this.checkScreenWidth();
   }
 
-
   checkScreenWidth() {
     if (window.innerWidth > 600) {
       this.showEditDelete = false; 
@@ -72,5 +71,6 @@ export class ContactoverviewComponent {
 
   backToContacts() {
     this.contacts.showOverview = false;
+    this.showEditDelete = false;
   }
 }
