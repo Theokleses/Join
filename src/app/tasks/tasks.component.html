@@ -106,17 +106,17 @@
         <div id="right-field">
           <div class="label-input-container">
             <label for="date">Due date<span>*</span></label>
-            <input type="date" name="date" id="date" required />
+            <input type="date" name="date" id="date" placeholder="" required />
           </div>
 
           <div class="label-input-container">
             <label for="prio">Prio</label>
             <div id="prio-btn">
-              <!-- TODO Var erstellen der isClicked vom button speichern und dem entsprechend bg color grün oder weis ngStyle macht -->
               <button
                 (click)="toggleUrgent()"
                 [ngStyle]="{
                   'background-color': isUrgentClicked ? '#FF3D00' : 'white',
+                  color: isUrgentClicked ? 'white' : 'black',
                 }"
               >
                 Urgent
@@ -134,6 +134,7 @@
                 (click)="toggleMedium()"
                 [ngStyle]="{
                   'background-color': isMediumClicked ? '#FFA800' : 'white',
+                  color: isMediumClicked ? 'white' : 'black',
                 }"
               >
                 Medium
@@ -151,6 +152,7 @@
                 (click)="toggleLow()"
                 [ngStyle]="{
                   'background-color': isLowClicked ? '#7AE229' : 'white',
+                  color: isLowClicked ? 'white' : 'black',
                 }"
               >
                 Low

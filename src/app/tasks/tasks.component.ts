@@ -26,6 +26,8 @@ import { FormsModule } from '@angular/forms';
 export class TasksComponent {
   @ViewChild('inputSearch') inputSearch!: ElementRef;
   public contacts = inject(ContactsService);
+  readonly date = new FormControl(new Date());
+  readonly serializedDate = new FormControl(new Date().toISOString());
   taskForm: FormGroup;
   isDropdownOpen: boolean = false;
   selectedContactIds: string[] = [];
