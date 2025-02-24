@@ -149,6 +149,9 @@ main {
 
     #right-field {
       width: 45%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
 
       #date {
         .custom-date-input {
@@ -197,6 +200,99 @@ main {
 
           &:hover {
             box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+          }
+        }
+      }
+
+      #category {
+        padding: 0.5em;
+        font-family: "inter";
+        font-size: 1em;
+        border-radius: 1em;
+        border: 1px solid $darkgrey;
+      }
+
+      #label-subtask-container {
+        width: 100%;
+        #input-subtask-container {
+          display: flex;
+          align-items: center;
+          position: relative;
+          #input-subtask {
+            width: 100%;
+            padding-right: 2.5em;
+          }
+          #img-subtask {
+            position: absolute;
+            cursor: pointer;
+            height: auto;
+            position: absolute;
+            right: 1%;
+            top: 15%;
+            transition: background-color 0.3s ease;
+            border-radius: 50%;
+            padding: 0.2em;
+            box-sizing: content-box;
+
+            &:hover {
+              background-color: $darkgrey;
+            }
+          }
+        }
+        #subtasks {
+          max-height: 150px;
+          max-width: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          word-wrap: break-word;
+
+          &::-webkit-scrollbar {
+            width: 8px;
+          }
+
+          &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+          }
+
+          &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+          }
+        }
+
+        #subtask {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.25em 0;
+          margin-right: 1em;
+          word-wrap: break-word;
+          width: 100%;
+
+          #index-subtask {
+            display: flex;
+            flex-grow: 1;
+            max-width: 100%;
+            gap: 0.5em;
+            p {
+              margin: 0;
+            }
+            p:nth-child(2) {
+              flex-grow: 1;
+              word-break: break-word;
+            }
+          }
+          button {
+            flex-shrink: 0;
+            margin: 0 0.5em;
           }
         }
       }

@@ -167,6 +167,7 @@
               </button>
             </div>
           </div>
+
           <div class="label-input-container">
             <label for="category">Category<span>*</span></label>
             <select
@@ -178,24 +179,36 @@
               <option value="" disabled selected>Select task category</option>
               <option value="Technical Task">Technical Task</option>
               <option value="User Story">User Story</option>
-              <option value="Design Task">Design Task</option>
-              <option value="Testing">Testing</option>
-              <option value="Deployment">Deployment</option>
-              <option value="Documentation">Documentation</option>
-              <option value="Maintenance">Maintenance</option>
-              <option value="Meeting">Meeting</option>
             </select>
           </div>
-          <div class="label-input-container">
+
+          <div id="label-subtask-container">
             <label for="subtasks">Subtasks</label>
             <div id="input-subtask-container">
               <input
                 type="text"
                 name="subtasks"
-                id=""
-                placeholder="Enter a title"
+                id="input-subtask"
+                placeholder="Add new subtask"
+                [(ngModel)]="inputSubtask"
+                [ngModelOptions]="{ standalone: true }"
               />
-              <span>+</span>
+              <img
+                src="../../assets/img/04_task/plus.png"
+                id="img-subtask"
+                (click)="addToSubtasklist()"
+              />
+            </div>
+            <div id="subtasks">
+              @for (subtask of subtasklist; track $index) {
+                <div id="subtask">
+                  <div id="index-subtask">
+                    <p>{{ $index + 1 }}:</p>
+                    <p>{{ subtask }}</p>
+                  </div>
+                  <button (click)="deleteFromSubtasklist($index)">-</button>
+                </div>
+              }
             </div>
           </div>
         </div>

@@ -37,6 +37,8 @@ export class TasksComponent {
   isMediumClicked: boolean = false;
   isLowClicked: boolean = false;
   inputValue: string = '';
+  subtasklist: string[] = [];
+  inputSubtask: string = '';
 
   constructor(private fb: FormBuilder) {
     this.contacts;
@@ -67,7 +69,6 @@ export class TasksComponent {
     if (dropdown && !dropdown.contains(event.target as Node)) {
       this.isDropdownOpen = false;
       this.inputValue = ''; // Leert das Eingabefeld
-      console.log('Dropdown geschlossen, inputValue geleert'); // Debugging
     }
   }
 
@@ -123,11 +124,22 @@ export class TasksComponent {
     }
   }
 
+  addToSubtasklist() {
+    if (this.inputSubtask) {
+      this.subtasklist.push(this.inputSubtask);
+      this.inputSubtask = '';
+    }
+  }
+
+  deleteFromSubtasklist(index: number) {
+    this.subtasklist.splice(index, 1);
+  }
+
   onSubmit() {
     if (this.taskForm.valid) {
-      console.log('Formular-Daten:', this.taskForm.value);
+      // console.log('Formular-Daten:', this.taskForm.value);
     } else {
-      console.log('Formular ist ungültig');
+      // console.log('Formular ist ungültig');
     }
   }
 
