@@ -44,19 +44,35 @@ export class ContacteditComponent {
       this.lastname = this.selectedContact.lastname;
       this.email = this.selectedContact.email;
       this.phonenumber = this.selectedContact.phonenumber;
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      this.email?.match(emailRegex) ? console.log() : console.log();
     }
   }
 
-  isFormValid(): boolean {
+  isFirstNameValid(): boolean {
+    const nameRegex = /^[a-zA-ZüöäÜÖÄß\s]+$/;
+    return !!this.firstname && nameRegex.test(this.firstname.trim());
+  }
+
+  isLastNameValid(): boolean {
+    const nameRegex = /^[a-zA-ZüöäÜÖÄß\s]+$/;
+    return !!this.lastname && nameRegex.test(this.lastname.trim());
+  }
+
+  isEmailValid(): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return !!this.email && emailRegex.test(this.email.trim());
+  }
+
+  isPhoneNumberValid(): boolean {
+    const phoneInput = this.phonenumber?.trim() || '';
+    return /^\+49\s?\d+$/.test(phoneInput);
+  }
+
+  isFormValid(): boolean {
     return (
-      this.firstname?.trim() !== '' &&
-      this.lastname?.trim() !== '' &&
-      this.email?.trim() !== '' &&
-      this.email?.match(emailRegex) !== null &&
-      this.phonenumber?.trim() !== ''
+      this.isFirstNameValid() &&
+      this.isLastNameValid() &&
+      this.isEmailValid() &&
+      this.isPhoneNumberValid()
     );
   }
 

@@ -26,7 +26,7 @@
       </div>
 
       <div id="right-side-right">
-        <div *ngIf="!updateSuccess"></div>
+        <!-- <div *ngIf="!updateSuccess"></div> -->
         <a (click)="contacts.toggleDialogEdit()">X</a>
 
         <div id="inputs">
@@ -42,6 +42,9 @@
             />
             <img src="../../../assets/img/06_contacts/person.png" alt="" />
           </div>
+          @if (firstname && !isFirstNameValid()) {
+            <div class="error-message">Please enter a valid first name.</div>
+          }
 
           <div id="lastname-container">
             <input
@@ -54,6 +57,9 @@
             />
             <img src="../../../assets/img/06_contacts/person.png" alt="" />
           </div>
+          @if (lastname && !isLastNameValid()) {
+            <div class="error-message">Please enter a valid last name.</div>
+          }
 
           <div id="email-container">
             <input
@@ -65,6 +71,9 @@
               required
             /><img src="../../../assets/img/06_contacts/mail.png" alt="" />
           </div>
+          @if (email && !isEmailValid()) {
+            <div class="error-message">Please enter a valid email address.</div>
+          }
 
           <div id="phonenumber-container">
             <input
@@ -76,6 +85,10 @@
               required
             /><img src="../../../assets/img/06_contacts/phone.png" alt="" />
           </div>
+          @if (phonenumber && !isPhoneNumberValid()) {
+            <div class="error-message">Please add the country code +49.</div>
+          }
+          
           <div id="btn-section">
             <button
               id="delete"

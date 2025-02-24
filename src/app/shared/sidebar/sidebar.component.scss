@@ -77,7 +77,7 @@ main {
     left: 0;
     flex-direction: row;
     justify-content: space-around;
-    padding: 0 10px;
+    // padding: 0 10px;
     z-index: 9999;
     gap: 0px;
   }
@@ -110,5 +110,16 @@ main {
 
   .privacy-imprint {
     display: none;
+  }
+}
+
+@media (max-width: 450px) {
+  .menu {
+    gap: 0;
+  }
+}
+@media (max-height: 715px) {
+  main {
+    z-index: 9;
   }
 }

@@ -26,6 +26,7 @@ export class ContactaddComponent {
   isAdding: boolean = false;
   showOverview: boolean = false;
   showAnimation: boolean = false;
+  addSuccess: boolean = false;
 
   ngOnInit(): void {
     this.showAnimation = true;
@@ -40,8 +41,12 @@ export class ContactaddComponent {
     ) {
       this.contactsService.addContact(this.newContact);
       this.clearForm();
-    } else {
-      console.error('Bitte alle Felder ausfüllen!');
+      this.addSuccess = true;
+
+      setTimeout(() => {
+        this.addSuccess = false;
+        this.toggleDialogAdd();
+      }, 2000);
     }
   }
 
@@ -69,5 +74,39 @@ export class ContactaddComponent {
       phonenumber: '',
       status: '',
     };
+  }
+
+ // Validierung für Vorname
+  isFirstNameValid(): boolean {
+    const nameRegex = /^[a-zA-ZüöäÜÖÄß\s]+$/; // Nur Buchstaben und Leerzeichen erlaubt
+    return nameRegex.test(this.newContact.firstname.trim());
+  }
+
+  // Validierung für Nachname
+  isLastNameValid(): boolean {
+    const nameRegex = /^[a-zA-ZüöäÜÖÄß\s]+$/; // Nur Buchstaben und Leerzeichen erlaubt
+    return nameRegex.test(this.newContact.lastname.trim());
+  }
+
+  // Validierung für E-Mail
+  isEmailValid(): boolean {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(this.newContact.email.trim());
+  }
+
+  // Validierung für Telefonnummer (bereits vorhanden)
+  isPhoneNumberValid(): boolean {
+    const phoneInput = this.newContact.phonenumber?.trim() || '';
+    return /^\+49\s?\d+$/.test(phoneInput);
+  }
+
+  // Gesamtvalidierung für das Formular
+  isFormValid(): boolean {
+    return (
+      this.isFirstNameValid() &&
+      this.isLastNameValid() &&
+      this.isEmailValid() &&
+      this.isPhoneNumberValid()
+    );
   }
 }
