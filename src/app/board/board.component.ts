@@ -6,7 +6,6 @@ import {
   CdkDragDrop,
   CdkDrag,
   CdkDropList,
-  CdkDropListGroup,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
@@ -14,7 +13,7 @@ import {
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule, CdkDropListGroup, CdkDropList, CdkDrag],
+  imports: [CommonModule,CdkDropList, CdkDrag],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
 })
@@ -30,12 +29,9 @@ export class BoardComponent implements OnInit {
   done: Itasks[] = [];
 
   drop(event: CdkDragDrop<Itasks[]>) {
+    console.log('Drop-Handler wurde aufgerufen');
     if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -43,14 +39,23 @@ export class BoardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
-
+  
       const currentTask = event.container.data[event.currentIndex];
-
-      console.log('Task ID ', currentTask.id);
-      console.log('Old status ', currentTask.status);
-      console.log('New status ', event.container.id);
-
-      this.tasks.updateTaskStatus(currentTask.id!, event.container.id);
+      const newStatus = event.container.id;
+  
+      console.log('Task ID:', currentTask.id);
+      console.log('Old status:', currentTask.status);
+      console.log('New status:', newStatus);
+  
+      if (currentTask.id && newStatus) {
+        this.tasks.updateTaskStatus(currentTask.id, newStatus).then(() => {
+          console.log('Update erfolgreich abgeschlossen');
+        }).catch((error) => {
+          console.error('Fehler beim Update:', error);
+        });
+      } else {
+        console.error('Task ID oder neuer Status fehlt:', { id: currentTask.id, newStatus });
+      }
     }
   }
 

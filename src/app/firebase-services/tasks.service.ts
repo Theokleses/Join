@@ -6,10 +6,11 @@ import {
   onSnapshot,
   QuerySnapshot,
   DocumentData,
+  updateDoc,doc
 } from '@angular/fire/firestore';
 import { Itasks } from '../interfaces/itasks';
 import { BehaviorSubject } from 'rxjs';
-import { updateDoc, doc } from 'firebase/firestore';
+
 
 @Injectable({
   providedIn: 'root',
@@ -28,27 +29,22 @@ export class TasksService implements OnDestroy {
     this.unsubscribe = onSnapshot(
       collection(this.firestore, 'tasks'),
       (tasks: QuerySnapshot<DocumentData>) => {
+        console.log('Neue Tasks von Firestore:', tasks.docs.map(doc => doc.data()));
         const taskList: Itasks[] = [];
         const todo: Itasks[] = [];
         const inProgress: Itasks[] = [];
         const awaitFeedback: Itasks[] = [];
         const done: Itasks[] = [];
-
+    
         let index = 0;
         tasks.forEach((task) => {
           const taskData = task.data() as Itasks;
           const taskObject = this.setTaskObject(task.id, taskData, index);
           taskList.push(taskObject);
-          this.categorizeTask(
-            taskObject,
-            todo,
-            inProgress,
-            awaitFeedback,
-            done
-          );
+          this.categorizeTask(taskObject, todo, inProgress, awaitFeedback, done);
           index++;
         });
-
+    
         this.taskList$.next(taskList);
         this.todo$.next(todo);
         this.inProgress$.next(inProgress);
@@ -56,7 +52,7 @@ export class TasksService implements OnDestroy {
         this.done$.next(done);
       },
       (error) => {
-        console.error('Error fetching tasks:', error);
+        console.error('Fehler beim Abrufen der Tasks:', error);
       }
     );
   }
@@ -79,9 +75,9 @@ export class TasksService implements OnDestroy {
   ) {
     if (task.status === 'todo') {
       todo.push(task);
-    } else if (task.status === 'in progress') {
+    } else if (task.status === 'in-progress') {
       inProgress.push(task);
-    } else if (task.status === 'feedback') {
+    } else if (task.status === 'await-feedback') {
       awaitFeedback.push(task);
     } else if (task.status === 'done') {
       done.push(task);
@@ -89,10 +85,18 @@ export class TasksService implements OnDestroy {
   }
 
   async updateTaskStatus(taskId: string, newStatus: string) {
+    if (!taskId || !newStatus) {
+      console.error('Ungültige Parameter für updateTaskStatus:', { taskId, newStatus });
+      return;
+    }
+  
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`);
-    await updateDoc(taskDocRef, { status: newStatus }).catch((error) => {
-      console.error(error);
-    });
+    try {
+      await updateDoc(taskDocRef, { status: newStatus });
+      console.log(`Task ${taskId} erfolgreich auf Status ${newStatus} aktualisiert`);
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Task-Status:', error);
+    }
   }
 
   ngOnDestroy() {
