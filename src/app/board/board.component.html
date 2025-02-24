@@ -19,21 +19,22 @@
         <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
       </div>
       <div class="tasks">
-        @for (task of todo; track task.id) {
-        <div class="task">
-          <div>User Story</div>
-          <div class="description">
-            <p class="task-title">{{ task.title }}</p>
-            <p>{{ task.description }}</p>
-          </div>
-          <div class="progress">
-
-          </div>
-          <div class="contact">
-            <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
-          </div>
+        <div id="todo" cdkDropList [cdkDropListData]="todo" [cdkDropListConnectedTo]="['in-progress', 'await-feedback', 'done']"
+             class="drop-area" (cdkDropListDropped)="drop($event)">
+          @for (task of todo; track task.id) {
+            <div class="task" cdkDrag>
+              <div>User Story</div>
+              <div class="description">
+                <p class="task-title">{{ task.title }}</p>
+                <p>{{ task.description }}</p>
+              </div>
+              <div class="progress"></div>
+              <div class="contact">
+                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
+              </div>
+            </div>
+          }
         </div>
-        }
       </div>
     </div>
 
@@ -43,21 +44,22 @@
         <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
       </div>
       <div class="tasks">
-        @for (task of inProgress; track task.id) {
-        <div class="task">
-          <div>User Story</div>
-          <div class="description">
-            <p class="task-title">{{ task.title }}</p>
-            <p>{{ task.description }}</p>
-          </div>
-          <div class="progress">
-
-          </div>
-          <div class="contact">
-            <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
-          </div>
+        <div id="in-progress" cdkDropList [cdkDropListData]="inProgress" [cdkDropListConnectedTo]="['todo', 'await-feedback', 'done']"
+             class="drop-area" (cdkDropListDropped)="drop($event)">
+          @for (task of inProgress; track task.id) {
+            <div class="task" cdkDrag>
+              <div>User Story</div>
+              <div class="description">
+                <p class="task-title">{{ task.title }}</p>
+                <p>{{ task.description }}</p>
+              </div>
+              <div class="progress"></div>
+              <div class="contact">
+                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
+              </div>
+            </div>
+          }
         </div>
-        }
       </div>
     </div>
 
@@ -67,21 +69,22 @@
         <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
       </div>
       <div class="tasks">
-        @for (task of awaitFeedback; track task.id) {
-        <div class="task">
-          <div>User Story</div>
-          <div class="description">
-            <p class="task-title">{{ task.title }}</p>
-            <p>{{ task.description }}</p>
-          </div>
-          <div class="progress">
-
-          </div>
-          <div class="contact">
-            <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
-          </div>
+        <div id="await-feedback" cdkDropList [cdkDropListData]="awaitFeedback" [cdkDropListConnectedTo]="['todo', 'in-progress', 'done']"
+             class="drop-area" (cdkDropListDropped)="drop($event)">
+          @for (task of awaitFeedback; track task.id) {
+            <div class="task" cdkDrag>
+              <div>User Story</div>
+              <div class="description">
+                <p class="task-title">{{ task.title }}</p>
+                <p>{{ task.description }}</p>
+              </div>
+              <div class="progress"></div>
+              <div class="contact">
+                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
+              </div>
+            </div>
+          }
         </div>
-        }
       </div>
     </div>
 
@@ -91,21 +94,22 @@
         <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
       </div>
       <div class="tasks">
-        @for (task of done; track task.id) {
-        <div class="task">
-          <div>User Story</div>
-          <div class="description">
-            <p class="task-title">{{ task.title }}</p>
-            <p>{{ task.description }}</p>
-          </div>
-          <div class="progress">
-
-          </div>
-          <div class="contact">
-            <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
-          </div>
+        <div id="done" cdkDropList [cdkDropListData]="done" [cdkDropListConnectedTo]="['todo', 'in-progress', 'await-feedback']"
+             class="drop-area" (cdkDropListDropped)="drop($event)">
+          @for (task of done; track task.id) {
+            <div class="task" cdkDrag>
+              <div>User Story</div>
+              <div class="description">
+                <p class="task-title">{{ task.title }}</p>
+                <p>{{ task.description }}</p>
+              </div>
+              <div class="progress"></div>
+              <div class="contact">
+                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list">
+              </div>
+            </div>
+          }
         </div>
-        }
       </div>
     </div>
   </div>
