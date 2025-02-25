@@ -197,7 +197,7 @@ export class TasksComponent {
         prio: prio,
         assigned: selectedContacts,
         subtask: this.subtasklist,
-        status: 'toDo', // Standardstatus, falls nicht angegeben
+        status: 'todo', // Standardstatus, falls nicht angegeben
       };
 
       // Prüfen, ob eine Priorität ausgewählt wurde
