@@ -47,16 +47,10 @@ export class BoardComponent implements OnInit {
       const currentTask = event.container.data[event.currentIndex];
       const newStatus = event.container.id;
 
-      console.log('Task ID:', currentTask.id);
-      console.log('Old status:', currentTask.status);
-      console.log('New status:', newStatus);
-
       if (currentTask.id && newStatus) {
         this.tasks
           .updateTaskStatus(currentTask.id, newStatus)
-          .then(() => {
-            console.log('Update erfolgreich abgeschlossen');
-          })
+          .then(() => {})
           .catch((error) => {
             console.error('Fehler beim Update:', error);
           });
@@ -69,6 +63,12 @@ export class BoardComponent implements OnInit {
     }
   }
 
+  getCategoryClass(category: string): string {
+    if (category === 'User Story') return 'darkblue';
+    if (category === 'Technical Task') return 'blue';
+    return 'default';
+  }
+
   ngOnInit() {
     this.tasks.todo$.subscribe((tasks) => (this.todo = tasks));
     this.tasks.inProgress$.subscribe((tasks) => (this.inProgress = tasks));
@@ -76,5 +76,6 @@ export class BoardComponent implements OnInit {
       (tasks) => (this.awaitFeedback = tasks)
     );
     this.tasks.done$.subscribe((tasks) => (this.done = tasks));
+    this.getCategoryClass;
   }
 }

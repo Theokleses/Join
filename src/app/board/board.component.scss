@@ -71,6 +71,30 @@ h2 {
   }
 }
 
+.prio-img{
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.darkblue{
+  background-color: rgb(0 56 255);
+  border-radius: 20px;
+  padding: 6px 4px;
+  width: 60%;
+  color: white;
+  text-align: center;
+}
+
+.blue{
+  background-color: rgb(33 202 181);
+  border-radius: 20px;
+  padding: 6px 4px;
+  width: 60%;
+  color: white;
+  text-align: center;
+}
+
+
 .task-title{
   font-weight: 700;
   margin-bottom: 12px;

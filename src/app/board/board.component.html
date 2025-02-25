@@ -32,7 +32,16 @@
         >
           @for (task of todo; track task.id) {
           <div class="task" cdkDrag>
-            <div><p>{{task.category}}</p></div>
+            <div>
+              @if (task.category == 'User Story') {
+
+              <p class="darkblue">{{ task.category }}</p>
+
+              }@else if(task.category == 'Technical Task'){
+              <p class="blue">{{ task.category }}</p>
+
+              }
+            </div>
             <div class="description">
               <p class="task-title">{{ task.title }}</p>
               <p>{{ task.description }}</p>
@@ -43,6 +52,19 @@
                 src="../../assets/img/06_contacts/default-img.png"
                 alt="contact-list"
               />
+              @if (task.prio == 'Urgent') {
+              <img
+                src="../../assets/img/04_task/high-unclicked.png"
+                alt="high-prio" class="prio-img"
+              />
+              }@else if (task.prio == 'Medium') {
+              <img
+                src="../../assets/img/04_task/medium-unclicked.png"
+                alt="medium-prio" class="prio-img"
+              />
+              }@else if (task.prio == 'Low') {
+              <img src="../../assets/img/04_task/low-unclicked.png" alt=""  class="prio-img"/>
+              }
             </div>
           </div>
           }
@@ -69,7 +91,17 @@
         >
           @for (task of inProgress; track task.id) {
           <div class="task" cdkDrag>
-            <div>User Story</div>
+            <div>
+              @if (task.category == 'User Story') {
+
+              <p class="darkblue">{{ task.category }}</p>
+
+              }@else if(task.category == 'Technical Task'){
+
+              <p class="blue">{{ task.category }}</p>
+              }
+            </div>
+
             <div class="description">
               <p class="task-title">{{ task.title }}</p>
               <p>{{ task.description }}</p>
@@ -80,6 +112,19 @@
                 src="../../assets/img/06_contacts/default-img.png"
                 alt="contact-list"
               />
+              @if (task.prio == 'Urgent') {
+              <img
+                src="../../assets/img/04_task/high-unclicked.png"
+                alt="high-prio" class="prio-img"
+              />
+              }@else if (task.prio == 'Medium') {
+              <img
+                src="../../assets/img/04_task/medium-unclicked.png"
+                alt="medium-prio" class="prio-img"
+              />
+              }@else if (task.prio == 'Low') {
+              <img src="../../assets/img/04_task/low-unclicked.png" alt=""  class="prio-img"/>
+              }
             </div>
           </div>
           }
@@ -106,7 +151,16 @@
         >
           @for (task of awaitFeedback; track task.id) {
           <div class="task" cdkDrag>
-            <div>User Story</div>
+            <div>
+              @if (task.category == 'User Story') {
+
+              <p class="darkblue">{{ task.category }}</p>
+
+              }@else{
+              <p class="blue">{{ task.category }}</p>
+
+              }
+            </div>
             <div class="description">
               <p class="task-title">{{ task.title }}</p>
               <p>{{ task.description }}</p>
@@ -117,6 +171,19 @@
                 src="../../assets/img/06_contacts/default-img.png"
                 alt="contact-list"
               />
+              @if (task.prio == 'Urgent') {
+              <img
+                src="../../assets/img/04_task/high-unclicked.png"
+                alt="high-prio" class="prio-img"
+              />
+              }@else if (task.prio == 'Medium') {
+              <img
+                src="../../assets/img/04_task/medium-unclicked.png"
+                alt="medium-prio" class="prio-img"
+              />
+              }@else if (task.prio == 'Low') {
+              <img src="../../assets/img/04_task/low-unclicked.png" alt="" class="prio-img" />
+              }
             </div>
           </div>
           }
@@ -143,7 +210,16 @@
         >
           @for (task of done; track task.id) {
           <div class="task" cdkDrag>
-            <div>User Story</div>
+            <div>
+              @if (task.category == 'User Story') {
+
+              <p class="darkblue">{{ task.category }}</p>
+
+              }@else{
+              <p class="blue">{{ task.category }}</p>
+
+              }
+            </div>
             <div class="description">
               <p class="task-title">{{ task.title }}</p>
               <p>{{ task.description }}</p>
@@ -154,6 +230,19 @@
                 src="../../assets/img/06_contacts/default-img.png"
                 alt="contact-list"
               />
+              @if (task.prio == 'Urgent') {
+              <img
+                src="../../assets/img/04_task/high-unclicked.png"
+                alt="high-prio"
+              />
+              }@else if (task.prio == 'Medium') {
+              <img
+                src="../../assets/img/04_task/medium-unclicked.png"
+                alt="medium-prio"
+              />
+              }@else if (task.prio == 'Low') {
+              <img src="../../assets/img/04_task/low-unclicked.png" alt="" />
+              }
             </div>
           </div>
           }
