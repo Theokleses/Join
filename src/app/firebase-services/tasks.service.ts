@@ -6,11 +6,11 @@ import {
   onSnapshot,
   QuerySnapshot,
   DocumentData,
-  updateDoc,doc
+  updateDoc,
+  doc,
 } from '@angular/fire/firestore';
 import { Itasks } from '../interfaces/itasks';
 import { BehaviorSubject } from 'rxjs';
-
 
 @Injectable({
   providedIn: 'root',
@@ -29,22 +29,31 @@ export class TasksService implements OnDestroy {
     this.unsubscribe = onSnapshot(
       collection(this.firestore, 'tasks'),
       (tasks: QuerySnapshot<DocumentData>) => {
-        console.log('Neue Tasks von Firestore:', tasks.docs.map(doc => doc.data()));
+        console.log(
+          'Neue Tasks von Firestore:',
+          tasks.docs.map((doc) => doc.data())
+        );
         const taskList: Itasks[] = [];
         const todo: Itasks[] = [];
         const inProgress: Itasks[] = [];
         const awaitFeedback: Itasks[] = [];
         const done: Itasks[] = [];
-    
+
         let index = 0;
         tasks.forEach((task) => {
           const taskData = task.data() as Itasks;
           const taskObject = this.setTaskObject(task.id, taskData, index);
           taskList.push(taskObject);
-          this.categorizeTask(taskObject, todo, inProgress, awaitFeedback, done);
+          this.categorizeTask(
+            taskObject,
+            todo,
+            inProgress,
+            awaitFeedback,
+            done
+          );
           index++;
         });
-    
+
         this.taskList$.next(taskList);
         this.todo$.next(todo);
         this.inProgress$.next(inProgress);
@@ -63,6 +72,10 @@ export class TasksService implements OnDestroy {
       title: data.title || '',
       description: data.description || '',
       status: data.status || 'todo',
+      category: data.category,
+      subtask:data.subtask,
+      assigned: data.assigned,
+      prio: data.prio
     };
   }
 
@@ -86,14 +99,19 @@ export class TasksService implements OnDestroy {
 
   async updateTaskStatus(taskId: string, newStatus: string) {
     if (!taskId || !newStatus) {
-      console.error('Ungültige Parameter für updateTaskStatus:', { taskId, newStatus });
+      console.error('Ungültige Parameter für updateTaskStatus:', {
+        taskId,
+        newStatus,
+      });
       return;
     }
-  
+
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`);
     try {
       await updateDoc(taskDocRef, { status: newStatus });
-      console.log(`Task ${taskId} erfolgreich auf Status ${newStatus} aktualisiert`);
+      console.log(
+        `Task ${taskId} erfolgreich auf Status ${newStatus} aktualisiert`
+      );
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Task-Status:', error);
     }
