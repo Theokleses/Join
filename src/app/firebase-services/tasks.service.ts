@@ -8,6 +8,7 @@ import {
   DocumentData,
   updateDoc,
   doc,
+  addDoc,
 } from '@angular/fire/firestore';
 import { Itasks } from '../interfaces/itasks';
 import { BehaviorSubject } from 'rxjs';
@@ -31,7 +32,7 @@ export class TasksService implements OnDestroy {
       (tasks: QuerySnapshot<DocumentData>) => {
         console.log(
           'Neue Tasks von Firestore:',
-          tasks.docs.map((doc) => doc.data())
+          tasks.docs.map((doc) => doc.data()),
         );
         const taskList: Itasks[] = [];
         const todo: Itasks[] = [];
@@ -49,7 +50,7 @@ export class TasksService implements OnDestroy {
             todo,
             inProgress,
             awaitFeedback,
-            done
+            done,
           );
           index++;
         });
@@ -62,7 +63,7 @@ export class TasksService implements OnDestroy {
       },
       (error) => {
         console.error('Fehler beim Abrufen der Tasks:', error);
-      }
+      },
     );
   }
 
@@ -74,6 +75,7 @@ export class TasksService implements OnDestroy {
       status: data.status || 'todo',
       category: data.category,
       subtask: data.subtask,
+      dueDate: data.dueDate,
       assigned: data.assigned,
       prio: data.prio,
     };
@@ -84,7 +86,7 @@ export class TasksService implements OnDestroy {
     todo: Itasks[],
     inProgress: Itasks[],
     awaitFeedback: Itasks[],
-    done: Itasks[]
+    done: Itasks[],
   ) {
     if (task.status === 'todo') {
       todo.push(task);
@@ -94,6 +96,16 @@ export class TasksService implements OnDestroy {
       awaitFeedback.push(task);
     } else if (task.status === 'done') {
       done.push(task);
+    }
+  }
+
+  async addTask(task: Itasks) {
+    try {
+      const tasksCollection = collection(this.firestore, 'tasks');
+      const docRef = await addDoc(tasksCollection, task);
+      console.log('Task erfolgreich hinzugefügt mit ID:', docRef.id);
+    } catch (error) {
+      console.error('Fehler beim Hinzufügen des Tasks:', error);
     }
   }
 
@@ -110,7 +122,7 @@ export class TasksService implements OnDestroy {
     try {
       await updateDoc(taskDocRef, { status: newStatus });
       console.log(
-        `Task ${taskId} erfolgreich auf Status ${newStatus} aktualisiert`
+        `Task ${taskId} erfolgreich auf Status ${newStatus} aktualisiert`,
       );
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Task-Status:', error);

@@ -15,6 +15,9 @@ import {
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../firebase-services/contacts.service';
 import { FormsModule } from '@angular/forms';
+import { Icontacts } from '../interfaces/icontacts';
+import { Itasks } from '../interfaces/itasks';
+import { TasksService } from '../firebase-services/tasks.service';
 
 @Component({
   selector: 'app-tasks',
@@ -28,19 +31,23 @@ export class TasksComponent {
   public contacts = inject(ContactsService);
   readonly date = new FormControl(new Date());
   readonly serializedDate = new FormControl(new Date().toISOString());
+
   taskForm: FormGroup;
   isDropdownOpen: boolean = false;
   selectedContactIds: string[] = [];
   searchQuery: string = '';
   filteredContacts: any[] = [];
   isUrgentClicked: boolean = false;
-  isMediumClicked: boolean = false;
+  isMediumClicked: boolean = true;
   isLowClicked: boolean = false;
   inputValue: string = '';
   subtasklist: string[] = [];
   inputSubtask: string = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private tasksService: TasksService,
+  ) {
     this.contacts;
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
@@ -50,6 +57,28 @@ export class TasksComponent {
       category: ['', Validators.required],
     });
     this.filteredContacts = this.contacts.contactlist;
+  }
+
+  ngOnInit(): void {
+    const today = new Date().toISOString().split('T')[0];
+
+    this.taskForm = this.fb.group({
+      title: ['', Validators.required],
+      description: [''],
+      assignedTo: [[]],
+      dueDate: [today, Validators.required],
+      category: ['', Validators.required],
+      prio: ['Medium'],
+    });
+
+    // Initialisiere this.date mit dem Wert aus taskForm
+    this.date.setValue(new Date(this.taskForm.value.dueDate));
+  }
+
+  onDateChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const selectedDate = new Date(inputElement.value);
+    this.date.setValue(selectedDate);
   }
 
   checkContact(contactId: string, event: MouseEvent) {
@@ -137,22 +166,88 @@ export class TasksComponent {
 
   onSubmit() {
     if (this.taskForm.valid) {
-      // console.log('Formular-Daten:', this.taskForm.value);
+      // Extrahieren der Werte aus dem Formular
+      const formValues = this.taskForm.value;
+
+      // Extrahieren der ausgewählten Kontakte
+      const selectedContacts: Icontacts[] = this.contacts.contactlist.filter(
+        (contact) => contact.checked,
+      );
+
+      // Extrahieren der Priorität
+      let prio: 'Urgent' | 'Medium' | 'Low' = 'Medium'; // Standardwert
+      if (this.isUrgentClicked) {
+        prio = 'Urgent';
+      } else if (this.isMediumClicked) {
+        prio = 'Medium';
+      } else if (this.isLowClicked) {
+        prio = 'Low';
+      }
+
+      const dueDate = this.date.value
+        ? this.date.value.toLocaleDateString()
+        : '';
+
+      // Erstellen des newTask-Objekts gemäß dem Itasks-Interface
+      const newTask: Itasks = {
+        title: formValues.title,
+        description: formValues.description,
+        category: formValues.category as 'Technical Task' | 'User Story', // Typumwandlung
+        dueDate: dueDate,
+        prio: prio,
+        assigned: selectedContacts,
+        subtask: this.subtasklist,
+        status: 'toDo', // Standardstatus, falls nicht angegeben
+      };
+
+      // Prüfen, ob eine Priorität ausgewählt wurde
+      if (!prio) {
+        console.log('Bitte wählen Sie eine Priorität aus.');
+        return;
+      }
+
+      // Loggen des newTask-Objekts zur Überprüfung
+      console.log('New Task:', newTask);
+      this.tasksService.addTask(newTask);
+
+      this.onClear();
     } else {
-      // console.log('Formular ist ungültig');
+      console.log(
+        'Formular ist nicht gültig. Bitte füllen Sie alle erforderlichen Felder aus.',
+      );
     }
   }
 
   onClear() {
+    // Formular zurücksetzen
+    const today = new Date().toISOString().split('T')[0];
+
     this.taskForm.reset({
       title: '',
       description: '',
       assignedTo: [],
-      dueDate: '',
+      dueDate: today, // Datum-Feld wird geleert
       category: '',
     });
+
+    // Alle ausgewählten Kontakte deaktivieren
+    this.contacts.contactlist.forEach((contact) => {
+      contact.checked = false;
+    });
+
+    // Kontaktliste aktualisieren
+    this.filteredContacts = [...this.contacts.contactlist];
+
+    // Weitere Variablen zurücksetzen
     this.selectedContactIds = [];
     this.isDropdownOpen = false;
     this.searchQuery = '';
+    this.subtasklist = []; // Subtasks zurücksetzen
+    this.inputSubtask = ''; // Subtask-Eingabefeld leeren
+
+    // Prioritäts-Buttons zurücksetzen
+    this.isUrgentClicked = false;
+    this.isMediumClicked = false;
+    this.isLowClicked = false;
   }
 }

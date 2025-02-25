@@ -28,7 +28,7 @@
 
             <!-- Dropdown für Kontakte -->
             <div class="label-input-container">
-              <label for="assignedTo">Assigned To<span>*</span></label>
+              <label for="assignedTo">Assigned To</label>
               <div class="dropdown">
                 <div id="input-arrow-container">
                   <input
@@ -106,13 +106,22 @@
         <div id="right-field">
           <div class="label-input-container">
             <label for="date">Due date<span>*</span></label>
-            <input type="date" name="date" id="date" placeholder="" required />
+            <input
+              type="date"
+              name="date"
+              id="date"
+              placeholder=""
+              formControlName="dueDate"
+              (change)="onDateChange($event)"
+              required
+            />
           </div>
 
           <div class="label-input-container">
             <label for="prio">Prio</label>
             <div id="prio-btn">
               <button
+                type="button"
                 (click)="toggleUrgent()"
                 [ngStyle]="{
                   'background-color': isUrgentClicked ? '#FF3D00' : 'white',
@@ -132,6 +141,7 @@
 
               <button
                 (click)="toggleMedium()"
+                type="button"
                 [ngStyle]="{
                   'background-color': isMediumClicked ? '#FFA800' : 'white',
                   color: isMediumClicked ? 'white' : 'black',
@@ -150,6 +160,7 @@
 
               <button
                 (click)="toggleLow()"
+                type="button"
                 [ngStyle]="{
                   'background-color': isLowClicked ? '#7AE229' : 'white',
                   color: isLowClicked ? 'white' : 'black',
@@ -206,7 +217,9 @@
                     <p>{{ $index + 1 }}:</p>
                     <p>{{ subtask }}</p>
                   </div>
-                  <button (click)="deleteFromSubtasklist($index)">-</button>
+                  <button (click)="deleteFromSubtasklist($index)" type="button">
+                    -
+                  </button>
                 </div>
               }
             </div>
@@ -218,9 +231,7 @@
         <p><span>*</span>This field is required</p>
         <div id="btn-container">
           <button type="button" (click)="onClear()">Clear &#10007;</button>
-          <button type="submit" [disabled]="taskForm.invalid">
-            Add &#10004;
-          </button>
+          <button type="submit">Add &#10004;</button>
         </div>
       </div>
     </form>
