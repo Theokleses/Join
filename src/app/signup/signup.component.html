@@ -1,0 +1,73 @@
+<!-- signup.component.html -->
+<main>
+  <header>
+    <div class="header-img">
+      <img src="/assets/img/main-logo.png" alt="Main-logo" />
+    </div>
+  </header>
+
+  <section>
+    <div class="sign-up">
+      <div class="above-input">
+        <div class="back-arrow">
+          <img
+            (click)="navigateToLogin()"
+            src="assets/img/01_login/arrow-left-line.png"
+            alt="Arrow-left"
+          />
+        </div>
+        <div>
+          <h1>Sign up</h1>
+          <img src="/assets/img/blueLine.png" alt="Blue-line" />
+        </div>
+      </div>
+      <div id="inputs">
+        <div id="email-container">
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="Name"
+            required
+          /><img src="/assets/img/06_contacts/mail.png" alt="" />
+        </div>
+        <div id="email-container">
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="Email"
+            required
+          /><img src="/assets/img/06_contacts/mail.png" alt="" />
+        </div>
+        <div id="password-container">
+          <input
+            type="text"
+            name="password"
+            id="password"
+            placeholder="Password"
+            required
+          /><img src="/assets/img/01_login/lock.png" alt="" />
+        </div>
+        <div id="password-container">
+          <input
+            type="text"
+            name="password"
+            id="password"
+            placeholder="Confirm Password"
+            required
+          /><img src="/assets/img/01_login/lock.png" alt="" />
+        </div>
+        <div class="signup-button">
+          <button class="dark-btn">Sign up</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Legal notice</a>
+    </div>
+  </footer>
+</main>
