@@ -73,6 +73,12 @@ export class BoardComponent implements OnInit {
     return 0;
   }
 
+  getInitials(firstname: string, lastname: string): string {
+    const firstInitial = firstname ? firstname.charAt(0).toUpperCase() : '';
+    const lastInitial = lastname ? lastname.charAt(0).toUpperCase() : '';
+    return `${firstInitial}${lastInitial}`;
+  }
+
   getCategoryClass(category: string): string {
     if (category === 'User Story') return 'darkblue';
     if (category === 'Technical Task') return 'blue';
