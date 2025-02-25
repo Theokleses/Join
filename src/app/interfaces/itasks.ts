@@ -9,4 +9,5 @@ export interface Itasks {
   subtask?: string[];
   prio: 'Urgent' | 'Medium' | 'Low';
   assigned?: Icontacts[];
+  dueDate: string;
 }
