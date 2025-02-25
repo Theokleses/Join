@@ -65,18 +65,19 @@ h2 {
 .contact {
   @include dF(space-between, center);
   img {
-    margin-top: 12px;
+    margin-top: 24px;
+    margin-bottom: -24px;
     width: 40px;
     height: 40px;
   }
 }
 
-.prio-img{
-  width: 20px !important;
-  height: 20px !important;
+.prio-img {
+  width: 14px !important;
+  height: 14px !important;
 }
 
-.darkblue{
+.darkblue {
   background-color: rgb(0 56 255);
   border-radius: 20px;
   padding: 6px 4px;
@@ -85,7 +86,7 @@ h2 {
   text-align: center;
 }
 
-.blue{
+.blue {
   background-color: rgb(33 202 181);
   border-radius: 20px;
   padding: 6px 4px;
@@ -94,13 +95,38 @@ h2 {
   text-align: center;
 }
 
-
-.task-title{
+.task-title {
   font-weight: 700;
   margin-bottom: 12px;
   margin-top: 12px;
 }
 
-.drop-area{
+.drop-area {
   height: 100vh;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.progress-bar-container {
+  width: 100px;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: #666;
 }

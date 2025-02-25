@@ -73,9 +73,9 @@ export class TasksService implements OnDestroy {
       description: data.description || '',
       status: data.status || 'todo',
       category: data.category,
-      subtask:data.subtask,
+      subtask: data.subtask,
       assigned: data.assigned,
-      prio: data.prio
+      prio: data.prio,
     };
   }
 

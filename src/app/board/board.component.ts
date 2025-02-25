@@ -63,6 +63,16 @@ export class BoardComponent implements OnInit {
     }
   }
 
+  getSubtaskProgress(subtask: string[] | undefined): number {
+    if (!subtask || subtask.length === 0) return 0;
+    return 0;
+  }
+
+  getSubtaskCount(subtask: string[] | undefined): number {
+    if (!subtask || subtask.length === 0) return 0;
+    return 0;
+  }
+
   getCategoryClass(category: string): string {
     if (category === 'User Story') return 'darkblue';
     if (category === 'Technical Task') return 'blue';
@@ -77,5 +87,7 @@ export class BoardComponent implements OnInit {
     );
     this.tasks.done$.subscribe((tasks) => (this.done = tasks));
     this.getCategoryClass;
+    this.getSubtaskProgress;
+    this.getSubtaskCount;
   }
 }
