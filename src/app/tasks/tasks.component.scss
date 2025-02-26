@@ -28,15 +28,24 @@ span {
 
 main {
   font-family: "inter";
-  background-color: $grey;
   height: 100vh;
   font-size: 16px;
   width: 100%;
   max-width: calc(1920px - $width);
+  overflow-x: hidden;
+  #grey-bg {
+    height: 90vh;
+    width: 100%;
+    background-color: $grey;
+    z-index: -9999;
+    position: absolute;
+    overflow-x: hidden;
+  }
   #padding {
     box-sizing: border-box;
     width: 100%;
     padding: 4em;
+    z-index: 1;
 
     #newTaskAdded-container {
       position: absolute;
@@ -384,6 +393,77 @@ main {
         &:last-child {
           background-color: $darkblue;
           color: white;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  /* Scrollbar für Webkit-Browser ausblenden */
+  ::-webkit-scrollbar {
+    width: 0; /* Breite der Scrollbar auf 0 setzen */
+    height: 0; /* Höhe der Scrollbar auf 0 setzen */
+    background: transparent; /* Hintergrund transparent machen */
+  }
+
+  /* Optional: Scrollbar-Track (Hintergrund) ausblenden */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Optional: Scrollbar-Thumb (der bewegliche Teil) ausblenden */
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+  main {
+    overflow-y: auto !important; /* Seite scrollbar machen */
+    height: calc(
+      100vh - 150px
+    ) !important; /* Mindesthöhe auf 100% der Viewport-Höhe setzen */
+
+    #padding {
+      padding: 1em !important;
+      h2 {
+        font-size: 2em !important;
+        margin: 0 !important;
+      }
+      #all-fields {
+        display: flex;
+        flex-direction: column;
+
+        #left-field {
+          width: 100% !important;
+        }
+        #right-field {
+          width: 100% !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  main {
+    font-size: 13px;
+  }
+  #subtasks {
+    max-height: 120px !important;
+  }
+}
+
+@media (max-height: 700px) {
+  main {
+    #padding {
+      padding: 1em !important;
+      h2 {
+        font-size: 2em !important;
+        margin: 0 !important;
+      }
+      #all-fields {
+        #left-field {
+        }
+        #right-field {
         }
       }
     }
