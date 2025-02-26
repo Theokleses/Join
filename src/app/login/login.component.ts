@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 
@@ -11,6 +11,18 @@ import { AppComponent } from '../app.component';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  constructor(private router: Router, private appComponent: AppComponent) {}
+
+  navigateToSummary() {
+    this.appComponent.isLoggedIn = true; // Setze den Anmeldestatus auf true
+    this.router.navigate(['/summary']); // Navigiere zur SummaryComponent
+  }
+
+  navigateToSignup() {
+    this.router.navigate(['/signup']);
+  }
+}
+
 // constructor(private router: Router) {}
 
 // navigateToSummary() {
@@ -21,15 +33,3 @@ export class LoginComponent {
 //   this.router.navigate(['/signup']);
 // }
 // }
-
-  constructor(private router: Router, private appComponent: AppComponent) {}
-
-  navigateToSummary() {
-    this.appComponent.isLoggedIn = true; // Setze den Anmeldestatus auf true
-    this.router.navigate(['/summary']); // Navigiere zur SummaryComponent
-  }
-  navigateToSignup() {
-    this.router.navigate(['/signup']);
-  }
-}
-

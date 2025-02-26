@@ -8,7 +8,7 @@ main {
 
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 50px 120px 20px 60px;
 }
 
@@ -29,9 +29,22 @@ a {
 }
 
 .header-img {
+  position: absolute;
+  z-index: 9999;
   > img {
     height: 100px;
   }
+  &.animate-logo {
+    animation: logoMove 1.3s ease-in-out forwards;
+  }
+}
+
+.content-wrapper {
+  animation: fadeIn 1.35s ease-in-out forwards;
+  opacity: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .dark-btn {
@@ -79,6 +92,8 @@ a {
   display: flex;
   align-items: center;
   gap: 30px;
+  animation: fadeIn 1.35s ease-in-out forwards;
+  opacity: 0;
 }
 
 .log-in {
@@ -129,5 +144,41 @@ a {
   > a:hover {
     font-weight: bold;
     color: $lightblue;
+  }
+}
+
+@keyframes logoMove {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2); 
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2); 
+    opacity: 1;
+  }
+  100% {
+    top: 50px; 
+    left: 100px;
+    transform: scale(1); 
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
