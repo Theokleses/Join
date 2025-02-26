@@ -1,5 +1,11 @@
 <main>
   <div id="padding">
+    @if (newTaskAdded) {
+      <div id="newTaskAdded-container" [ngClass]="{ fadeOut: isFadingOut }">
+        <p>Your Task successfully added</p>
+      </div>
+    }
+
     <h2>Add Task</h2>
 
     <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
@@ -14,6 +20,17 @@
               placeholder="Enter a title"
               formControlName="title"
             />
+            <span
+              [ngClass]="{
+                dnone:
+                  !taskForm.get('title')?.invalid ||
+                  taskForm.get('title')?.pristine,
+                dblock:
+                  taskForm.get('title')?.invalid &&
+                  taskForm.get('title')?.touched,
+              }"
+              >This field is required</span
+            >
           </div>
 
           <!-- Beschreibung -->
@@ -115,6 +132,17 @@
               (change)="onDateChange($event)"
               required
             />
+            <span
+              [ngClass]="{
+                dnone:
+                  !taskForm.get('dueDate')?.invalid ||
+                  taskForm.get('dueDate')?.pristine,
+                dblock:
+                  taskForm.get('dueDate')?.invalid &&
+                  taskForm.get('dueDate')?.touched,
+              }"
+              >This field is required</span
+            >
           </div>
 
           <div class="label-input-container">
@@ -191,6 +219,17 @@
               <option value="Technical Task">Technical Task</option>
               <option value="User Story">User Story</option>
             </select>
+            <span
+              [ngClass]="{
+                dnone:
+                  !taskForm.get('category')?.invalid ||
+                  taskForm.get('category')?.pristine,
+                dblock:
+                  taskForm.get('category')?.invalid &&
+                  taskForm.get('category')?.touched,
+              }"
+              >This field is required</span
+            >
           </div>
 
           <div id="label-subtask-container">

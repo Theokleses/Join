@@ -43,6 +43,9 @@ export class TasksComponent {
   inputValue: string = '';
   subtasklist: string[] = [];
   inputSubtask: string = '';
+  requiredInfo: boolean = false;
+  newTaskAdded: boolean = false;
+  isFadingOut: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -61,7 +64,6 @@ export class TasksComponent {
 
   ngOnInit(): void {
     const today = new Date().toISOString().split('T')[0];
-
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
@@ -82,7 +84,6 @@ export class TasksComponent {
   }
 
   checkContact(contactId: string, event: MouseEvent) {
-    console.log(contactId);
     const contact = this.contacts.contactlist.find((c) => c.id === contactId);
 
     if (contact) {
@@ -165,11 +166,11 @@ export class TasksComponent {
   }
 
   onSubmit() {
+    this.taskForm.markAllAsTouched();
+
     if (this.taskForm.valid) {
-      // Extrahieren der Werte aus dem Formular
       const formValues = this.taskForm.value;
 
-      // Extrahieren der ausgewählten Kontakte
       const selectedContacts: Icontacts[] = this.contacts.contactlist.filter(
         (contact) => contact.checked,
       );
@@ -192,29 +193,27 @@ export class TasksComponent {
       const newTask: Itasks = {
         title: formValues.title,
         description: formValues.description,
-        category: formValues.category as 'Technical Task' | 'User Story', // Typumwandlung
+        category: formValues.category as 'Technical Task' | 'User Story',
         dueDate: dueDate,
         prio: prio,
         assigned: selectedContacts,
         subtask: this.subtasklist,
-        status: 'todo', // Standardstatus, falls nicht angegeben
+        status: 'todo',
       };
 
-      // Prüfen, ob eine Priorität ausgewählt wurde
-      if (!prio) {
-        console.log('Bitte wählen Sie eine Priorität aus.');
-        return;
-      }
-
-      // Loggen des newTask-Objekts zur Überprüfung
-      console.log('New Task:', newTask);
       this.tasksService.addTask(newTask);
-
       this.onClear();
+      this.newTaskAdded = true;
+      setTimeout(() => {
+        this.isFadingOut = true;
+      }, 1500);
+
+      setTimeout(() => {
+        this.newTaskAdded = false;
+        this.isFadingOut = false;
+      }, 2000);
     } else {
-      console.log(
-        'Formular ist nicht gültig. Bitte füllen Sie alle erforderlichen Felder aus.',
-      );
+      this.requiredInfo = !this.requiredInfo;
     }
   }
 
@@ -247,7 +246,8 @@ export class TasksComponent {
 
     // Prioritäts-Buttons zurücksetzen
     this.isUrgentClicked = false;
-    this.isMediumClicked = false;
+    this.isMediumClicked = true;
     this.isLowClicked = false;
+    this.requiredInfo = false;
   }
 }

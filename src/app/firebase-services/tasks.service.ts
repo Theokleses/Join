@@ -30,10 +30,10 @@ export class TasksService implements OnDestroy {
     this.unsubscribe = onSnapshot(
       collection(this.firestore, 'tasks'),
       (tasks: QuerySnapshot<DocumentData>) => {
-        console.log(
-          'Neue Tasks von Firestore:',
-          tasks.docs.map((doc) => doc.data()),
-        );
+        // console.log(
+        //   'Neue Tasks von Firestore:',
+        //   tasks.docs.map((doc) => doc.data()),
+        // );
         const taskList: Itasks[] = [];
         const todo: Itasks[] = [];
         const inProgress: Itasks[] = [];
