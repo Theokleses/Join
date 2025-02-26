@@ -47,6 +47,7 @@ export class TasksComponent {
   newTaskAdded: boolean = false;
   isFadingOut: boolean = false;
 
+  
   constructor(
     private fb: FormBuilder,
     private tasksService: TasksService,

@@ -30,10 +30,6 @@ export class TasksService implements OnDestroy {
     this.unsubscribe = onSnapshot(
       collection(this.firestore, 'tasks'),
       (tasks: QuerySnapshot<DocumentData>) => {
-        // console.log(
-        //   'Neue Tasks von Firestore:',
-        //   tasks.docs.map((doc) => doc.data()),
-        // );
         const taskList: Itasks[] = [];
         const todo: Itasks[] = [];
         const inProgress: Itasks[] = [];
@@ -50,7 +46,7 @@ export class TasksService implements OnDestroy {
             todo,
             inProgress,
             awaitFeedback,
-            done,
+            done
           );
           index++;
         });
@@ -63,7 +59,7 @@ export class TasksService implements OnDestroy {
       },
       (error) => {
         console.error('Fehler beim Abrufen der Tasks:', error);
-      },
+      }
     );
   }
 
@@ -86,7 +82,7 @@ export class TasksService implements OnDestroy {
     todo: Itasks[],
     inProgress: Itasks[],
     awaitFeedback: Itasks[],
-    done: Itasks[],
+    done: Itasks[]
   ) {
     if (task.status === 'todo') {
       todo.push(task);
@@ -122,10 +118,21 @@ export class TasksService implements OnDestroy {
     try {
       await updateDoc(taskDocRef, { status: newStatus });
       console.log(
-        `Task ${taskId} erfolgreich auf Status ${newStatus} aktualisiert`,
+        `Task ${taskId} erfolgreich auf Status ${newStatus} aktualisiert`
       );
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Task-Status:', error);
+    }
+  }
+
+  async updateTask(taskId: string, task: Itasks) {
+    const taskDocRef = doc(this.firestore, `tasks/${taskId}`);
+    try {
+      const { id, ...updateData } = task;
+      await updateDoc(taskDocRef, updateData);
+      console.log(`Task ${taskId} erfolgreich aktualisiert`);
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Tasks:', error);
     }
   }
 
