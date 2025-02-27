@@ -12,9 +12,11 @@
   <div class="content-wrapper">
     <section>
       <div class="log-in">
-        <h1>Log in</h1>
-        <div>
-          <img src="/assets/img/blueLine.png" alt="Blue-line" />
+        <div class="above-input">
+          <h1>Log in</h1>
+          <div>
+            <img src="/assets/img/blueLine.png" alt="Blue-line" />
+          </div>
         </div>
         <div id="inputs">
           <div id="email-container">
@@ -35,15 +37,16 @@
               required
             /><img src="/assets/img/01_login/lock.png" alt="" />
           </div>
-          <div class="login-button">
-            <button class="dark-btn">Log in</button>
-            <button class="bright-btn" (click)="navigateToSummary()">
-              Guest Log in
-            </button>
-          </div>
+        </div>
+        <div class="login-button">
+          <button class="dark-btn">Log in</button>
+          <button class="bright-btn" (click)="navigateToSummary()">
+            Guest Log in
+          </button>
         </div>
       </div>
     </section>
+
     <footer>
       <div class="footer-links">
         <a href="#">Privacy Policy</a>

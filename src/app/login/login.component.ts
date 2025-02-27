@@ -14,8 +14,8 @@ export class LoginComponent {
   constructor(private router: Router, private appComponent: AppComponent) {}
 
   navigateToSummary() {
-    this.appComponent.isLoggedIn = true; // Setze den Anmeldestatus auf true
-    this.router.navigate(['/summary']); // Navigiere zur SummaryComponent
+    this.appComponent.isLoggedIn = true;
+    this.router.navigate(['/summary']); 
   }
 
   navigateToSignup() {
