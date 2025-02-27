@@ -89,7 +89,7 @@ export class ContacteditComponent {
         const contactRef = doc(
           this.firestore,
           'contacts',
-          this.selectedContact.id,
+          this.selectedContact.id
         );
         await updateDoc(contactRef, {
           email: this.email,

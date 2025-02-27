@@ -12,12 +12,11 @@
   width: 100%;
   max-height: 80vh;
   height: 70vh;
-  overflow-y: auto;
 }
 
 .task-detail {
   width: 100%;
-  @include dF(center, center);
+  @include dF(center, flex-start);
   flex-direction: column;
 }
 
@@ -30,7 +29,6 @@
   line-height: 30px;
   margin-right: 12px;
   color: white;
-  font-weight: bold;
 }
 ul {
   list-style: none;
@@ -68,4 +66,35 @@ li {
   font-weight: 700;
   margin-bottom: 12px;
   margin-top: 12px;
+}
+
+.button-section {
+  display: flex;
+  align-self: flex-end;
+
+  img {
+    width: 16px;
+    margin-right: 8px;
+  }
+}
+
+.del {
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.edit {
+  display: flex;
+  align-items: center;
+  margin-left: 12px;
+}
+
+.top{
+    @include dF(space-between,center);
+    justify-content: space-between !important;
+}
+
+.close-btn{
+    justify-content: flex-end;
 }

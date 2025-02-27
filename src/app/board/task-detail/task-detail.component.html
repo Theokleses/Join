@@ -2,16 +2,21 @@
   <div class="overlay">
     <div class="overlay-content">
       <div class="task-detail">
-        <div class="category">
-          @if (task?.category == 'User Story') {
-          <p class="darkblue">{{ task?.category }}</p>
-          } @else {
-          <p class="blue">{{ task?.category }}</p>
-          }
+
+        <div class="top">
+
+            <div class="category">
+              @if (task?.category == 'User Story') {
+              <p class="darkblue">{{ task?.category }}</p>
+              } @else {
+              <p class="blue">{{ task?.category }}</p>
+              }
+            </div>
+            <a (click)="tasks.toggleDialogAdd()" class="close-btn">X</a>
         </div>
         <h2>{{ task?.title }}</h2>
         <p>{{ task?.description }}</p>
-        <p>{{task?.dueDate}}</p>
+        <p>Due Date: {{task?.dueDate}}</p>
         <div class="assigned">
           <h3>Assigned to:</h3>
           <ul>
@@ -48,6 +53,7 @@
           <div class="slash">|</div>
           <div class="edit">
             <img src="../../../assets/img/06_contacts/edit.png" alt="edit-button">
+            <p>Edit</p>
           </div>
         </div>
       </div>
