@@ -42,7 +42,8 @@ export class BoardComponent implements OnInit {
 
   selectTask(task: Itasks) {
     this.selectedTask = task;
-    this.isAdding = true; // oder this.isEditing = true; je nachdem, was du möchtest
+    this.isAdding = true;
+    console.log('Selected Task:', this.selectedTask); // Debugging
   }
 
   stopPropagation(event: Event) {

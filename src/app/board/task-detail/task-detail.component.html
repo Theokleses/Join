@@ -1,1 +1,56 @@
-<p>task detail works!</p>
+<main>
+  <div class="overlay">
+    <div class="overlay-content">
+      <div class="task-detail">
+        <div class="category">
+          @if (task?.category == 'User Story') {
+          <p class="darkblue">{{ task?.category }}</p>
+          } @else {
+          <p class="blue">{{ task?.category }}</p>
+          }
+        </div>
+        <h2>{{ task?.title }}</h2>
+        <p>{{ task?.description }}</p>
+        <p>{{task?.dueDate}}</p>
+        <div class="assigned">
+          <h3>Assigned to:</h3>
+          <ul>
+            @for (contact of task?.assigned; track contact.id) {
+            <li>
+              <div
+                class="initial-circle"
+                [style.background-color]="contact.initialBg"
+                title="{{ contact.firstname }} {{ contact.lastname }}"
+              >
+                {{ getInitials(contact.firstname, contact.lastname) }}
+              </div>
+              {{ contact.firstname }} {{ contact.lastname }}
+            </li>
+            }
+          </ul>
+        </div>
+        <div class="subtasks">
+          <h3>Subtasks</h3>
+          <ul>
+            @for (subtask of task?.subtask; track $index) {
+            <li>{{ subtask }}</li>
+            }
+          </ul>
+        </div>
+        <div class="button-section">
+          <div class="del">
+            <img
+              src="../../../assets/img/06_contacts/delete.png"
+              alt="delete-button"
+            />
+            <p>Delete</p>
+          </div>
+          <div class="slash">|</div>
+          <div class="edit">
+            <img src="../../../assets/img/06_contacts/edit.png" alt="edit-button">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

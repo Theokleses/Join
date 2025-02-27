@@ -19,4 +19,10 @@ export class TaskDetailComponent {
   selectedTask: any = null;
   isEditing: boolean = false;
   isAdding: boolean = false;
+
+  getInitials(firstname: string, lastname: string): string {
+    const firstInitial = firstname ? firstname.charAt(0).toUpperCase() : '';
+    const lastInitial = lastname ? lastname.charAt(0).toUpperCase() : '';
+    return `${firstInitial}${lastInitial}`;
+  }
 }
