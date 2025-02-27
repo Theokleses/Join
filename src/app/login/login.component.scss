@@ -183,7 +183,8 @@ a {
   }
   100% {
     top: 50px;
-    left: 100px;
+    // left: 100px;
+    left: var(--logo-position, 100px);
     transform: scale(1);
     opacity: 1;
   }
@@ -204,12 +205,12 @@ a {
 @media (max-width: 750px) {
   .log-in {
     width: 550px;
-    height: 400px;
+    height: 500px;
   }
   .sign-up {
     position: absolute;
     justify-content: center;
-    bottom: 95px;
+    bottom: 165px;
     left: 0;
     width: 100%;
     z-index: 2;
@@ -217,6 +218,12 @@ a {
 }
 
 @media (max-width: 550px) {
+  .logo {
+    --logo-position: 50px; 
+  }
+  .sign-up {
+    bottom: 190px;
+  }
   .log-in {
     width: 320px;
   }
