@@ -9,12 +9,19 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { FormsModule } from '@angular/forms'; // Für ngModel
+import { FormsModule } from '@angular/forms';
+import { TaskDetailComponent } from './task-detail/task-detail.component'; // Für ngModel
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule, CdkDropList, CdkDrag, FormsModule],
+  imports: [
+    CommonModule,
+    CdkDropList,
+    CdkDrag,
+    FormsModule,
+    TaskDetailComponent,
+  ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
 })
@@ -29,25 +36,36 @@ export class BoardComponent implements OnInit {
   awaitFeedback: Itasks[] = [];
   done: Itasks[] = [];
 
-  isOverlayOpen: boolean = false;
-  selectedTask: Itasks | null = null;
+  selectedTask: any = null;
+  isEditing: boolean = false;
+  isAdding: boolean = false;
 
-  openTaskOverlay(task: Itasks) {
+  selectTask(task: Itasks) {
     this.selectedTask = task;
-    this.isOverlayOpen = true;
-  }
-
-  closeOverlay(event?: Event) {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    this.isOverlayOpen = false;
-    this.selectedTask = null;
+    this.isAdding = true; // oder this.isEditing = true; je nachdem, was du möchtest
   }
 
   stopPropagation(event: Event) {
     event.stopPropagation();
+  }
+
+  handleDialogToggle() {
+    if (this.isEditing) {
+      this.toggleDialogEdit();
+    } else if (this.isAdding) {
+      this.toggleDialogAdd(this.selectedTask);
+    }
+  }
+
+  toggleDialogEdit() {
+    this.isEditing = !this.isEditing;
+    console.log('clickeddddddd');
+  }
+
+  toggleDialogAdd(task: Itasks) {
+    this.isAdding = !this.isAdding;
+    console.log('clickeddddddd adddddd');
+    this.selectedTask = task;
   }
 
   drop(event: CdkDragDrop<Itasks[]>) {

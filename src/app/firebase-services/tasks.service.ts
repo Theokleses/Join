@@ -26,6 +26,9 @@ export class TasksService implements OnDestroy {
   done$ = new BehaviorSubject<Itasks[]>([]);
   taskList$ = new BehaviorSubject<Itasks[]>([]);
 
+  isEditing: boolean = false;
+  isAdding: boolean = false;
+
   constructor() {
     this.unsubscribe = onSnapshot(
       collection(this.firestore, 'tasks'),
@@ -75,6 +78,15 @@ export class TasksService implements OnDestroy {
       assigned: data.assigned,
       prio: data.prio,
     };
+  }
+
+
+  toggleDialogEdit() {
+    this.isEditing = !this.isEditing;
+  }
+
+  toggleDialogAdd() {
+    this.isAdding = !this.isAdding;
   }
 
   categorizeTask(

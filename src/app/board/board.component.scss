@@ -222,7 +222,7 @@ h2 {
   }
 }
 
-@media(max-width: 1300px ){
+@media (max-width: 1300px) {
   .taskboard {
     gap: 16px;
   }
@@ -239,7 +239,7 @@ h2 {
   }
 }
 
-@media(max-width: 1200px ){
+@media (max-width: 1200px) {
   .taskboard {
     flex-direction: column;
   }
@@ -254,7 +254,7 @@ h2 {
   }
 }
 
-@media(max-width: 800px ){
+@media (max-width: 800px) {
   .list-item {
     width: 40%;
   }
@@ -265,13 +265,13 @@ h2 {
   }
 }
 
-@media(max-width: 600px ){
+@media (max-width: 600px) {
   .list-item {
     width: 50%;
   }
 }
 
-@media(max-width: 500px ){
+@media (max-width: 500px) {
   .list-item {
     width: 60%;
   }

@@ -1,3 +1,11 @@
+<div
+  id="bg-layout"
+  (click)="handleDialogToggle()"
+  [ngStyle]="{
+    display: selectedTask ? 'block' : 'none',
+  }"
+></div>
+
 <main>
   <div class="header">
     <div class="headline">
@@ -31,7 +39,7 @@
           (cdkDropListDropped)="drop($event)"
         >
           @for (task of todo; track task.id) {
-          <div class="task" cdkDrag>
+          <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
               @if (task.category == 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
@@ -115,7 +123,7 @@
           (cdkDropListDropped)="drop($event)"
         >
           @for (task of inProgress; track task.id) {
-          <div class="task" cdkDrag>
+          <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
               @if (task.category == 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
@@ -199,7 +207,7 @@
           (cdkDropListDropped)="drop($event)"
         >
           @for (task of awaitFeedback; track task.id) {
-          <div class="task" cdkDrag>
+          <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
               @if (task.category == 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
@@ -283,7 +291,7 @@
           (cdkDropListDropped)="drop($event)"
         >
           @for (task of done; track task.id) {
-          <div class="task" cdkDrag>
+          <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
               @if (task.category == 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
@@ -349,4 +357,15 @@
       </div>
     </div>
   </div>
+  <div
+  class="overlay"
+  [ngStyle]="{ display: selectedTask ? 'flex' : 'none' }"
+  (click)="handleDialogToggle()"
+>
+  <div class="overlay-content" (click)="stopPropagation($event)">
+    @if (selectedTask) {
+      <app-task-detail [task]="selectedTask"></app-task-detail>
+    }
+  </div>
+</div>
 </main>
