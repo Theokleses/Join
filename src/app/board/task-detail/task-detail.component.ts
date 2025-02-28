@@ -20,9 +20,7 @@ export class TaskDetailComponent {
   updateSuccess: boolean = false;
   showAnimation: boolean = false;
   selectedTask: any = null;
-  isEditing: boolean = false;
-  isAdding: boolean = false;
-  showEditDelete: boolean = false;
+  isShowing: boolean = false;
   idToDelete: string = '';
 
   getInitials(firstname: string, lastname: string): string {
@@ -35,16 +33,39 @@ export class TaskDetailComponent {
     this.showAnimation = true;
   }
 
+  deleteError: string | null = null;
+
   async deleteTask() {
+    if (!this.idToDelete) {
+      this.deleteError = 'Keine Task-ID zum Löschen gefunden.';
+      return;
+    }
+
     try {
       await deleteDoc(doc(this.firestore, 'tasks', this.idToDelete));
-      this.selectedTask = null;
+      console.log('Task erfolgreich gelöscht:', this.idToDelete);
+      this.task = null; // Setze task zurück
+      this.deleteError = null; // Fehlermeldung zurücksetzen
     } catch (error) {
+      this.deleteError =
+        'Fehler beim Löschen des Tasks. Bitte versuche es erneut.';
       console.error('Fehler beim Löschen des Dokuments: ', error);
     }
   }
 
-  toggleEditDelete() {
-    this.showEditDelete = !this.showEditDelete;
+  stopPropagation(event: Event) {
+    event.stopPropagation();
+  }
+
+  handleDialogToggle() {
+    if (this.isShowing) {
+      this.toggleDialogAdd(this.selectedTask);
+    }
+  }
+
+  toggleDialogAdd(task: Itasks) {
+    this.isShowing = !this.isShowing;
+    console.log('clickeddddddd adddddd');
+    this.selectedTask = task;
   }
 }

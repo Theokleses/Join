@@ -1,23 +1,40 @@
 @use "../../../styles.scss" as *;
 
 .overlay {
-  border-radius: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .overlay-content {
   background: white;
   padding: 20px;
   border-radius: 8px;
-  width: 100%;
+  width: auto; // Reset to auto
+  max-width: 400px; // Set a maximum width to make it thinner
   max-height: 80vh;
   height: 70vh;
+  margin: 0 auto; // Center it horizontally
+}
+
+h2{
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .task-detail {
   width: 100%;
   @include dF(center, flex-start);
   flex-direction: column;
+  font-size: 14px !important;
+  font-weight: 400;
 }
 
 .initial-circle {
@@ -82,19 +99,47 @@ li {
   display: flex;
   align-items: center;
   margin-right: 12px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  > a {
+    color: rgba(42, 54, 71, 1);
+  }
+
+  &:hover {
+    color: rgb(42, 170, 226);
+    font-weight: bold;
+  }
+  a:hover img {
+    filter: brightness(0) saturate(100%) invert(58%) sepia(37%) saturate(857%)
+      hue-rotate(159deg) brightness(92%) contrast(91%);
+  }
 }
 
 .edit {
   display: flex;
   align-items: center;
   margin-left: 12px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  > a {
+    color: rgba(42, 54, 71, 1);
+  }
+  &:hover {
+    color: rgb(42, 170, 226);
+    font-weight: bold;
+  }
+  a:hover img {
+    filter: brightness(0) saturate(100%) invert(58%) sepia(37%) saturate(857%)
+      hue-rotate(159deg) brightness(92%) contrast(91%);
+  }
 }
 
-.top{
-    @include dF(space-between,center);
-    justify-content: space-between !important;
+.top {
+  @include dF(space-between, center);
+  justify-content: space-between !important;
 }
 
-.close-btn{
-    justify-content: flex-end;
+.close-btn {
+  margin-left: 300px;
+  cursor: pointer;
 }

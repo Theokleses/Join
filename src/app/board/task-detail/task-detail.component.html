@@ -2,21 +2,19 @@
   <div class="overlay">
     <div class="overlay-content">
       <div class="task-detail">
-
         <div class="top">
-
-            <div class="category">
-              @if (task?.category == 'User Story') {
-              <p class="darkblue">{{ task?.category }}</p>
-              } @else {
-              <p class="blue">{{ task?.category }}</p>
-              }
-            </div>
-            <a (click)="tasks.toggleDialogAdd()" class="close-btn">X</a>
+          <div class="category">
+            @if (task?.category == 'User Story') {
+            <p class="darkblue">{{ task?.category }}</p>
+            } @else {
+            <p class="blue">{{ task?.category }}</p>
+            }
+          </div>
+          <a (click)="handleDialogToggle()" class="close-btn">X</a>
         </div>
         <h2>{{ task?.title }}</h2>
         <p>{{ task?.description }}</p>
-        <p>Due Date: {{task?.dueDate}}</p>
+        <p>Due Date: {{ task?.dueDate }}</p>
         <div class="assigned">
           <h3>Assigned to:</h3>
           <ul>
@@ -43,7 +41,7 @@
           </ul>
         </div>
         <div class="button-section">
-          <div class="del">
+          <div class="del" (click)="deleteTask()">
             <img
               src="../../../assets/img/06_contacts/delete.png"
               alt="delete-button"
@@ -52,7 +50,10 @@
           </div>
           <div class="slash">|</div>
           <div class="edit">
-            <img src="../../../assets/img/06_contacts/edit.png" alt="edit-button">
+            <img
+              src="../../../assets/img/06_contacts/edit.png"
+              alt="edit-button"
+            />
             <p>Edit</p>
           </div>
         </div>

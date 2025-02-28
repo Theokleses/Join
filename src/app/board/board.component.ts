@@ -10,7 +10,8 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
-import { TaskDetailComponent } from './task-detail/task-detail.component'; // Für ngModel
+import { TaskDetailComponent } from './task-detail/task-detail.component';
+import { Firestore, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-board',
@@ -27,6 +28,7 @@ import { TaskDetailComponent } from './task-detail/task-detail.component'; // F�
 })
 export class BoardComponent implements OnInit {
   public tasks = inject(TasksService);
+  public firestore: Firestore = inject(Firestore);
   constructor() {
     this.tasks;
   }
@@ -39,6 +41,7 @@ export class BoardComponent implements OnInit {
   selectedTask: any = null;
   isEditing: boolean = false;
   isAdding: boolean = false;
+  idToDelete: string = '';
 
   selectTask(task: Itasks) {
     this.selectedTask = task;
@@ -51,9 +54,7 @@ export class BoardComponent implements OnInit {
   }
 
   handleDialogToggle() {
-    if (this.isEditing) {
-      this.toggleDialogEdit();
-    } else if (this.isAdding) {
+  if (this.isAdding) {
       this.toggleDialogAdd(this.selectedTask);
     }
   }
@@ -131,6 +132,25 @@ export class BoardComponent implements OnInit {
       console.log('Task geändert und gespeichert:', this.selectedTask);
     }
   }
+
+  clearSelectedTask() {
+    this.selectedTask = null;
+  }
+
+  // async deleteTask() {
+  //   if (!this.idToDelete) {
+  //     console.error('Keine Task-ID zum Löschen gefunden.');
+  //     return;
+  //   }
+  
+  //   try {
+  //     await deleteDoc(doc(this.firestore, 'tasks', this.idToDelete));
+  //     console.log('Task erfolgreich gelöscht:', this.idToDelete);
+  //     this.clearSelectedTask(); // Setze selectedTask zurück
+  //   } catch (error) {
+  //     console.error('Fehler beim Löschen des Dokuments: ', error);
+  //   }
+  // }
 
   ngOnInit() {
     this.tasks.todo$.subscribe((tasks) => (this.todo = tasks));
