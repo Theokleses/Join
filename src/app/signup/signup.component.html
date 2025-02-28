@@ -59,13 +59,13 @@
         </div>
         <div class="privacy-class">
           <label class="checkbox-container">
-            <input type="checkbox" id="privacy-checkbox" />
+            <input type="checkbox" id="privacy-checkbox" (change)="onCheckboxChange($event)" />
             <span class="checkmark"></span>
           </label>
           <p>I accept the <a href="#">Privacy policy</a></p>
         </div>
         <div class="signup-button">
-          <button class="dark-btn">Sign up</button>
+          <button class="dark-btn" [disabled]="!isPrivacyAccepted">Sign up</button>
         </div>
       </div>
     </div>
