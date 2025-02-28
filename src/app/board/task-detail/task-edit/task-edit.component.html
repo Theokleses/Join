@@ -1,1 +1,232 @@
-<p>task ediiiiiiit Brudaaaaa</p>
+<div class="overlay">
+    <div class="overlay-content">
+      <div class="edit-detail">
+        <div class="top">
+          <h2>Edit Task</h2>
+          <a (click)="cancelEdit()" class="close-btn">X</a>
+        </div>
+  
+        <form [formGroup]="taskForm" (ngSubmit)="saveEditedTask()">
+          <!-- Title -->
+          <div class="label-input-container">
+            <label for="title">Title<span>*</span></label>
+            <input
+              type="text"
+              id="input-title"
+              placeholder="Enter a title"
+              formControlName="title"
+            />
+            @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
+            <span class="error">This field is required</span>
+            }
+          </div>
+  
+          <!-- Description -->
+          <div class="label-input-container">
+            <label for="description">Description</label>
+            <textarea
+              id="input-description"
+              placeholder="Enter a Description"
+              formControlName="description"
+              maxlength="500"
+            ></textarea>
+          </div>
+  
+          <!-- Due Date -->
+          <div class="label-input-container">
+            <label for="dueDate">Due Date<span>*</span></label>
+            <input
+              type="date"
+              id="dueDate"
+              formControlName="dueDate"
+              (change)="onDateChange($event)"
+            />
+            @if (taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched) {
+            <span class="error">This field is required</span>
+            }
+          </div>
+  
+          <!-- Priority -->
+          <div class="label-input-container">
+            <label for="prio">Prio</label>
+            <div id="prio-btn">
+              <button
+                type="button"
+                (click)="toggleUrgent()"
+                [ngStyle]="{
+                  'background-color': isUrgentClicked ? '#FF3D00' : 'white',
+                  color: isUrgentClicked ? 'white' : 'black'
+                }"
+              >
+                Urgent
+                <img
+                  [src]="
+                    isUrgentClicked
+                      ? '../../assets/img/04_task/high-clicked.png'
+                      : '../../assets/img/04_task/high-unclicked.png'
+                  "
+                  alt="high prio"
+                />
+              </button>
+              <button
+                type="button"
+                (click)="toggleMedium()"
+                [ngStyle]="{
+                  'background-color': isMediumClicked ? '#FFA800' : 'white',
+                  color: isMediumClicked ? 'white' : 'black'
+                }"
+              >
+                Medium
+                <img
+                  [src]="
+                    isMediumClicked
+                      ? '../../assets/img/04_task/medium-clicked.png'
+                      : '../../assets/img/04_task/medium-unclicked.png'
+                  "
+                  alt="medium prio"
+                />
+              </button>
+              <button
+                type="button"
+                (click)="toggleLow()"
+                [ngStyle]="{
+                  'background-color': isLowClicked ? '#7AE229' : 'white',
+                  color: isLowClicked ? 'white' : 'black'
+                }"
+              >
+                Low
+                <img
+                  [src]="
+                    isLowClicked
+                      ? '../../assets/img/04_task/low-clicked.png'
+                      : '../../assets/img/04_task/low-unclicked.png'
+                  "
+                  alt="low prio"
+                />
+              </button>
+            </div>
+          </div>
+  
+          <!-- Category -->
+          <div class="label-input-container">
+            <label for="category">Category<span>*</span></label>
+            <select id="category" formControlName="category">
+              <option value="" disabled>Select task category</option>
+              <option value="Technical Task">Technical Task</option>
+              <option value="User Story">User Story</option>
+            </select>
+            @if (taskForm.get('category')?.invalid && taskForm.get('category')?.touched) {
+            <span class="error">This field is required</span>
+            }
+          </div>
+  
+          <!-- Assigned To -->
+          <div class="label-input-container">
+            <label for="assignedTo">Assigned To</label>
+            <div class="dropdown">
+              <div id="input-arrow-container">
+                <input
+                  type="text"
+                  id="input-search"
+                  #inputSearch
+                  [(ngModel)]="inputValue"
+                  [ngModelOptions]="{ standalone: true }"
+                  [placeholder]="isDropdownOpen ? '' : 'Select Contacts'"
+                  (input)="onInputChange($event)"
+                />
+                <img
+                  src="../../assets/img/04_task/arrow_drop_down_down.png"
+                  alt=""
+                  (click)="toggleDropdown()"
+                />
+              </div>
+              @if (isDropdownOpen) {
+              <div id="contactlist">
+                @for (contact of filteredContacts; track $index) {
+                  @if (contact.id) {
+                  <div class="contact" (click)="checkContact(contact.id, $event)">
+                    <div
+                      id="initials"
+                      [ngStyle]="{ 'background-color': contact.initialBg }"
+                    >
+                      <p>
+                        {{ contact.firstname[0].toUpperCase() }}{{ contact.lastname[0].toUpperCase() }}
+                      </p>
+                    </div>
+                    <div id="contact-name">
+                      {{ contact.firstname }} {{ contact.lastname }}
+                    </div>
+                    <div id="checkbox">
+                      <input
+                        type="checkbox"
+                        [checked]="contact.checked"
+                      />
+                    </div>
+                  </div>
+                  }
+                }
+              </div>
+              }
+              <div id="contact-initials">
+                @for (contact of contacts.contactlist; track $index) {
+                  @if (contact.checked) {
+                  <div
+                    id="initials"
+                    [ngStyle]="{ 'background-color': contact.initialBg }"
+                  >
+                    <p>
+                      {{ contact.firstname[0].toUpperCase() }}{{ contact.lastname[0].toUpperCase() }}
+                    </p>
+                  </div>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+  
+          <!-- Subtasks -->
+          <div class="label-input-container">
+            <label for="subtasks">Subtasks</label>
+            <div id="input-subtask-container">
+              <input
+                type="text"
+                id="input-subtask"
+                placeholder="Add new subtask"
+                [(ngModel)]="inputSubtask"
+                [ngModelOptions]="{ standalone: true }"
+              />
+              <img
+                src="../../assets/img/04_task/plus.png"
+                id="img-subtask"
+                (click)="addToSubtasklist()"
+              />
+            </div>
+            @if (subtasklist.length > 0) {
+            <div id="subtasks">
+              @for (subtask of subtasklist; track $index) {
+              <div id="subtask">
+                <div id="index-subtask">
+                  <p>{{ $index + 1 }}:</p>
+                  <p>{{ subtask }}</p>
+                </div>
+                <button (click)="deleteFromSubtasklist($index)" type="button">
+                  -
+                </button>
+              </div>
+              }
+            </div>
+            }
+          </div>
+  
+          <div class="button-section">
+            <button type="submit" [disabled]="taskForm.invalid">Save</button>
+            <button type="button" (click)="cancelEdit()">Cancel</button>
+          </div>
+        </form>
+  
+        @if (editError) {
+        <p class="error">{{ editError }}</p>
+        }
+      </div>
+    </div>
+  </div>

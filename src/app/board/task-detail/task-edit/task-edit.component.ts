@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Itasks } from '../../../interfaces/itasks';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Import ReactiveFormsModule
 import { inject } from '@angular/core';
 import { TasksService } from '../../../firebase-services/tasks.service';
 import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
@@ -12,7 +12,7 @@ import { ContactsService } from '../../../firebase-services/contacts.service';
 @Component({
   selector: 'app-task-edit',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule,ReactiveFormsModule],
   templateUrl: './task-edit.component.html',
   styleUrl: './task-edit.component.scss',
 })
@@ -121,6 +121,13 @@ this.ngOnInit();
       `${contact.firstname} ${contact.lastname}`.toLowerCase().includes(inputValue)
     );
     this.isDropdownOpen = !!inputValue;
+  }
+
+  onDateChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const selectedDate = inputElement.value; // Holt den Datumsstring (z. B. "2023-12-25")
+    this.taskForm.get('dueDate')?.setValue(selectedDate); // Aktualisiert das FormControl
+    console.log('Date changed to:', selectedDate); // Zum Debugging
   }
 
   checkContact(contactId: string, event: MouseEvent) {

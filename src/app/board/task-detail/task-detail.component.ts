@@ -13,7 +13,7 @@ import { TaskEditComponent } from "./task-edit/task-edit.component";
 })
 export class TaskDetailComponent implements OnChanges {
   @Input() task: Itasks | null = null;
-  @Output() dialogClosed = new EventEmitter<void>(); // Emit event to close dialog
+  @Output() dialogClosed = new EventEmitter<void>();
   public tasks = inject(TasksService);
   public firestore: Firestore = inject(Firestore);
 
@@ -74,7 +74,7 @@ export class TaskDetailComponent implements OnChanges {
     }
   }
 
-  onEditComplete(updatedTask: Itasks | null) { // Methode hinzufügen
+  onEditComplete(updatedTask: Itasks | null) {
     if (updatedTask) {
       this.task = { ...updatedTask }; // Aktualisiere das lokale task-Objekt
       this.isEditing = false; // Zurück zur Anzeigemodus
