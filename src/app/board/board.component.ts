@@ -11,7 +11,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
-import { Firestore, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, doc, deleteDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-board',
@@ -29,39 +29,31 @@ import { Firestore, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 export class BoardComponent implements OnInit {
   public tasks = inject(TasksService);
   public firestore: Firestore = inject(Firestore);
-  constructor() {
-    this.tasks;
-  }
 
   todo: Itasks[] = [];
   inProgress: Itasks[] = [];
   awaitFeedback: Itasks[] = [];
   done: Itasks[] = [];
 
-  selectedTask: any = null;
-  isShowing: boolean = false;
-  idToDelete: string = '';
+  selectedTask: Itasks | null = null;
 
   selectTask(task: Itasks) {
-    this.selectedTask = task;
-    this.isShowing = true;
-    console.log('Selected Task:', this.selectedTask); // Debugging
+    this.selectedTask = { ...task }; // Create a copy to avoid direct mutation
+    console.log('Selected Task:', this.selectedTask);
   }
 
   stopPropagation(event: Event) {
     event.stopPropagation();
   }
 
-  handleDialogToggle() {
-  if (this.isShowing) {
-      this.toggleDialogAdd(this.selectedTask);
-    }
+  onDialogClosed() {
+    console.log('Dialog closed event received, clearing selectedTask');
+    this.selectedTask = null; // Close the overlay
   }
 
-  toggleDialogAdd(task: Itasks) {
-    this.isShowing = !this.isShowing;
-    console.log('clickeddddddd adddddd');
-    this.selectedTask = task;
+  handleDialogToggle() {
+    console.log('Overlay clicked, clearing selectedTask');
+    this.selectedTask = null; // Close the overlay when clicking outside
   }
 
   drop(event: CdkDragDrop<Itasks[]>) {
@@ -100,12 +92,12 @@ export class BoardComponent implements OnInit {
 
   getSubtaskProgress(subtask: string[] | undefined): number {
     if (!subtask || subtask.length === 0) return 0;
-    return 0;
+    return 0; // Implement logic if needed
   }
 
   getSubtaskCount(subtask: string[] | undefined): number {
-    if (!subtask || subtask.length === 0 || !subtask.length) return 0;
-    return 0;
+    if (!subtask || subtask.length === 0) return 0;
+    return 0; // Implement logic if needed
   }
 
   getInitials(firstname: string, lastname: string): string {
@@ -127,34 +119,37 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  clearSelectedTask() {
-    this.selectedTask = null;
-  }
+  async deleteTask() {
+    if (!this.selectedTask || !this.selectedTask.id) {
+      console.error('Keine Task-ID zum Löschen gefunden.');
+      return;
+    }
 
-  // async deleteTask() {
-  //   if (!this.idToDelete) {
-  //     console.error('Keine Task-ID zum Löschen gefunden.');
-  //     return;
-  //   }
-  
-  //   try {
-  //     await deleteDoc(doc(this.firestore, 'tasks', this.idToDelete));
-  //     console.log('Task erfolgreich gelöscht:', this.idToDelete);
-  //     this.clearSelectedTask(); // Setze selectedTask zurück
-  //   } catch (error) {
-  //     console.error('Fehler beim Löschen des Dokuments: ', error);
-  //   }
-  // }
+    try {
+      const taskDocRef = doc(this.firestore, 'tasks', this.selectedTask.id);
+      await deleteDoc(taskDocRef);
+      console.log('Task erfolgreich gelöscht:', this.selectedTask.id);
+
+      // Remove task from the respective array
+      const taskArrays = [this.todo, this.inProgress, this.awaitFeedback, this.done];
+      for (const array of taskArrays) {
+        const index = array.findIndex(t => t.id === this.selectedTask?.id);
+        if (index !== -1) {
+          array.splice(index, 1);
+          break;
+        }
+      }
+
+      this.selectedTask = null; // Clear selected task
+    } catch (error) {
+      console.error('Fehler beim Löschen des Dokuments: ', error);
+    }
+  }
 
   ngOnInit() {
     this.tasks.todo$.subscribe((tasks) => (this.todo = tasks));
     this.tasks.inProgress$.subscribe((tasks) => (this.inProgress = tasks));
-    this.tasks.awaitFeedback$.subscribe(
-      (tasks) => (this.awaitFeedback = tasks)
-    );
+    this.tasks.awaitFeedback$.subscribe((tasks) => (this.awaitFeedback = tasks));
     this.tasks.done$.subscribe((tasks) => (this.done = tasks));
-    this.getCategoryClass;
-    this.getSubtaskProgress;
-    this.getSubtaskCount;
   }
 }

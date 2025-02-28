@@ -16,11 +16,9 @@ export class TaskDetailComponent implements OnChanges {
   public tasks = inject(TasksService);
   public firestore: Firestore = inject(Firestore);
 
-  updateSuccess: boolean = false;
   showAnimation: boolean = false;
-  selectedTask: any = null;
-  isShowing: boolean = false;
   idToDelete: string = '';
+  deleteError: string | null = null;
 
   getInitials(firstname: string, lastname: string): string {
     const firstInitial = firstname ? firstname.charAt(0).toUpperCase() : '';
@@ -33,28 +31,28 @@ export class TaskDetailComponent implements OnChanges {
       this.idToDelete = this.task.id; // Update idToDelete when task input changes
       this.showAnimation = true;
       console.log('Task ID set to:', this.idToDelete);
+    } else if (changes['task'] && !this.task) {
+      console.log('Task cleared, closing dialog');
+      this.dialogClosed.emit(); // Ensure dialog closes if task is null
     }
   }
-
-  deleteError: string | null = null;
 
   async deleteTask() {
     if (!this.idToDelete) {
       this.deleteError = 'Keine Task-ID zum Löschen gefunden.';
-      console.log('delete task triggereeeeed, no ID');
+      console.log('delete task triggered, no ID');
       return;
     }
 
     try {
       const taskDocRef = doc(this.firestore, 'tasks', this.idToDelete);
       await deleteDoc(taskDocRef);
-      console.log('Task erfolgreich gelöscht:', this.idToDelete);
-      this.task = null; // Reset task
+      console.log('Task successfully deleted:', this.idToDelete);
       this.deleteError = null; // Clear error
-      this.dialogClosed.emit(); // Emit event to notify parent to close overlay
+      this.dialogClosed.emit(); // Notify parent to close overlay
     } catch (error) {
       this.deleteError = 'Fehler beim Löschen des Tasks. Bitte versuche es erneut.';
-      console.error('Fehler beim Löschen des Dokuments: ', error);
+      console.error('Error deleting document: ', error);
     }
   }
 
@@ -63,9 +61,7 @@ export class TaskDetailComponent implements OnChanges {
   }
 
   handleDialogToggle() {
-    this.isShowing = false;
-    this.selectedTask = null;
-    this.dialogClosed.emit(); // Emit event when closing via the X button
-    console.log('Dialog toggled, isShowing:', this.isShowing);
+    console.log('X button clicked, emitting dialogClosed');
+    this.dialogClosed.emit(); // Emit event to close dialog
   }
 }

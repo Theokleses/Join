@@ -356,7 +356,7 @@
 >
   <div class="overlay-content" (click)="stopPropagation($event)">
     @if (selectedTask) {
-    <app-task-detail [task]="selectedTask" (dialogClosed)="handleDialogToggle()"></app-task-detail>
+    <app-task-detail [task]="selectedTask" (dialogClosed)="onDialogClosed()"></app-task-detail>
     }
   </div>
 </div>
