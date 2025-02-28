@@ -350,14 +350,14 @@
     </div>
   </div>
   <div
-    class="overlay"
-    [ngStyle]="{ display: selectedTask ? 'flex' : 'none' }"
-    (click)="handleDialogToggle()"
-  >
-    <div class="overlay-content" (click)="stopPropagation($event)">
-      @if (selectedTask) {
-      <app-task-detail [task]="selectedTask"></app-task-detail>
-      }
-    </div>
+  class="overlay"
+  [ngStyle]="{ display: selectedTask ? 'flex' : 'none' }"
+  (click)="handleDialogToggle()"
+>
+  <div class="overlay-content" (click)="stopPropagation($event)">
+    @if (selectedTask) {
+    <app-task-detail [task]="selectedTask" (dialogClosed)="handleDialogToggle()"></app-task-detail>
+    }
   </div>
+</div>
 </main>

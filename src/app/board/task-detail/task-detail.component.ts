@@ -1,7 +1,7 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Itasks } from '../../interfaces/itasks';
 import { TasksService } from '../../firebase-services/tasks.service';
-import { Firestore, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, doc, deleteDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-task-detail',
@@ -10,13 +10,12 @@ import { Firestore, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
   templateUrl: './task-detail.component.html',
   styleUrl: './task-detail.component.scss',
 })
-export class TaskDetailComponent {
+export class TaskDetailComponent implements OnChanges {
   @Input() task: Itasks | null = null;
+  @Output() dialogClosed = new EventEmitter<void>(); // Emit event to close dialog
   public tasks = inject(TasksService);
   public firestore: Firestore = inject(Firestore);
-  constructor() {
-    this.tasks;
-  }
+
   updateSuccess: boolean = false;
   showAnimation: boolean = false;
   selectedTask: any = null;
@@ -29,8 +28,12 @@ export class TaskDetailComponent {
     return `${firstInitial}${lastInitial}`;
   }
 
-  ngOnInit(): void {
-    this.showAnimation = true;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['task'] && this.task && this.task.id) {
+      this.idToDelete = this.task.id; // Update idToDelete when task input changes
+      this.showAnimation = true;
+      console.log('Task ID set to:', this.idToDelete);
+    }
   }
 
   deleteError: string | null = null;
@@ -38,17 +41,19 @@ export class TaskDetailComponent {
   async deleteTask() {
     if (!this.idToDelete) {
       this.deleteError = 'Keine Task-ID zum Löschen gefunden.';
+      console.log('delete task triggereeeeed, no ID');
       return;
     }
 
     try {
-      await deleteDoc(doc(this.firestore, 'tasks', this.idToDelete));
+      const taskDocRef = doc(this.firestore, 'tasks', this.idToDelete);
+      await deleteDoc(taskDocRef);
       console.log('Task erfolgreich gelöscht:', this.idToDelete);
-      this.task = null; // Setze task zurück
-      this.deleteError = null; // Fehlermeldung zurücksetzen
+      this.task = null; // Reset task
+      this.deleteError = null; // Clear error
+      this.dialogClosed.emit(); // Emit event to notify parent to close overlay
     } catch (error) {
-      this.deleteError =
-        'Fehler beim Löschen des Tasks. Bitte versuche es erneut.';
+      this.deleteError = 'Fehler beim Löschen des Tasks. Bitte versuche es erneut.';
       console.error('Fehler beim Löschen des Dokuments: ', error);
     }
   }
@@ -58,14 +63,9 @@ export class TaskDetailComponent {
   }
 
   handleDialogToggle() {
-    if (this.isShowing) {
-      this.toggleDialogAdd(this.selectedTask);
-    }
-  }
-
-  toggleDialogAdd(task: Itasks) {
-    this.isShowing = !this.isShowing;
-    console.log('clickeddddddd adddddd');
-    this.selectedTask = task;
+    this.isShowing = false;
+    this.selectedTask = null;
+    this.dialogClosed.emit(); // Emit event when closing via the X button
+    console.log('Dialog toggled, isShowing:', this.isShowing);
   }
 }

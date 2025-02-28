@@ -39,13 +39,12 @@ export class BoardComponent implements OnInit {
   done: Itasks[] = [];
 
   selectedTask: any = null;
-  isEditing: boolean = false;
-  isAdding: boolean = false;
+  isShowing: boolean = false;
   idToDelete: string = '';
 
   selectTask(task: Itasks) {
     this.selectedTask = task;
-    this.isAdding = true;
+    this.isShowing = true;
     console.log('Selected Task:', this.selectedTask); // Debugging
   }
 
@@ -54,18 +53,13 @@ export class BoardComponent implements OnInit {
   }
 
   handleDialogToggle() {
-  if (this.isAdding) {
+  if (this.isShowing) {
       this.toggleDialogAdd(this.selectedTask);
     }
   }
 
-  toggleDialogEdit() {
-    this.isEditing = !this.isEditing;
-    console.log('clickeddddddd');
-  }
-
   toggleDialogAdd(task: Itasks) {
-    this.isAdding = !this.isAdding;
+    this.isShowing = !this.isShowing;
     console.log('clickeddddddd adddddd');
     this.selectedTask = task;
   }
