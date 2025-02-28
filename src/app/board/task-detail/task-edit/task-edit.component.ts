@@ -1,10 +1,25 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  HostListener,
+} from '@angular/core';
 import { Itasks } from '../../../interfaces/itasks';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { inject } from '@angular/core';
 import { TasksService } from '../../../firebase-services/tasks.service';
 import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
 import { Icontacts } from '../../../interfaces/icontacts';
+import { ContactsService } from '../../../firebase-services/contacts.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -22,6 +37,7 @@ export class TaskEditComponent implements OnInit {
   public tasks = inject(TasksService);
   public firestore: Firestore = inject(Firestore);
   private fb = inject(FormBuilder);
+  private contactsService = inject(ContactsService);
 
   taskForm: FormGroup = new FormGroup({});
   editError: string | null = null;
@@ -34,10 +50,10 @@ export class TaskEditComponent implements OnInit {
   isLowClicked: boolean = false;
   contacts: { contactlist: Icontacts[] } = { contactlist: [] };
   filteredContacts: Icontacts[] = [];
-  hoveredIndex: number | null = null; // Neue Eigenschaft für Hover-Tracking
+  hoveredIndex: number | null = null;
 
   ngOnInit() {
-    this.contacts.contactlist = this.getContactsFromTask();
+    this.contacts.contactlist = [...this.contactsService.contactlist];
     this.filteredContacts = [...this.contacts.contactlist];
 
     const today = new Date().toISOString().split('T')[0];
@@ -51,15 +67,22 @@ export class TaskEditComponent implements OnInit {
       subtask: [this.task?.subtask || []],
     });
 
+    this.markAssignedContacts();
+
     this.setPriorityButtons();
     this.subtasklist = this.task?.subtask ? [...this.task.subtask] : [];
   }
 
+  markAssignedContacts() {
+    if (this.task?.assigned && this.contacts.contactlist.length > 0) {
+      this.contacts.contactlist.forEach((contact) => {
+        contact.checked = this.task!.assigned!.some((a) => a.id === contact.id);
+      });
+    }
+  }
+
   getContactsFromTask(): Icontacts[] {
-    return this.task?.assigned?.map(a => ({
-      ...a,
-      checked: true,
-    })) || [];
+    return this.task?.assigned || [];
   }
 
   setPriorityButtons() {
@@ -99,26 +122,28 @@ export class TaskEditComponent implements OnInit {
     this.isDropdownOpen = !this.isDropdownOpen;
     setTimeout(() => this.inputSearch?.nativeElement.focus(), 0);
     if (this.isDropdownOpen) {
-      this.filteredContacts = this.contacts.contactlist;
+      this.filteredContacts = [...this.contacts.contactlist];
     }
   }
 
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const inputValue = inputElement.value.toLowerCase();
-    this.filteredContacts = this.contacts.contactlist.filter(contact =>
-      `${contact.firstname} ${contact.lastname}`.toLowerCase().includes(inputValue)
+    this.filteredContacts = this.contacts.contactlist.filter((contact) =>
+      `${contact.firstname} ${contact.lastname}`
+        .toLowerCase()
+        .includes(inputValue)
     );
     this.isDropdownOpen = !!inputValue;
   }
 
   checkContact(contactId: string, event: MouseEvent) {
     event.stopPropagation();
-    const contact = this.contacts.contactlist.find(c => c.id === contactId);
+    const contact = this.contacts.contactlist.find((c) => c.id === contactId);
     if (contact) {
       contact.checked = !contact.checked;
       this.taskForm.patchValue({
-        assigned: this.contacts.contactlist.filter(c => c.checked),
+        assigned: this.contacts.contactlist.filter((c) => c.checked),
       });
     }
   }
@@ -145,7 +170,10 @@ export class TaskEditComponent implements OnInit {
   }
 
   addToSubtasklist() {
-    if (this.inputSubtask.trim() && !this.subtasklist.includes(this.inputSubtask.trim())) {
+    if (
+      this.inputSubtask.trim() &&
+      !this.subtasklist.includes(this.inputSubtask.trim())
+    ) {
       this.subtasklist.push(this.inputSubtask.trim());
       this.inputSubtask = '';
       this.taskForm.get('subtask')?.setValue([...this.subtasklist]);
@@ -164,7 +192,6 @@ export class TaskEditComponent implements OnInit {
     console.log('Date changed to:', selectedDate);
   }
 
-  // Neue Methode für Hover-Logik
   showIcons(index: number) {
     this.hoveredIndex = index;
   }
@@ -175,10 +202,8 @@ export class TaskEditComponent implements OnInit {
     }
   }
 
-  // Neue Methode für Subtask-Bearbeitung (Placeholder, muss implementiert werden)
   editSubtask(index: number) {
     console.log('Edit subtask at index:', index);
-    // Hier könntest du eine Bearbeitungslogik implementieren, z. B. ein Eingabefeld öffnen
   }
 
   async saveEditedTask() {
@@ -211,7 +236,8 @@ export class TaskEditComponent implements OnInit {
       this.editError = null;
       this.editComplete.emit(updatedTask);
     } catch (error) {
-      this.editError = 'Fehler beim Bearbeiten des Tasks. Bitte versuche es erneut.';
+      this.editError =
+        'Fehler beim Bearbeiten des Tasks. Bitte versuche es erneut.';
       console.error('Error updating document: ', error);
     }
   }

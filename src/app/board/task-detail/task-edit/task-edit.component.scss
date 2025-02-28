@@ -258,22 +258,22 @@
 }
 
 .cancel-button {
-  background-color: #f0f0f0; /* Helles Grau */
-  color: #2a3647; /* Dunkler Text */
+  background-color: #f0f0f0;
+  color: #2a3647; 
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 5px 15px;
 
   &:hover {
-    background-color: #e0e0e0; /* Helligkeit beim Hover erhöhen */
-    color: #1e2a38; /* Dunklerer Text beim Hover */
+    background-color: #e0e0e0; 
+    color: #1e2a38; 
   }
 }
 
   .button-container {
     display: flex;
-    gap: 10px; /* Abstand zwischen den Buttons */
-    justify-content: flex-end; /* Rechtsbündig, optional anpassen */
+    gap: 10px;
+    justify-content: flex-end;
 
     button {
       padding: 5px 15px;
@@ -285,22 +285,22 @@
 
 @keyframes slideIn {
   from {
-    transform: translate(-50%, 100%); // Startposition: Unten
+    transform: translate(-50%, 100%); 
     opacity: 0;
   }
   to {
-    transform: translate(-50%, -50%); // Endposition: Mitte
+    transform: translate(-50%, -50%); 
     opacity: 1;
   }
 }
 
 @keyframes fadeOut {
   from {
-    transform: translate(-50%, -50%); // Startposition: Mitte
+    transform: translate(-50%, -50%);
     opacity: 1;
   }
   to {
-    transform: translate(-50%, 100%); // Endposition: Unten
+    transform: translate(-50%, 100%); 
     opacity: 0;
   }
 }
