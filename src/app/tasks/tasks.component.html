@@ -281,11 +281,41 @@
                 <div id="subtask">
                   <div id="index-subtask">
                     <p>{{ $index + 1 }}:</p>
-                    <p>{{ subtask }}</p>
+                    <!-- <p>{{ subtask }}</p> -->
+                    @if (editingIndex === $index) {
+                      <input
+                        type="text"
+                        [(ngModel)]="editedSubtask"
+                        [ngModelOptions]="{ standalone: true }"
+                        (keydown.enter)="saveEditedSubtask($index)"
+                        (blur)="saveEditedSubtask($index)"
+                      />
+                    } @else {
+                      <p>{{ subtask }}</p>
+                    }
                   </div>
-                  <button (click)="deleteFromSubtasklist($index)" type="button">
-                    <img src="../../assets/img/04_task/delete.png" alt="" />
-                  </button>
+                  <div id="subtask-actions">
+                    @if (editingIndex === $index) {
+                      <!-- Zeige das Häkchen-Icon, wenn im Bearbeitungsmodus -->
+                      <img
+                        src="../../assets/img/04_task/check.png"
+                        alt="Save"
+                        (click)="saveEditedSubtask($index)"
+                      />
+                    } @else {
+                      <!-- Zeige das Stift-Icon, wenn nicht im Bearbeitungsmodus -->
+                      <img
+                        src="../../assets/img/04_task/pen.png"
+                        alt="Edit"
+                        (click)="startEditingSubtask($index)"
+                      />
+                    }
+                    <img
+                      src="../../assets/img/04_task/delete.png"
+                      alt="Delete"
+                      (click)="deleteFromSubtasklist($index)"
+                    />
+                  </div>
                 </div>
               }
             </div>

@@ -362,6 +362,7 @@ main {
           margin-right: 1em;
           word-wrap: break-word;
           width: 100%;
+          height: 1.2em;
 
           #index-subtask {
             display: flex;
@@ -375,6 +376,33 @@ main {
               flex-grow: 1;
               word-break: break-word;
             }
+            input {
+              flex-grow: 1;
+              border: 1px solid $darkgrey;
+              border-radius: 0.5em;
+              height: 0.5em;
+              font-family: "inter";
+              &:focus {
+                outline: none;
+                border-color: $darkblue;
+              }
+            }
+          }
+          #subtask-actions {
+            display: none;
+            gap: 0.5em;
+            img {
+              cursor: pointer;
+              transition: background-color 0.3s ease;
+              border-radius: 50%;
+              padding: 0.2em;
+              box-sizing: content-box;
+              height: 1em;
+
+              &:hover {
+                background-color: $darkgrey;
+              }
+            }
           }
           button {
             flex-shrink: 0;
@@ -385,6 +413,9 @@ main {
             font-size: 1em;
             font-weight: 700;
             cursor: pointer;
+          }
+          &:hover #subtask-actions {
+            display: flex; // Beim Hover anzeigen
           }
         }
       }

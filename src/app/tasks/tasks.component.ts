@@ -49,6 +49,9 @@ export class TasksComponent {
   isFadingOut: boolean = false;
   minDate: string;
   subtaskInputFocus: boolean = false;
+  hoveredSubtaskIndex: number | null = null;
+  editedSubtask: string = '';
+  editingIndex: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -158,6 +161,28 @@ export class TasksComponent {
     }
   }
 
+  startEditingSubtask(index: number) {
+    this.editingIndex = index;
+    this.editedSubtask = this.subtasklist[index]; // Setze den aktuellen Wert in das Eingabefeld
+  }
+  saveEditedSubtask(index: number) {
+    if (this.editedSubtask.trim()) {
+      this.subtasklist[index] = this.editedSubtask; // Aktualisiere den Subtask
+    }
+    this.editingIndex = null; // Beende den Bearbeitungsmodus
+  }
+
+  onSubtaskHover(index: number | null) {
+    this.hoveredSubtaskIndex = index;
+  }
+
+  editSubtask(index: number) {
+    const newSubtask = prompt('Edit subtask:', this.subtasklist[index]);
+    if (newSubtask !== null) {
+      this.subtasklist[index] = newSubtask;
+    }
+  }
+
   activateInput() {
     this.subtaskInputElement.nativeElement.focus();
   }
@@ -172,34 +197,25 @@ export class TasksComponent {
 
   addToSubtasklist(event?: MouseEvent) {
     if (event) {
-      event.preventDefault(); // Verhindert das (blur)-Event
+      event.preventDefault();
     }
     if (this.inputSubtask) {
       this.subtasklist.push(this.inputSubtask);
-      this.inputSubtask = ''; // Leert das Eingabefeld
-      // Fokus bleibt erhalten
+      this.inputSubtask = '';
     }
   }
 
   onSubtaskInputKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
-      event.preventDefault(); // Verhindert das Standardverhalten der Enter-Taste
-      this.addToSubtasklist(); // Ruft die Funktion auf
+      event.preventDefault();
+      this.addToSubtasklist();
     }
   }
 
   clearSubtaskInput(event: MouseEvent) {
-    event.preventDefault(); // Verhindert das (blur)-Event
-    this.inputSubtask = ''; // Leert das Eingabefeld
-    // Fokus bleibt erhalten
+    event.preventDefault();
+    this.inputSubtask = '';
   }
-
-  // addToSubtasklist() {
-  //   if (this.inputSubtask) {
-  //     this.subtasklist.push(this.inputSubtask);
-  //     this.inputSubtask = '';
-  //   }
-  // }
 
   deleteFromSubtasklist(index: number) {
     this.subtasklist.splice(index, 1);
