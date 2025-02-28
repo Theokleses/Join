@@ -281,9 +281,32 @@ main {
           display: flex;
           align-items: center;
           position: relative;
+
+          #subtasks-btn-container {
+            display: flex;
+            position: absolute;
+            right: 0.3em;
+            img {
+              cursor: pointer;
+              transition: background-color 0.3s ease;
+              border-radius: 50%;
+              padding: 0.2em;
+              box-sizing: content-box;
+
+              &:hover {
+                background-color: $darkgrey;
+              }
+            }
+            div {
+              background-color: $darkgrey;
+              width: 1px;
+              height: auto;
+            }
+          }
+
           #input-subtask {
             width: 100%;
-            padding-right: 2.5em;
+            padding-right: 3em;
           }
           #img-subtask {
             position: absolute;
@@ -355,11 +378,10 @@ main {
           }
           button {
             flex-shrink: 0;
-            margin: 0 0.5em;
             border: none;
             border-radius: 0.25em;
-            background-color: $darkblue;
-            color: white;
+            background-color: transparent;
+            color: transparent;
             font-size: 1em;
             font-weight: 700;
             cursor: pointer;

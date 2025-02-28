@@ -28,6 +28,7 @@ import { TasksService } from '../firebase-services/tasks.service';
 })
 export class TasksComponent {
   @ViewChild('inputSearch') inputSearch!: ElementRef;
+  @ViewChild('subtaskInputElement') subtaskInputElement!: ElementRef;
   public contacts = inject(ContactsService);
   readonly date = new FormControl(new Date());
   readonly serializedDate = new FormControl(new Date().toISOString());
@@ -47,6 +48,7 @@ export class TasksComponent {
   newTaskAdded: boolean = false;
   isFadingOut: boolean = false;
   minDate: string;
+  subtaskInputFocus: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -100,7 +102,7 @@ export class TasksComponent {
     const dropdown = document.querySelector('.dropdown');
     if (dropdown && !dropdown.contains(event.target as Node)) {
       this.isDropdownOpen = false;
-      this.inputValue = ''; // Leert das Eingabefeld
+      this.inputValue = '';
     }
   }
 
@@ -156,12 +158,48 @@ export class TasksComponent {
     }
   }
 
-  addToSubtasklist() {
+  activateInput() {
+    this.subtaskInputElement.nativeElement.focus();
+  }
+
+  onSubtaskInputFocus() {
+    this.subtaskInputFocus = true;
+  }
+
+  onSubtaskInputBlur() {
+    this.subtaskInputFocus = false;
+  }
+
+  addToSubtasklist(event?: MouseEvent) {
+    if (event) {
+      event.preventDefault(); // Verhindert das (blur)-Event
+    }
     if (this.inputSubtask) {
       this.subtasklist.push(this.inputSubtask);
-      this.inputSubtask = '';
+      this.inputSubtask = ''; // Leert das Eingabefeld
+      // Fokus bleibt erhalten
     }
   }
+
+  onSubtaskInputKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Verhindert das Standardverhalten der Enter-Taste
+      this.addToSubtasklist(); // Ruft die Funktion auf
+    }
+  }
+
+  clearSubtaskInput(event: MouseEvent) {
+    event.preventDefault(); // Verhindert das (blur)-Event
+    this.inputSubtask = ''; // Leert das Eingabefeld
+    // Fokus bleibt erhalten
+  }
+
+  // addToSubtasklist() {
+  //   if (this.inputSubtask) {
+  //     this.subtasklist.push(this.inputSubtask);
+  //     this.inputSubtask = '';
+  //   }
+  // }
 
   deleteFromSubtasklist(index: number) {
     this.subtasklist.splice(index, 1);
@@ -177,8 +215,7 @@ export class TasksComponent {
         (contact) => contact.checked,
       );
 
-      // Extrahieren der Priorität
-      let prio: 'Urgent' | 'Medium' | 'Low' = 'Medium'; // Standardwert
+      let prio: 'Urgent' | 'Medium' | 'Low' = 'Medium';
       if (this.isUrgentClicked) {
         prio = 'Urgent';
       } else if (this.isMediumClicked) {
@@ -191,7 +228,6 @@ export class TasksComponent {
         ? this.date.value.toLocaleDateString()
         : '';
 
-      // Erstellen des newTask-Objekts gemäß dem Itasks-Interface
       const newTask: Itasks = {
         title: formValues.title,
         description: formValues.description,
@@ -220,33 +256,23 @@ export class TasksComponent {
   }
 
   onClear() {
-    // Formular zurücksetzen
     const today = new Date().toISOString().split('T')[0];
-
     this.taskForm.reset({
       title: '',
       description: '',
       assignedTo: [],
-      dueDate: today, // Datum-Feld wird geleert
+      dueDate: today,
       category: '',
     });
-
-    // Alle ausgewählten Kontakte deaktivieren
     this.contacts.contactlist.forEach((contact) => {
       contact.checked = false;
     });
-
-    // Kontaktliste aktualisieren
     this.filteredContacts = [...this.contacts.contactlist];
-
-    // Weitere Variablen zurücksetzen
     this.selectedContactIds = [];
     this.isDropdownOpen = false;
     this.searchQuery = '';
-    this.subtasklist = []; // Subtasks zurücksetzen
-    this.inputSubtask = ''; // Subtask-Eingabefeld leeren
-
-    // Prioritäts-Buttons zurücksetzen
+    this.subtasklist = [];
+    this.inputSubtask = '';
     this.isUrgentClicked = false;
     this.isMediumClicked = true;
     this.isLowClicked = false;
