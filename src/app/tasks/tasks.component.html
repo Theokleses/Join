@@ -131,6 +131,7 @@
               placeholder=""
               formControlName="dueDate"
               (change)="onDateChange($event)"
+              [min]="minDate"
               required
             />
             <span

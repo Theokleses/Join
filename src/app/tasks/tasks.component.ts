@@ -46,12 +46,13 @@ export class TasksComponent {
   requiredInfo: boolean = false;
   newTaskAdded: boolean = false;
   isFadingOut: boolean = false;
+  minDate: string;
 
-  
   constructor(
     private fb: FormBuilder,
     private tasksService: TasksService,
   ) {
+    this.minDate = new Date().toISOString().split('T')[0];
     this.contacts;
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
