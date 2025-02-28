@@ -2,11 +2,12 @@ import { Component, inject, Input, OnChanges, SimpleChanges, Output, EventEmitte
 import { Itasks } from '../../interfaces/itasks';
 import { TasksService } from '../../firebase-services/tasks.service';
 import { Firestore, doc, deleteDoc } from '@angular/fire/firestore';
+import { TaskEditComponent } from "./task-edit/task-edit.component";
 
 @Component({
   selector: 'app-task-detail',
   standalone: true,
-  imports: [],
+  imports: [TaskEditComponent],
   templateUrl: './task-detail.component.html',
   styleUrl: './task-detail.component.scss',
 })
@@ -16,6 +17,7 @@ export class TaskDetailComponent implements OnChanges {
   public tasks = inject(TasksService);
   public firestore: Firestore = inject(Firestore);
 
+  isEditing: boolean = false;
   showAnimation: boolean = false;
   idToDelete: string = '';
   deleteError: string | null = null;
@@ -64,4 +66,20 @@ export class TaskDetailComponent implements OnChanges {
     console.log('X button clicked, emitting dialogClosed');
     this.dialogClosed.emit(); // Emit event to close dialog
   }
+
+  startEdit() {
+    if (this.task) {
+      this.isEditing = true;
+      console.log('Edit mode started, isEditing:', this.isEditing);
+    }
+  }
+
+  onEditComplete(updatedTask: Itasks | null) { // Methode hinzufügen
+    if (updatedTask) {
+      this.task = { ...updatedTask }; // Aktualisiere das lokale task-Objekt
+      this.isEditing = false; // Zurück zur Anzeigemodus
+      console.log('Task updated:', this.task);
+    } else {
+      this.isEditing = false; // Abbrechen ohne Speichern
+    }}
 }

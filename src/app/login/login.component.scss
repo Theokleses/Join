@@ -53,6 +53,19 @@ a {
   flex-direction: column;
 }
 
+.logo {
+  position: absolute;
+  animation: logoMove 1.3s forwards;
+}
+
+.dark-logo {
+  display: block;
+}
+
+.light-logo {
+  display: none;
+}
+
 .dark-btn {
   font-size: 1.4rem;
   border-radius: 0.5rem;
@@ -183,14 +196,49 @@ a {
   }
   100% {
     top: 50px;
-    // left: 100px;
-    left: var(--logo-position, 100px);
+    left: 100px;
     transform: scale(1);
     opacity: 1;
   }
 }
 
 @keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes logoMoveMobile {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 1;
+  }
+  100% {
+    top: 50px;
+    left: 25px;
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInMobile {
   0% {
     opacity: 0;
   }
@@ -218,9 +266,6 @@ a {
 }
 
 @media (max-width: 550px) {
-  .logo {
-    --logo-position: 50px; 
-  }
   .sign-up {
     bottom: 190px;
   }
@@ -235,5 +280,86 @@ a {
   }
   p {
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  main {
+    animation: changeBackgroundMobile 2s ease-in-out;
+  }
+  .logo {
+    animation: logoMoveMobile 2s forwards !important;
+  }
+  .content-wrapper {
+    animation: fadeInMobile 2s forwards !important;
+  }
+  .sign-up {
+    animation: fadeInMobile 2s forwards !important;
+  }
+
+  .logo {
+    .dark-logo {
+      display: none;
+    }
+    .light-logo {
+      display: block;
+    }
+  }
+
+  .logo:not(.animate-logo) {
+    .dark-logo {
+      display: block;
+    }
+    .light-logo {
+      display: none;
+    }
+  }
+
+  @keyframes changeBackgroundMobile {
+    0% {
+      background-color: rgba(42, 54, 71, 1);
+    }
+    99% {
+      background-color: rgba(42, 54, 71, 1);
+    }
+    100% {
+      background-color: #ffffff;
+    }
+  }
+
+  @keyframes logoMoveMobile {
+    0% {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(2);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    50% {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(2);
+      opacity: 1;
+    }
+    100% {
+      top: 50px;
+      left: 50px;
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInMobile {
+    0% {
+      opacity: 0;
+    }
+    99% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 }
