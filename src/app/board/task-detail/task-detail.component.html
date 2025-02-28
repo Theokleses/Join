@@ -49,12 +49,16 @@
             <p>Delete</p>
           </div>
           <div class="slash">|</div>
-          <div class="edit">
+          <div class="edit" (click)="startEdit()">
             <img
               src="../../../assets/img/06_contacts/edit.png"
               alt="edit-button"
             />
-            <p>Edit</p>
+            <p>Edit
+              @if (isEditing) {
+                <app-task-edit [task]="task" (editComplete)="onEditComplete($event)"></app-task-edit>
+              }
+            </p>
           </div>
         </div>
       </div>

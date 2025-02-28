@@ -38,8 +38,7 @@ export class BoardComponent implements OnInit {
   selectedTask: Itasks | null = null;
 
   selectTask(task: Itasks) {
-    this.selectedTask = { ...task }; // Create a copy to avoid direct mutation
-    console.log('Selected Task:', this.selectedTask);
+    this.selectedTask = { ...task };
   }
 
   stopPropagation(event: Event) {
