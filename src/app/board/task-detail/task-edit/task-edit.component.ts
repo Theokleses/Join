@@ -1,18 +1,17 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Itasks } from '../../../interfaces/itasks';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // Import ReactiveFormsModule
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { inject } from '@angular/core';
 import { TasksService } from '../../../firebase-services/tasks.service';
 import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
-import { Icontacts } from '../../../interfaces/icontacts'; // Adjust path
+import { Icontacts } from '../../../interfaces/icontacts';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ContactsService } from '../../../firebase-services/contacts.service';
 
 @Component({
   selector: 'app-task-edit',
   standalone: true,
-  imports: [FormsModule, CommonModule,ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './task-edit.component.html',
   styleUrl: './task-edit.component.scss',
 })
@@ -24,9 +23,6 @@ export class TaskEditComponent implements OnInit {
   public firestore: Firestore = inject(Firestore);
   private fb = inject(FormBuilder);
 
-  constructor(){
-this.ngOnInit();
-  }
   taskForm: FormGroup = new FormGroup({});
   editError: string | null = null;
   isDropdownOpen: boolean = false;
@@ -38,14 +34,12 @@ this.ngOnInit();
   isLowClicked: boolean = false;
   contacts: { contactlist: Icontacts[] } = { contactlist: [] };
   filteredContacts: Icontacts[] = [];
+  hoveredIndex: number | null = null; // Neue Eigenschaft für Hover-Tracking
 
-  
   ngOnInit() {
-    // Initialize contacts (fetch from service or input if available)
     this.contacts.contactlist = this.getContactsFromTask();
     this.filteredContacts = [...this.contacts.contactlist];
 
-    // Set initial form values based on task
     const today = new Date().toISOString().split('T')[0];
     this.taskForm = this.fb.group({
       title: [this.task?.title || '', Validators.required],
@@ -57,20 +51,15 @@ this.ngOnInit();
       subtask: [this.task?.subtask || []],
     });
 
-    // Set priority buttons based on task prio
     this.setPriorityButtons();
-
-    // Initialize subtasklist
     this.subtasklist = this.task?.subtask ? [...this.task.subtask] : [];
   }
 
   getContactsFromTask(): Icontacts[] {
-    // Assume contacts are fetched from a service or passed via task.assigned
-    // For now, use task.assigned and ensure contacts are available
     return this.task?.assigned?.map(a => ({
       ...a,
-      checked: true, // Adjust based on current assignment
-    })) || this.contacts.contactlist; // Fallback to injected contacts if available
+      checked: true,
+    })) || [];
   }
 
   setPriorityButtons() {
@@ -123,13 +112,6 @@ this.ngOnInit();
     this.isDropdownOpen = !!inputValue;
   }
 
-  onDateChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const selectedDate = inputElement.value; // Holt den Datumsstring (z. B. "2023-12-25")
-    this.taskForm.get('dueDate')?.setValue(selectedDate); // Aktualisiert das FormControl
-    console.log('Date changed to:', selectedDate); // Zum Debugging
-  }
-
   checkContact(contactId: string, event: MouseEvent) {
     event.stopPropagation();
     const contact = this.contacts.contactlist.find(c => c.id === contactId);
@@ -175,23 +157,46 @@ this.ngOnInit();
     this.taskForm.get('subtask')?.setValue([...this.subtasklist]);
   }
 
+  onDateChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const selectedDate = inputElement.value;
+    this.taskForm.get('dueDate')?.setValue(selectedDate);
+    console.log('Date changed to:', selectedDate);
+  }
+
+  // Neue Methode für Hover-Logik
+  showIcons(index: number) {
+    this.hoveredIndex = index;
+  }
+
+  hideIcons(index: number) {
+    if (this.hoveredIndex === index) {
+      this.hoveredIndex = null;
+    }
+  }
+
+  // Neue Methode für Subtask-Bearbeitung (Placeholder, muss implementiert werden)
+  editSubtask(index: number) {
+    console.log('Edit subtask at index:', index);
+    // Hier könntest du eine Bearbeitungslogik implementieren, z. B. ein Eingabefeld öffnen
+  }
+
   async saveEditedTask() {
     if (this.taskForm.invalid) {
       this.editError = 'Bitte füllen Sie alle Pflichtfelder aus.';
       return;
     }
-  
+
     const updatedTask: Itasks = {
       ...this.task,
       ...this.taskForm.value,
       assigned: this.taskForm.get('assigned')?.value,
       subtask: this.taskForm.get('subtask')?.value,
-      id: this.task?.id, // ID wird beibehalten, aber nicht in data übergeben
+      id: this.task?.id,
     };
-  
+
     try {
       const taskDocRef = doc(this.firestore, 'tasks', updatedTask.id!);
-      // Extrahiere nur die aktualisierten Felder als plain Objekt
       const updateData = {
         title: updatedTask.title,
         description: updatedTask.description,
@@ -201,7 +206,7 @@ this.ngOnInit();
         assigned: updatedTask.assigned,
         subtask: updatedTask.subtask,
       };
-      await updateDoc(taskDocRef, updateData); // Übergebe nur die Daten
+      await updateDoc(taskDocRef, updateData);
       console.log('Task successfully updated:', updatedTask.id);
       this.editError = null;
       this.editComplete.emit(updatedTask);

@@ -143,3 +143,25 @@ li {
   margin-left: 300px;
   cursor: pointer;
 }
+
+@keyframes slideIn {
+  from {
+    transform: translate(-50%, 100%); // Startposition: Unten
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%); // Endposition: Mitte
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    transform: translate(-50%, -50%); // Startposition: Mitte
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, 100%); // Endposition: Unten
+    opacity: 0;
+  }
+}

@@ -187,7 +187,7 @@
           <!-- Subtasks -->
           <div class="label-input-container">
             <label for="subtasks">Subtasks</label>
-            <div id="input-subtask-container">
+            <div id="subtask-input-container">
               <input
                 type="text"
                 id="input-subtask"
@@ -202,25 +202,35 @@
               />
             </div>
             @if (subtasklist.length > 0) {
-            <div id="subtasks">
+            <div id="subtask-list">
               @for (subtask of subtasklist; track $index) {
-              <div id="subtask">
-                <div id="index-subtask">
-                  <p>{{ $index + 1 }}:</p>
-                  <p>{{ subtask }}</p>
+              <div class="subtask-item" (mouseover)="showIcons($index)" (mouseleave)="hideIcons($index)">
+                <span>{{ $index + 1 }}: {{ subtask }}</span>
+                <div class="subtask-icons" *ngIf="hoveredIndex === $index">
+                  <img
+                    src="../../assets/img/06_contacts/edit.png"
+                    alt="edit"
+                    (click)="editSubtask($index)"
+                  />
+                  <img
+                    src="../../assets/img/06_contacts/delete.png"
+                    alt="delete"
+                    (click)="deleteFromSubtasklist($index)"
+                  />
                 </div>
-                <button (click)="deleteFromSubtasklist($index)" type="button">
-                  -
-                </button>
               </div>
               }
             </div>
             }
           </div>
   
+          <!-- Buttons -->
           <div class="button-section">
-            <button type="submit" [disabled]="taskForm.invalid">Save</button>
-            <button type="button" (click)="cancelEdit()">Cancel</button>
+            <p><span class="red">*</span>This field is required</p>
+            <div class="button-container">
+              <button type="button" class="cancel-button" (click)="cancelEdit()">Cancel</button>
+              <button type="submit" class="ok-button dark-btn" [disabled]="taskForm.invalid">OK ✓</button>
+            </div>
           </div>
         </form>
   
