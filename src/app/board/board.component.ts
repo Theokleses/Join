@@ -2,33 +2,24 @@ import { Component, inject, OnInit } from '@angular/core';
 import { TasksService } from '../firebase-services/tasks.service';
 import { CommonModule } from '@angular/common';
 import { Itasks } from '../interfaces/itasks';
-import {
-  CdkDragDrop,
-  CdkDrag,
-  CdkDropList,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { Firestore, doc, deleteDoc } from '@angular/fire/firestore';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { AddTaskComponent } from "./add-task/add-task.component";
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [
-    CommonModule,
-    CdkDropList,
-    CdkDrag,
-    FormsModule,
-    TaskDetailComponent,
-  ],
+  imports: [CommonModule, CdkDropList, CdkDrag, FormsModule, TaskDetailComponent, RouterLink, RouterOutlet, AddTaskComponent],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
 })
 export class BoardComponent implements OnInit {
-  public tasks = inject(TasksService);
-  public firestore: Firestore = inject(Firestore);
+  public tasksService = inject(TasksService);
+  public firestore = inject(Firestore);
+  private router = inject(Router);
 
   todo: Itasks[] = [];
   inProgress: Itasks[] = [];
@@ -36,6 +27,7 @@ export class BoardComponent implements OnInit {
   done: Itasks[] = [];
 
   selectedTask: Itasks | null = null;
+  isTasksOverlayOpen: boolean = false;
 
   selectTask(task: Itasks) {
     this.selectedTask = { ...task };
@@ -46,22 +38,16 @@ export class BoardComponent implements OnInit {
   }
 
   onDialogClosed() {
-    console.log('Dialog closed event received, clearing selectedTask');
-    this.selectedTask = null; // Close the overlay
+    this.selectedTask = null;
   }
 
   handleDialogToggle() {
-    console.log('Overlay clicked, clearing selectedTask');
-    this.selectedTask = null; // Close the overlay when clicking outside
+    this.selectedTask = null;
   }
 
   drop(event: CdkDragDrop<Itasks[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -71,55 +57,35 @@ export class BoardComponent implements OnInit {
       );
 
       const currentTask = event.container.data[event.currentIndex];
-      const newStatus = event.container.id;
-
-      if (currentTask.id && newStatus) {
-        this.tasks
-          .updateTaskStatus(currentTask.id, newStatus)
-          .then(() => {})
-          .catch((error) => {
-            console.error('Fehler beim Update:', error);
-          });
-      } else {
-        console.error('Task ID oder neuer Status fehlt:', {
-          id: currentTask.id,
-          newStatus,
-        });
+      if (currentTask.id) {
+        this.tasksService.updateTaskStatus(currentTask.id, event.container.id);
       }
     }
   }
 
-  getSubtaskProgress(subtask: string[] | undefined): number {
-    if (!subtask || subtask.length === 0) return 0;
-    return 0; // Implement logic if needed
+  getSubtaskProgress(task: Itasks): number {
+    if (!task.subtask || task.subtask.length === 0) return 0;
+    const subtaskStatus = task.subtaskStatus || new Array(task.subtask.length).fill(false);
+    const completed = subtaskStatus.filter(Boolean).length;
+    return (completed / task.subtask.length) * 100;
   }
 
-  getSubtaskCount(subtask: string[] | undefined): number {
-    if (!subtask || subtask.length === 0) return 0;
-    return 0; // Implement logic if needed
+  getSubtaskCount(task: Itasks): number {
+    if (!task.subtask || task.subtask.length === 0) return 0;
+    const subtaskStatus = task.subtaskStatus || new Array(task.subtask.length).fill(false);
+    return subtaskStatus.filter(Boolean).length;
   }
 
   getInitials(firstname: string, lastname: string): string {
-    const firstInitial = firstname ? firstname.charAt(0).toUpperCase() : '';
-    const lastInitial = lastname ? lastname.charAt(0).toUpperCase() : '';
-    return `${firstInitial}${lastInitial}`;
+    return `${firstname?.charAt(0)?.toUpperCase() || ''}${lastname?.charAt(0)?.toUpperCase() || ''}`;
   }
 
   getCategoryClass(category: string): string {
-    if (category === 'User Story') return 'darkblue';
-    if (category === 'Technical Task') return 'blue';
-    return 'default';
-  }
-
-  saveTaskChanges() {
-    if (this.selectedTask && this.selectedTask.id) {
-      this.tasks.updateTask(this.selectedTask.id, this.selectedTask);
-      console.log('Task geändert und gespeichert:', this.selectedTask);
-    }
+    return category === 'User Story' ? 'darkblue' : category === 'Technical Task' ? 'blue' : 'default';
   }
 
   async deleteTask() {
-    if (!this.selectedTask || !this.selectedTask.id) {
+    if (!this.selectedTask?.id) {
       console.error('Keine Task-ID zum Löschen gefunden.');
       return;
     }
@@ -127,28 +93,27 @@ export class BoardComponent implements OnInit {
     try {
       const taskDocRef = doc(this.firestore, 'tasks', this.selectedTask.id);
       await deleteDoc(taskDocRef);
-      console.log('Task erfolgreich gelöscht:', this.selectedTask.id);
-
-      // Remove task from the respective array
-      const taskArrays = [this.todo, this.inProgress, this.awaitFeedback, this.done];
-      for (const array of taskArrays) {
-        const index = array.findIndex(t => t.id === this.selectedTask?.id);
-        if (index !== -1) {
-          array.splice(index, 1);
-          break;
-        }
-      }
-
-      this.selectedTask = null; // Clear selected task
+      this.selectedTask = null;
     } catch (error) {
-      console.error('Fehler beim Löschen des Dokuments: ', error);
+      console.error('Fehler beim Löschen des Dokuments:', error);
     }
   }
 
+  openTasksOverlay(event: Event) {
+    event.preventDefault();
+    this.isTasksOverlayOpen = true;
+    this.router.navigate(['/tasks']);
+  }
+
+  closeTasksOverlay() {
+    this.isTasksOverlayOpen = false;
+    this.router.navigate(['/']);
+  }
+
   ngOnInit() {
-    this.tasks.todo$.subscribe((tasks) => (this.todo = tasks));
-    this.tasks.inProgress$.subscribe((tasks) => (this.inProgress = tasks));
-    this.tasks.awaitFeedback$.subscribe((tasks) => (this.awaitFeedback = tasks));
-    this.tasks.done$.subscribe((tasks) => (this.done = tasks));
+    this.tasksService.todo$.subscribe((tasks) => (this.todo = tasks));
+    this.tasksService.inProgress$.subscribe((tasks) => (this.inProgress = tasks));
+    this.tasksService.awaitFeedback$.subscribe((tasks) => (this.awaitFeedback = tasks));
+    this.tasksService.done$.subscribe((tasks) => (this.done = tasks));
   }
 }

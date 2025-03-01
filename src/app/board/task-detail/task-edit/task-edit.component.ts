@@ -51,10 +51,14 @@ export class TaskEditComponent implements OnInit {
   contacts: { contactlist: Icontacts[] } = { contactlist: [] };
   filteredContacts: Icontacts[] = [];
   hoveredIndex: number | null = null;
+  showAnimation: boolean = false;
+  editingSubtaskIndex: number | null = null;
+  editedSubtaskText: string = '';
 
   ngOnInit() {
     this.contacts.contactlist = [...this.contactsService.contactlist];
     this.filteredContacts = [...this.contacts.contactlist];
+    this.showAnimation = true;
 
     const today = new Date().toISOString().split('T')[0];
     this.taskForm = this.fb.group({
@@ -68,7 +72,6 @@ export class TaskEditComponent implements OnInit {
     });
 
     this.markAssignedContacts();
-
     this.setPriorityButtons();
     this.subtasklist = this.task?.subtask ? [...this.task.subtask] : [];
   }
@@ -79,10 +82,6 @@ export class TaskEditComponent implements OnInit {
         contact.checked = this.task!.assigned!.some((a) => a.id === contact.id);
       });
     }
-  }
-
-  getContactsFromTask(): Icontacts[] {
-    return this.task?.assigned || [];
   }
 
   setPriorityButtons() {
@@ -185,6 +184,23 @@ export class TaskEditComponent implements OnInit {
     this.taskForm.get('subtask')?.setValue([...this.subtasklist]);
   }
 
+  startSubtaskEdit(index: number) {
+    this.editingSubtaskIndex = index;
+    this.editedSubtaskText = this.subtasklist[index];
+  }
+
+  saveSubtaskEdit(index: number) {
+    if (
+      this.editedSubtaskText.trim() &&
+      this.editedSubtaskText !== this.subtasklist[index]
+    ) {
+      this.subtasklist[index] = this.editedSubtaskText.trim();
+      this.taskForm.get('subtask')?.setValue([...this.subtasklist]);
+    }
+    this.editingSubtaskIndex = null;
+    this.editedSubtaskText = '';
+  }
+
   onDateChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const selectedDate = inputElement.value;
@@ -200,10 +216,6 @@ export class TaskEditComponent implements OnInit {
     if (this.hoveredIndex === index) {
       this.hoveredIndex = null;
     }
-  }
-
-  editSubtask(index: number) {
-    console.log('Edit subtask at index:', index);
   }
 
   async saveEditedTask() {

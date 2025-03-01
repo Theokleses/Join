@@ -74,12 +74,12 @@ export class TasksService implements OnDestroy {
       status: data.status || 'todo',
       category: data.category,
       subtask: data.subtask,
+      subtaskStatus: data.subtaskStatus,
       dueDate: data.dueDate,
       assigned: data.assigned,
       prio: data.prio,
     };
   }
-
 
   toggleDialogEdit() {
     this.isEditing = !this.isEditing;

@@ -1,23 +1,23 @@
-import { Component, inject, HostListener, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, inject, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ContactsService } from '../firebase-services/contacts.service';
+import { ContactsService } from '../../firebase-services/contacts.service';
 import { FormsModule } from '@angular/forms';
-import { Icontacts } from '../interfaces/icontacts';
-import { Itasks } from '../interfaces/itasks';
-import { TasksService } from '../firebase-services/tasks.service';
+import { Icontacts } from '../../interfaces/icontacts';
+import { Itasks } from '../../interfaces/itasks';
+import { TasksService } from '../../firebase-services/tasks.service';
 
 @Component({
-  selector: 'app-tasks',
+  selector: 'app-add-task',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, FormsModule],
-  templateUrl: './tasks.component.html',
-  styleUrl: './tasks.component.scss',
+  templateUrl: './add-task.component.html',
+  styleUrl: './add-task.component.scss'
 })
-export class TasksComponent {
+export class AddTaskComponent {
   @ViewChild('inputSearch') inputSearch!: ElementRef;
   @ViewChild('subtaskInputElement') subtaskInputElement!: ElementRef;
-  @Output() taskAdded = new EventEmitter<void>(); // Event für erfolgreiches Hinzufügen
+  isOpen: boolean = false;
   public contacts = inject(ContactsService);
   readonly date = new FormControl(new Date());
   readonly serializedDate = new FormControl(new Date().toISOString());
@@ -220,8 +220,6 @@ export class TasksComponent {
       };
 
       this.tasksService.addTask(newTask).then(() => {
-        this.taskAdded.emit(); // Event auslösen, um das Overlay zu schließen
-        this.onClear();
         this.newTaskAdded = true;
         setTimeout(() => {
           this.isFadingOut = true;
@@ -229,7 +227,9 @@ export class TasksComponent {
         setTimeout(() => {
           this.newTaskAdded = false;
           this.isFadingOut = false;
+          this.closeOverlay(); // Overlay schließen nach erfolgreichem Hinzufügen
         }, 2000);
+        this.onClear();
       }).catch(error => {
         console.error('Fehler beim Hinzufügen des Tasks:', error);
       });
@@ -258,5 +258,9 @@ export class TasksComponent {
     this.isMediumClicked = true;
     this.isLowClicked = false;
     this.requiredInfo = false;
+  }
+
+  closeOverlay() {
+    this.isOpen = false;
   }
 }

@@ -1,11 +1,12 @@
-<div class="overlay">
+<main>
+  <div class="overlay">
     <div class="overlay-content">
       <div class="edit-detail">
         <div class="top">
           <h2>Edit Task</h2>
           <a (click)="cancelEdit()" class="close-btn">X</a>
         </div>
-  
+
         <form [formGroup]="taskForm" (ngSubmit)="saveEditedTask()">
           <!-- Title -->
           <div class="label-input-container">
@@ -16,11 +17,12 @@
               placeholder="Enter a title"
               formControlName="title"
             />
-            @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
+            @if (taskForm.get('title')?.invalid &&
+            taskForm.get('title')?.touched) {
             <span class="error">This field is required</span>
             }
           </div>
-  
+
           <!-- Description -->
           <div class="label-input-container">
             <label for="description">Description</label>
@@ -31,7 +33,7 @@
               maxlength="500"
             ></textarea>
           </div>
-  
+
           <!-- Due Date -->
           <div class="label-input-container">
             <label for="dueDate">Due Date<span>*</span></label>
@@ -41,11 +43,12 @@
               formControlName="dueDate"
               (change)="onDateChange($event)"
             />
-            @if (taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched) {
+            @if (taskForm.get('dueDate')?.invalid &&
+            taskForm.get('dueDate')?.touched) {
             <span class="error">This field is required</span>
             }
           </div>
-  
+
           <!-- Priority -->
           <div class="label-input-container">
             <label for="prio">Prio</label>
@@ -106,7 +109,7 @@
               </button>
             </div>
           </div>
-  
+
           <!-- Category -->
           <div class="label-input-container">
             <label for="category">Category<span>*</span></label>
@@ -115,11 +118,12 @@
               <option value="Technical Task">Technical Task</option>
               <option value="User Story">User Story</option>
             </select>
-            @if (taskForm.get('category')?.invalid && taskForm.get('category')?.touched) {
+            @if (taskForm.get('category')?.invalid &&
+            taskForm.get('category')?.touched) {
             <span class="error">This field is required</span>
             }
           </div>
-  
+
           <!-- Assigned To -->
           <div class="label-input-container">
             <label for="assignedTo">Assigned To</label>
@@ -142,51 +146,48 @@
               </div>
               @if (isDropdownOpen) {
               <div id="contactlist">
-                @for (contact of filteredContacts; track $index) {
-                  @if (contact.id) {
-                  <div class="contact" (click)="checkContact(contact.id, $event)">
-                    <div
-                      id="initials"
-                      [ngStyle]="{ 'background-color': contact.initialBg }"
-                    >
-                      <p>
-                        {{ contact.firstname[0].toUpperCase() }}{{ contact.lastname[0].toUpperCase() }}
-                      </p>
-                    </div>
-                    <div id="contact-name">
-                      {{ contact.firstname }} {{ contact.lastname }}
-                    </div>
-                    <div id="checkbox">
-                      <input
-                        type="checkbox"
-                        [checked]="contact.checked"
-                      />
-                    </div>
-                  </div>
-                  }
-                }
-              </div>
-              }
-              <div id="contact-initials">
-                @for (contact of contacts.contactlist; track $index) {
-                  @if (contact.checked) {
+                @for (contact of filteredContacts; track $index) { @if
+                (contact.id) {
+                <div class="contact" (click)="checkContact(contact.id, $event)">
                   <div
                     id="initials"
                     [ngStyle]="{ 'background-color': contact.initialBg }"
                   >
                     <p>
-                      {{ contact.firstname[0].toUpperCase() }}{{ contact.lastname[0].toUpperCase() }}
+                      {{ contact.firstname[0].toUpperCase()
+                      }}{{ contact.lastname[0].toUpperCase() }}
                     </p>
                   </div>
-                  }
-                }
+                  <div id="contact-name">
+                    {{ contact.firstname }} {{ contact.lastname }}
+                  </div>
+                  <div id="checkbox">
+                    <input type="checkbox" [checked]="contact.checked" />
+                  </div>
+                </div>
+                } }
+              </div>
+              }
+              <div id="contact-initials">
+                @for (contact of contacts.contactlist; track $index) { @if
+                (contact.checked) {
+                <div
+                  id="initials"
+                  [ngStyle]="{ 'background-color': contact.initialBg }"
+                >
+                  <p>
+                    {{ contact.firstname[0].toUpperCase()
+                    }}{{ contact.lastname[0].toUpperCase() }}
+                  </p>
+                </div>
+                } }
               </div>
             </div>
           </div>
-  
+
           <!-- Subtasks -->
           <div class="label-input-container">
-            <label for="subtasks">Subtasks</label>
+            <label for="subtask">Subtasks</label>
             <div id="subtask-input-container">
               <input
                 type="text"
@@ -204,13 +205,36 @@
             @if (subtasklist.length > 0) {
             <div id="subtask-list">
               @for (subtask of subtasklist; track $index) {
-              <div class="subtask-item" (mouseover)="showIcons($index)" (mouseleave)="hideIcons($index)">
+              <div
+                class="subtask-item"
+                (mouseover)="showIcons($index)"
+                (mouseleave)="hideIcons($index)"
+              >
+                @if (editingSubtaskIndex !== $index) {
                 <span>{{ $index + 1 }}: {{ subtask }}</span>
+                } @else {
+                <input
+                  type="text"
+                  [(ngModel)]="editedSubtaskText"
+                  [ngModelOptions]="{ standalone: true }"
+                  (keyup.enter)="saveSubtaskEdit($index)"
+                  (blur)="saveSubtaskEdit($index)"
+                  autofocus
+                />
+                }
                 <div class="subtask-icons" *ngIf="hoveredIndex === $index">
                   <img
-                    src="../../assets/img/06_contacts/edit.png"
-                    alt="edit"
-                    (click)="editSubtask($index)"
+                    [src]="
+                      editingSubtaskIndex === $index
+                        ? '../../assets/img/04_task/check.png'
+                        : '../../assets/img/06_contacts/edit.png'
+                    "
+                    [alt]="editingSubtaskIndex === $index ? 'confirm' : 'edit'"
+                    (click)="
+                      editingSubtaskIndex === $index
+                        ? saveSubtaskEdit($index)
+                        : startSubtaskEdit($index)
+                    "
                   />
                   <img
                     src="../../assets/img/06_contacts/delete.png"
@@ -223,20 +247,33 @@
             </div>
             }
           </div>
-  
+
           <!-- Buttons -->
           <div class="button-section">
             <p><span class="red">*</span>This field is required</p>
             <div class="button-container">
-              <button type="button" class="cancel-button" (click)="cancelEdit()">Cancel</button>
-              <button type="submit" class="ok-button dark-btn" [disabled]="taskForm.invalid">OK ✓</button>
+              <button
+                type="button"
+                class="cancel-button"
+                (click)="cancelEdit()"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="ok-button dark-btn"
+                [disabled]="taskForm.invalid"
+              >
+                OK ✓
+              </button>
             </div>
           </div>
         </form>
-  
+
         @if (editError) {
         <p class="error">{{ editError }}</p>
         }
       </div>
     </div>
   </div>
+</main>

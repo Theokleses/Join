@@ -7,6 +7,7 @@ export interface Itasks {
   status?: string;
   category: 'Technical Task' | 'User Story';
   subtask?: string[];
+  subtaskStatus?: boolean[];
   prio: 'Urgent' | 'Medium' | 'Low';
   assigned?: Icontacts[];
   dueDate: string;

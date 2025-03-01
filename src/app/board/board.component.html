@@ -8,7 +8,9 @@
         <input type="search" placeholder="Search task..." />
         <img src="../../assets/img/05_board/search.png" alt="search-icon" />
       </div>
-      <button class="dark-btn">Add task +</button>
+      <a routerLink="/tasks" (click)="openTasksOverlay($event)" class="dark-btn">
+        Add task +
+      </a>
     </div>
   </div>
 
@@ -16,10 +18,9 @@
     <div class="list-item">
       <div class="headline">
         <h3>To do</h3>
-        <img
-          src="../../assets/img/05_board/plus button.png"
-          alt="plus-button"
-        />
+        <a routerLink="/tasks" (click)="openTasksOverlay($event)">
+          <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
+        </a>
       </div>
       <div class="tasks">
         <div
@@ -33,9 +34,9 @@
           @for (task of todo; track task.id) {
           <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
-              @if (task.category == 'User Story') {
+              @if (task.category === 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
-              } @else if (task.category == 'Technical Task') {
+              } @else if (task.category === 'Technical Task') {
               <p class="blue">{{ task.category }}</p>
               }
             </div>
@@ -47,48 +48,33 @@
               <div class="progress-bar-container">
                 <div
                   class="progress-bar"
-                  [style.width]="getSubtaskProgress(task.subtask) + '%'"
+                  [style.width]="getSubtaskProgress(task) + '%'"
                 ></div>
               </div>
-              <span class="progress-text"
-                >{{ getSubtaskCount(task.subtask) }}/{{
-                  task.subtask?.length + " Subtasks" || 0 + " Subtasks"
-                }}</span
-              >
+              <span class="progress-text">
+                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }} Subtasks
+              </span>
             </div>
             <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned; track contact.id) {
-              <div
-                class="initial-circle"
-                [style.background-color]="contact.initialBg"
-                title="{{ contact.firstname }} {{ contact.lastname }}"
-              >
-                {{ getInitials(contact.firstname, contact.lastname) }}
-              </div>
-              } } @else {
-              <img
-                src="../../assets/img/06_contacts/default-img.png"
-                alt="contact-list"
-              />
-              } @if (task.prio == 'Urgent') {
-              <img
-                src="../../assets/img/04_task/high-unclicked.png"
-                alt="high-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio == 'Medium') {
-              <img
-                src="../../assets/img/04_task/medium-unclicked.png"
-                alt="medium-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio == 'Low') {
-              <img
-                src="../../assets/img/04_task/low-unclicked.png"
-                alt=""
-                class="prio-img"
-              />
+              @if (task.assigned && task.assigned.length > 0) {
+                @for (contact of task.assigned; track contact.id) {
+                <div
+                  class="initial-circle"
+                  [style.background-color]="contact.initialBg"
+                  title="{{ contact.firstname }} {{ contact.lastname }}"
+                >
+                  {{ getInitials(contact.firstname, contact.lastname) }}
+                </div>
+                }
+              } @else {
+                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list" />
+              }
+              @if (task.prio === 'Urgent') {
+              <img src="../../assets/img/04_task/high-unclicked.png" alt="high-prio" class="prio-img" />
+              } @else if (task.prio === 'Medium') {
+              <img src="../../assets/img/04_task/medium-unclicked.png" alt="medium-prio" class="prio-img" />
+              } @else if (task.prio === 'Low') {
+              <img src="../../assets/img/04_task/low-unclicked.png" alt="low-prio" class="prio-img" />
               }
             </div>
           </div>
@@ -100,10 +86,9 @@
     <div class="list-item">
       <div class="headline">
         <h3>In progress</h3>
-        <img
-          src="../../assets/img/05_board/plus button.png"
-          alt="plus-button"
-        />
+        <a routerLink="/tasks" (click)="openTasksOverlay($event)">
+          <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
+        </a>
       </div>
       <div class="tasks">
         <div
@@ -117,9 +102,9 @@
           @for (task of inProgress; track task.id) {
           <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
-              @if (task.category == 'User Story') {
+              @if (task.category === 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
-              } @else if (task.category == 'Technical Task') {
+              } @else if (task.category === 'Technical Task') {
               <p class="blue">{{ task.category }}</p>
               }
             </div>
@@ -131,48 +116,33 @@
               <div class="progress-bar-container">
                 <div
                   class="progress-bar"
-                  [style.width]="getSubtaskProgress(task.subtask) + '%'"
+                  [style.width]="getSubtaskProgress(task) + '%'"
                 ></div>
               </div>
-              <span class="progress-text"
-                >{{ getSubtaskCount(task.subtask) }}/{{
-                  task.subtask?.length + " Subtasks" || 0 + " Subtasks"
-                }}</span
-              >
+              <span class="progress-text">
+                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }} Subtasks
+              </span>
             </div>
             <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned; track contact.id) {
-              <div
-                class="initial-circle"
-                [style.background-color]="contact.initialBg"
-                title="{{ contact.firstname }} {{ contact.lastname }}"
-              >
-                {{ getInitials(contact.firstname, contact.lastname) }}
-              </div>
-              } } @else {
-              <img
-                src="../../assets/img/06_contacts/default-img.png"
-                alt="contact-list"
-              />
-              } @if (task.prio == 'Urgent') {
-              <img
-                src="../../assets/img/04_task/high-unclicked.png"
-                alt="high-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio == 'Medium') {
-              <img
-                src="../../assets/img/04_task/medium-unclicked.png"
-                alt="medium-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio == 'Low') {
-              <img
-                src="../../assets/img/04_task/low-unclicked.png"
-                alt=""
-                class="prio-img"
-              />
+              @if (task.assigned && task.assigned.length > 0) {
+                @for (contact of task.assigned; track contact.id) {
+                <div
+                  class="initial-circle"
+                  [style.background-color]="contact.initialBg"
+                  title="{{ contact.firstname }} {{ contact.lastname }}"
+                >
+                  {{ getInitials(contact.firstname, contact.lastname) }}
+                </div>
+                }
+              } @else {
+                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list" />
+              }
+              @if (task.prio === 'Urgent') {
+              <img src="../../assets/img/04_task/high-unclicked.png" alt="high-prio" class="prio-img" />
+              } @else if (task.prio === 'Medium') {
+              <img src="../../assets/img/04_task/medium-unclicked.png" alt="medium-prio" class="prio-img" />
+              } @else if (task.prio === 'Low') {
+              <img src="../../assets/img/04_task/low-unclicked.png" alt="low-prio" class="prio-img" />
               }
             </div>
           </div>
@@ -184,10 +154,9 @@
     <div class="list-item">
       <div class="headline">
         <h3>Await feedback</h3>
-        <img
-          src="../../assets/img/05_board/plus button.png"
-          alt="plus-button"
-        />
+        <a routerLink="/tasks" (click)="openTasksOverlay($event)">
+          <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
+        </a>
       </div>
       <div class="tasks">
         <div
@@ -201,9 +170,9 @@
           @for (task of awaitFeedback; track task.id) {
           <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
-              @if (task.category == 'User Story') {
+              @if (task.category === 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
-              } @else {
+              } @else if (task.category === 'Technical Task') {
               <p class="blue">{{ task.category }}</p>
               }
             </div>
@@ -215,48 +184,33 @@
               <div class="progress-bar-container">
                 <div
                   class="progress-bar"
-                  [style.width]="getSubtaskProgress(task.subtask) + '%'"
+                  [style.width]="getSubtaskProgress(task) + '%'"
                 ></div>
               </div>
-              <span class="progress-text"
-                >{{ getSubtaskCount(task.subtask) }}/{{
-                  task.subtask?.length + " Subtasks" || 0 + " Subtasks"
-                }}</span
-              >
+              <span class="progress-text">
+                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }} Subtasks
+              </span>
             </div>
             <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned; track contact.id) {
-              <div
-                class="initial-circle"
-                [style.background-color]="contact.initialBg"
-                title="{{ contact.firstname }} {{ contact.lastname }}"
-              >
-                {{ getInitials(contact.firstname, contact.lastname) }}
-              </div>
-              } } @else {
-              <img
-                src="../../assets/img/06_contacts/default-img.png"
-                alt="contact-list"
-              />
-              } @if (task.prio == 'Urgent') {
-              <img
-                src="../../assets/img/04_task/high-unclicked.png"
-                alt="high-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio == 'Medium') {
-              <img
-                src="../../assets/img/04_task/medium-unclicked.png"
-                alt="medium-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio == 'Low') {
-              <img
-                src="../../assets/img/04_task/low-unclicked.png"
-                alt=""
-                class="prio-img"
-              />
+              @if (task.assigned && task.assigned.length > 0) {
+                @for (contact of task.assigned; track contact.id) {
+                <div
+                  class="initial-circle"
+                  [style.background-color]="contact.initialBg"
+                  title="{{ contact.firstname }} {{ contact.lastname }}"
+                >
+                  {{ getInitials(contact.firstname, contact.lastname) }}
+                </div>
+                }
+              } @else {
+                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list" />
+              }
+              @if (task.prio === 'Urgent') {
+              <img src="../../assets/img/04_task/high-unclicked.png" alt="high-prio" class="prio-img" />
+              } @else if (task.prio === 'Medium') {
+              <img src="../../assets/img/04_task/medium-unclicked.png" alt="medium-prio" class="prio-img" />
+              } @else if (task.prio === 'Low') {
+              <img src="../../assets/img/04_task/low-unclicked.png" alt="low-prio" class="prio-img" />
               }
             </div>
           </div>
@@ -268,10 +222,9 @@
     <div class="list-item">
       <div class="headline">
         <h3>Done</h3>
-        <img
-          src="../../assets/img/05_board/plus button.png"
-          alt="plus-button"
-        />
+        <a routerLink="/tasks" (click)="openTasksOverlay($event)">
+          <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
+        </a>
       </div>
       <div class="tasks">
         <div
@@ -285,9 +238,9 @@
           @for (task of done; track task.id) {
           <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
-              @if (task.category == 'User Story') {
+              @if (task.category === 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
-              } @else {
+              } @else if (task.category === 'Technical Task') {
               <p class="blue">{{ task.category }}</p>
               }
             </div>
@@ -299,48 +252,33 @@
               <div class="progress-bar-container">
                 <div
                   class="progress-bar"
-                  [style.width]="getSubtaskProgress(task.subtask) + '%'"
+                  [style.width]="getSubtaskProgress(task) + '%'"
                 ></div>
               </div>
-              <span class="progress-text"
-                >{{ getSubtaskCount(task.subtask) }}/{{
-                  task.subtask?.length + " Subtasks" || 0 + " Subtasks"
-                }}</span
-              >
+              <span class="progress-text">
+                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }} Subtasks
+              </span>
             </div>
             <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned; track contact.id) {
-              <div
-                class="initial-circle"
-                [style.background-color]="contact.initialBg"
-                title="{{ contact.firstname }} {{ contact.lastname }}"
-              >
-                {{ getInitials(contact.firstname, contact.lastname) }}
-              </div>
-              } } @else {
-              <img
-                src="../../assets/img/06_contacts/default-img.png"
-                alt="contact-list"
-              />
-              } @if (task.prio == 'Urgent') {
-              <img
-                src="../../assets/img/04_task/high-unclicked.png"
-                alt="high-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio == 'Medium') {
-              <img
-                src="../../assets/img/04_task/medium-unclicked.png"
-                alt="medium-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio == 'Low') {
-              <img
-                src="../../assets/img/04_task/low-unclicked.png"
-                alt=""
-                class="prio-img"
-              />
+              @if (task.assigned && task.assigned.length > 0) {
+                @for (contact of task.assigned; track contact.id) {
+                <div
+                  class="initial-circle"
+                  [style.background-color]="contact.initialBg"
+                  title="{{ contact.firstname }} {{ contact.lastname }}"
+                >
+                  {{ getInitials(contact.firstname, contact.lastname) }}
+                </div>
+                }
+              } @else {
+                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list" />
+              }
+              @if (task.prio === 'Urgent') {
+              <img src="../../assets/img/04_task/high-unclicked.png" alt="high-prio" class="prio-img" />
+              } @else if (task.prio === 'Medium') {
+              <img src="../../assets/img/04_task/medium-unclicked.png" alt="medium-prio" class="prio-img" />
+              } @else if (task.prio === 'Low') {
+              <img src="../../assets/img/04_task/low-unclicked.png" alt="low-prio" class="prio-img" />
               }
             </div>
           </div>
@@ -350,14 +288,19 @@
     </div>
   </div>
   <div
-  class="overlay"
-  [ngStyle]="{ display: selectedTask ? 'flex' : 'none' }"
-  (click)="handleDialogToggle()"
->
-  <div class="overlay-content" (click)="stopPropagation($event)">
-    @if (selectedTask) {
-    <app-task-detail [task]="selectedTask" (dialogClosed)="onDialogClosed()"></app-task-detail>
-    }
+    class="overlay"
+    [ngStyle]="{ display: selectedTask ? 'flex' : 'none' }"
+    (click)="handleDialogToggle()"
+  >
+    <div class="overlay-content" (click)="stopPropagation($event)">
+      @if (selectedTask) {
+      <app-task-detail [task]="selectedTask" (dialogClosed)="onDialogClosed()"></app-task-detail>
+      }
+    </div>
   </div>
-</div>
+  <div class="task-overlay" [ngClass]="{ active: isTasksOverlayOpen }">
+    <div class="task-overlay-content">
+      <app-add-task></app-add-task>
+    </div>
+  </div>
 </main>
