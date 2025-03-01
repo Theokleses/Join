@@ -388,7 +388,7 @@
   <div
     class="overlay-background"
     [ngStyle]="{ display: isTasksOverlayOpen ? 'block' : 'none' }"
-    (click)="closeAddTaskOverlay()"
+    (click)="openAddTaskOverlay()"
   >
     <div class="overlay-content" (click)="stopPropagation($event)">
       <app-add-task

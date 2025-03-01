@@ -6,6 +6,21 @@ main {
   overflow-y: auto;
 }
 
+.overlay-background {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); // Zentriert
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: slideInFromRight 0.3s ease-out forwards;
+}
+
 h2 {
   font-size: 56px;
 }
@@ -107,9 +122,9 @@ h2 {
   text-align: center;
   padding: 20px;
   background-color: rgba(211, 211, 211, 0.5);
-  color:#b1b2b4;
+  color: #b1b2b4;
   border-radius: 20px;
-  border: 2px dotted rgba(156, 156, 156, 0.5) ;
+  border: 2px dotted rgba(156, 156, 156, 0.5);
 }
 
 .drop-area {
