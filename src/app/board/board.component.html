@@ -34,7 +34,11 @@
           class="drop-area"
           (cdkDropListDropped)="drop($event)"
         >
-          @for (task of todo; track task.id) {
+          @if (todo.length === 0) {
+          <div class="no-tasks">
+            <p>No tasks To do</p>
+          </div>
+          } @for (task of todo; track task.id) {
           <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
               @if (task.category === 'User Story') {
@@ -119,7 +123,11 @@
           class="drop-area"
           (cdkDropListDropped)="drop($event)"
         >
-          @for (task of inProgress; track task.id) {
+          @if (inProgress.length === 0) {
+          <div class="no-tasks">
+            <p>No tasks in progress.</p>
+          </div>
+          } @for (task of inProgress; track task.id) {
           <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
               @if (task.category === 'User Story') {
@@ -204,7 +212,11 @@
           class="drop-area"
           (cdkDropListDropped)="drop($event)"
         >
-          @for (task of awaitFeedback; track task.id) {
+          @if (awaitFeedback.length === 0) {
+          <div class="no-tasks">
+            <p>No tasks awaiting feedback.</p>
+          </div>
+          } @for (task of awaitFeedback; track task.id) {
           <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
               @if (task.category === 'User Story') {
@@ -289,7 +301,11 @@
           class="drop-area"
           (cdkDropListDropped)="drop($event)"
         >
-          @for (task of done; track task.id) {
+          @if (done.length === 0) {
+          <div class="no-tasks">
+            <p>No tasks done yet.</p>
+          </div>
+          } @for (task of done; track task.id) {
           <div class="task" cdkDrag (click)="selectTask(task)">
             <div>
               @if (task.category === 'User Story') {
