@@ -8,7 +8,9 @@
         <input type="search" placeholder="Search task..." />
         <img src="../../assets/img/05_board/search.png" alt="search-icon" />
       </div>
-      <button class="dark-btn">Add task +</button>
+      <button class="dark-btn" (click)="openAddTaskOverlay()">
+        Add task +
+      </button>
     </div>
   </div>
 
@@ -20,6 +22,7 @@
         <img
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
+          (click)="openAddTaskOverlay()"
         />
       </div>
       <div class="tasks">
@@ -104,6 +107,7 @@
         <img
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
+          (click)="openAddTaskOverlay()"
         />
       </div>
       <div class="tasks">
@@ -188,6 +192,7 @@
         <img
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
+          (click)="openAddTaskOverlay()"
         />
       </div>
       <div class="tasks">
@@ -272,6 +277,7 @@
         <img
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
+          (click)="openAddTaskOverlay()"
         />
       </div>
       <div class="tasks">
@@ -363,7 +369,16 @@
       }
     </div>
   </div>
-  <div class="task-overlay" [ngClass]="{ active: isTasksOverlayOpen }">
-    <router-outlet></router-outlet>
+  <div
+    class="overlay-background"
+    [ngStyle]="{ display: isTasksOverlayOpen ? 'block' : 'none' }"
+    (click)="closeAddTaskOverlay()"
+  >
+    <div class="overlay-content" (click)="stopPropagation($event)">
+      <app-add-task
+        (taskAdded)="closeAddTaskOverlay()"
+        (closeOverlay)="closeAddTaskOverlay()"
+      ></app-add-task>
+    </div>
   </div>
 </main>

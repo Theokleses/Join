@@ -2,23 +2,35 @@ import { Component, inject, OnInit } from '@angular/core';
 import { TasksService } from '../firebase-services/tasks.service';
 import { CommonModule } from '@angular/common';
 import { Itasks } from '../interfaces/itasks';
-import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  CdkDrag,
+  CdkDropList,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { Firestore, doc, deleteDoc } from '@angular/fire/firestore';
-import { Router, RouterOutlet } from '@angular/router';
+import { AddTaskComponent } from './add-task/add-task.component';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule, CdkDropList, CdkDrag, FormsModule, TaskDetailComponent, RouterOutlet],
+  imports: [
+    CommonModule,
+    CdkDropList,
+    CdkDrag,
+    FormsModule,
+    TaskDetailComponent,
+    AddTaskComponent,
+  ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
 })
 export class BoardComponent implements OnInit {
   public tasksService = inject(TasksService);
   public firestore = inject(Firestore);
-  private router = inject(Router);
 
   todo: Itasks[] = [];
   inProgress: Itasks[] = [];
@@ -27,6 +39,15 @@ export class BoardComponent implements OnInit {
 
   selectedTask: Itasks | null = null;
   isTasksOverlayOpen: boolean = false;
+
+  // Neue Methoden zum Öffnen und Schließen des Overlays
+  openAddTaskOverlay() {
+    this.isTasksOverlayOpen = true;
+  }
+
+  closeAddTaskOverlay() {
+    this.isTasksOverlayOpen = false;
+  }
 
   selectTask(task: Itasks) {
     this.selectedTask = { ...task };
@@ -46,7 +67,11 @@ export class BoardComponent implements OnInit {
 
   drop(event: CdkDragDrop<Itasks[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -64,23 +89,31 @@ export class BoardComponent implements OnInit {
 
   getSubtaskProgress(task: Itasks): number {
     if (!task.subtask || task.subtask.length === 0) return 0;
-    const subtaskStatus = task.subtaskStatus || new Array(task.subtask.length).fill(false);
+    const subtaskStatus =
+      task.subtaskStatus || new Array(task.subtask.length).fill(false);
     const completed = subtaskStatus.filter(Boolean).length;
     return (completed / task.subtask.length) * 100;
   }
 
   getSubtaskCount(task: Itasks): number {
     if (!task.subtask || task.subtask.length === 0) return 0;
-    const subtaskStatus = task.subtaskStatus || new Array(task.subtask.length).fill(false);
+    const subtaskStatus =
+      task.subtaskStatus || new Array(task.subtask.length).fill(false);
     return subtaskStatus.filter(Boolean).length;
   }
 
   getInitials(firstname: string, lastname: string): string {
-    return `${firstname?.charAt(0)?.toUpperCase() || ''}${lastname?.charAt(0)?.toUpperCase() || ''}`;
+    return `${firstname?.charAt(0)?.toUpperCase() || ''}${
+      lastname?.charAt(0)?.toUpperCase() || ''
+    }`;
   }
 
   getCategoryClass(category: string): string {
-    return category === 'User Story' ? 'darkblue' : category === 'Technical Task' ? 'blue' : 'default';
+    return category === 'User Story'
+      ? 'darkblue'
+      : category === 'Technical Task'
+      ? 'blue'
+      : 'default';
   }
 
   async deleteTask() {
@@ -98,21 +131,14 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  openTasksOverlay(event: Event) {
-    event.preventDefault(); // Verhindert das Standard-Router-Verhalten
-    this.isTasksOverlayOpen = true;
-    // Kein Router-Navigation mehr nötig, da es ein lokales Overlay ist
-  }
-
-  closeTasksOverlay() {
-    this.isTasksOverlayOpen = false;
-    // Kein Router-Navigation, da es lokal bleibt
-  }
-
   ngOnInit() {
     this.tasksService.todo$.subscribe((tasks) => (this.todo = tasks));
-    this.tasksService.inProgress$.subscribe((tasks) => (this.inProgress = tasks));
-    this.tasksService.awaitFeedback$.subscribe((tasks) => (this.awaitFeedback = tasks));
+    this.tasksService.inProgress$.subscribe(
+      (tasks) => (this.inProgress = tasks)
+    );
+    this.tasksService.awaitFeedback$.subscribe(
+      (tasks) => (this.awaitFeedback = tasks)
+    );
     this.tasksService.done$.subscribe((tasks) => (this.done = tasks));
   }
 }
