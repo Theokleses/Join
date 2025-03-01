@@ -6,13 +6,12 @@ import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray, transferArrayItem }
 import { FormsModule } from '@angular/forms';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { Firestore, doc, deleteDoc } from '@angular/fire/firestore';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { AddTaskComponent } from "./add-task/add-task.component";
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule, CdkDropList, CdkDrag, FormsModule, TaskDetailComponent, RouterLink, RouterOutlet, AddTaskComponent],
+  imports: [CommonModule, CdkDropList, CdkDrag, FormsModule, TaskDetailComponent, RouterOutlet],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
 })
@@ -100,14 +99,14 @@ export class BoardComponent implements OnInit {
   }
 
   openTasksOverlay(event: Event) {
-    event.preventDefault();
+    event.preventDefault(); // Verhindert das Standard-Router-Verhalten
     this.isTasksOverlayOpen = true;
-    this.router.navigate(['/tasks']);
+    // Kein Router-Navigation mehr nötig, da es ein lokales Overlay ist
   }
 
   closeTasksOverlay() {
     this.isTasksOverlayOpen = false;
-    this.router.navigate(['/']);
+    // Kein Router-Navigation, da es lokal bleibt
   }
 
   ngOnInit() {

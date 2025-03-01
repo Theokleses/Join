@@ -7,12 +7,11 @@ import { SignupComponent } from './signup/signup.component';
 import { SummaryComponent } from './summary/summary.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
-import { AddTaskComponent } from './board/add-task/add-task.component';
 
 export const routes: Routes = [
   //   { path: '', component: ContactsComponent }, wenn contacts fertig ist wieder einfügen fürs testen ist path leer
-  { path: 'login', component: LoginComponent }, 
-  { path: 'signup', component: SignupComponent }, 
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
   { path: '', component: LoginComponent },
   { path: 'summary', component: SummaryComponent },
   { path: 'tasks', component: TasksComponent },
@@ -20,5 +19,4 @@ export const routes: Routes = [
   { path: 'contacts', component: ContactsComponent },
   { path: 'privacy-notice', component: PrivacyComponent },
   { path: 'legal-notice', component: LegalNoticeComponent },
-  { path: 'add-task', component: AddTaskComponent },
 ];

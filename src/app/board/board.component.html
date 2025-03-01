@@ -8,9 +8,7 @@
         <input type="search" placeholder="Search task..." />
         <img src="../../assets/img/05_board/search.png" alt="search-icon" />
       </div>
-      <a routerLink="/tasks" (click)="openTasksOverlay($event)" class="dark-btn">
-        Add task +
-      </a>
+      <button class="dark-btn">Add task +</button>
     </div>
   </div>
 
@@ -18,9 +16,11 @@
     <div class="list-item">
       <div class="headline">
         <h3>To do</h3>
-        <a routerLink="/tasks" (click)="openTasksOverlay($event)">
-          <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
-        </a>
+
+        <img
+          src="../../assets/img/05_board/plus button.png"
+          alt="plus-button"
+        />
       </div>
       <div class="tasks">
         <div
@@ -52,29 +52,43 @@
                 ></div>
               </div>
               <span class="progress-text">
-                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }} Subtasks
+                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                Subtasks
               </span>
             </div>
             <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) {
-                @for (contact of task.assigned; track contact.id) {
-                <div
-                  class="initial-circle"
-                  [style.background-color]="contact.initialBg"
-                  title="{{ contact.firstname }} {{ contact.lastname }}"
-                >
-                  {{ getInitials(contact.firstname, contact.lastname) }}
-                </div>
-                }
-              } @else {
-                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list" />
-              }
-              @if (task.prio === 'Urgent') {
-              <img src="../../assets/img/04_task/high-unclicked.png" alt="high-prio" class="prio-img" />
+              @if (task.assigned && task.assigned.length > 0) { @for (contact of
+              task.assigned; track contact.id) {
+              <div
+                class="initial-circle"
+                [style.background-color]="contact.initialBg"
+                title="{{ contact.firstname }} {{ contact.lastname }}"
+              >
+                {{ getInitials(contact.firstname, contact.lastname) }}
+              </div>
+              } } @else {
+              <img
+                src="../../assets/img/06_contacts/default-img.png"
+                alt="contact-list"
+              />
+              } @if (task.prio === 'Urgent') {
+              <img
+                src="../../assets/img/04_task/high-unclicked.png"
+                alt="high-prio"
+                class="prio-img"
+              />
               } @else if (task.prio === 'Medium') {
-              <img src="../../assets/img/04_task/medium-unclicked.png" alt="medium-prio" class="prio-img" />
+              <img
+                src="../../assets/img/04_task/medium-unclicked.png"
+                alt="medium-prio"
+                class="prio-img"
+              />
               } @else if (task.prio === 'Low') {
-              <img src="../../assets/img/04_task/low-unclicked.png" alt="low-prio" class="prio-img" />
+              <img
+                src="../../assets/img/04_task/low-unclicked.png"
+                alt="low-prio"
+                class="prio-img"
+              />
               }
             </div>
           </div>
@@ -86,9 +100,11 @@
     <div class="list-item">
       <div class="headline">
         <h3>In progress</h3>
-        <a routerLink="/tasks" (click)="openTasksOverlay($event)">
-          <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
-        </a>
+
+        <img
+          src="../../assets/img/05_board/plus button.png"
+          alt="plus-button"
+        />
       </div>
       <div class="tasks">
         <div
@@ -120,29 +136,43 @@
                 ></div>
               </div>
               <span class="progress-text">
-                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }} Subtasks
+                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                Subtasks
               </span>
             </div>
             <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) {
-                @for (contact of task.assigned; track contact.id) {
-                <div
-                  class="initial-circle"
-                  [style.background-color]="contact.initialBg"
-                  title="{{ contact.firstname }} {{ contact.lastname }}"
-                >
-                  {{ getInitials(contact.firstname, contact.lastname) }}
-                </div>
-                }
-              } @else {
-                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list" />
-              }
-              @if (task.prio === 'Urgent') {
-              <img src="../../assets/img/04_task/high-unclicked.png" alt="high-prio" class="prio-img" />
+              @if (task.assigned && task.assigned.length > 0) { @for (contact of
+              task.assigned; track contact.id) {
+              <div
+                class="initial-circle"
+                [style.background-color]="contact.initialBg"
+                title="{{ contact.firstname }} {{ contact.lastname }}"
+              >
+                {{ getInitials(contact.firstname, contact.lastname) }}
+              </div>
+              } } @else {
+              <img
+                src="../../assets/img/06_contacts/default-img.png"
+                alt="contact-list"
+              />
+              } @if (task.prio === 'Urgent') {
+              <img
+                src="../../assets/img/04_task/high-unclicked.png"
+                alt="high-prio"
+                class="prio-img"
+              />
               } @else if (task.prio === 'Medium') {
-              <img src="../../assets/img/04_task/medium-unclicked.png" alt="medium-prio" class="prio-img" />
+              <img
+                src="../../assets/img/04_task/medium-unclicked.png"
+                alt="medium-prio"
+                class="prio-img"
+              />
               } @else if (task.prio === 'Low') {
-              <img src="../../assets/img/04_task/low-unclicked.png" alt="low-prio" class="prio-img" />
+              <img
+                src="../../assets/img/04_task/low-unclicked.png"
+                alt="low-prio"
+                class="prio-img"
+              />
               }
             </div>
           </div>
@@ -154,9 +184,11 @@
     <div class="list-item">
       <div class="headline">
         <h3>Await feedback</h3>
-        <a routerLink="/tasks" (click)="openTasksOverlay($event)">
-          <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
-        </a>
+
+        <img
+          src="../../assets/img/05_board/plus button.png"
+          alt="plus-button"
+        />
       </div>
       <div class="tasks">
         <div
@@ -188,29 +220,43 @@
                 ></div>
               </div>
               <span class="progress-text">
-                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }} Subtasks
+                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                Subtasks
               </span>
             </div>
             <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) {
-                @for (contact of task.assigned; track contact.id) {
-                <div
-                  class="initial-circle"
-                  [style.background-color]="contact.initialBg"
-                  title="{{ contact.firstname }} {{ contact.lastname }}"
-                >
-                  {{ getInitials(contact.firstname, contact.lastname) }}
-                </div>
-                }
-              } @else {
-                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list" />
-              }
-              @if (task.prio === 'Urgent') {
-              <img src="../../assets/img/04_task/high-unclicked.png" alt="high-prio" class="prio-img" />
+              @if (task.assigned && task.assigned.length > 0) { @for (contact of
+              task.assigned; track contact.id) {
+              <div
+                class="initial-circle"
+                [style.background-color]="contact.initialBg"
+                title="{{ contact.firstname }} {{ contact.lastname }}"
+              >
+                {{ getInitials(contact.firstname, contact.lastname) }}
+              </div>
+              } } @else {
+              <img
+                src="../../assets/img/06_contacts/default-img.png"
+                alt="contact-list"
+              />
+              } @if (task.prio === 'Urgent') {
+              <img
+                src="../../assets/img/04_task/high-unclicked.png"
+                alt="high-prio"
+                class="prio-img"
+              />
               } @else if (task.prio === 'Medium') {
-              <img src="../../assets/img/04_task/medium-unclicked.png" alt="medium-prio" class="prio-img" />
+              <img
+                src="../../assets/img/04_task/medium-unclicked.png"
+                alt="medium-prio"
+                class="prio-img"
+              />
               } @else if (task.prio === 'Low') {
-              <img src="../../assets/img/04_task/low-unclicked.png" alt="low-prio" class="prio-img" />
+              <img
+                src="../../assets/img/04_task/low-unclicked.png"
+                alt="low-prio"
+                class="prio-img"
+              />
               }
             </div>
           </div>
@@ -222,9 +268,11 @@
     <div class="list-item">
       <div class="headline">
         <h3>Done</h3>
-        <a routerLink="/tasks" (click)="openTasksOverlay($event)">
-          <img src="../../assets/img/05_board/plus button.png" alt="plus-button" />
-        </a>
+
+        <img
+          src="../../assets/img/05_board/plus button.png"
+          alt="plus-button"
+        />
       </div>
       <div class="tasks">
         <div
@@ -256,29 +304,43 @@
                 ></div>
               </div>
               <span class="progress-text">
-                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }} Subtasks
+                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                Subtasks
               </span>
             </div>
             <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) {
-                @for (contact of task.assigned; track contact.id) {
-                <div
-                  class="initial-circle"
-                  [style.background-color]="contact.initialBg"
-                  title="{{ contact.firstname }} {{ contact.lastname }}"
-                >
-                  {{ getInitials(contact.firstname, contact.lastname) }}
-                </div>
-                }
-              } @else {
-                <img src="../../assets/img/06_contacts/default-img.png" alt="contact-list" />
-              }
-              @if (task.prio === 'Urgent') {
-              <img src="../../assets/img/04_task/high-unclicked.png" alt="high-prio" class="prio-img" />
+              @if (task.assigned && task.assigned.length > 0) { @for (contact of
+              task.assigned; track contact.id) {
+              <div
+                class="initial-circle"
+                [style.background-color]="contact.initialBg"
+                title="{{ contact.firstname }} {{ contact.lastname }}"
+              >
+                {{ getInitials(contact.firstname, contact.lastname) }}
+              </div>
+              } } @else {
+              <img
+                src="../../assets/img/06_contacts/default-img.png"
+                alt="contact-list"
+              />
+              } @if (task.prio === 'Urgent') {
+              <img
+                src="../../assets/img/04_task/high-unclicked.png"
+                alt="high-prio"
+                class="prio-img"
+              />
               } @else if (task.prio === 'Medium') {
-              <img src="../../assets/img/04_task/medium-unclicked.png" alt="medium-prio" class="prio-img" />
+              <img
+                src="../../assets/img/04_task/medium-unclicked.png"
+                alt="medium-prio"
+                class="prio-img"
+              />
               } @else if (task.prio === 'Low') {
-              <img src="../../assets/img/04_task/low-unclicked.png" alt="low-prio" class="prio-img" />
+              <img
+                src="../../assets/img/04_task/low-unclicked.png"
+                alt="low-prio"
+                class="prio-img"
+              />
               }
             </div>
           </div>
@@ -294,13 +356,14 @@
   >
     <div class="overlay-content" (click)="stopPropagation($event)">
       @if (selectedTask) {
-      <app-task-detail [task]="selectedTask" (dialogClosed)="onDialogClosed()"></app-task-detail>
+      <app-task-detail
+        [task]="selectedTask"
+        (dialogClosed)="onDialogClosed()"
+      ></app-task-detail>
       }
     </div>
   </div>
   <div class="task-overlay" [ngClass]="{ active: isTasksOverlayOpen }">
-    <div class="task-overlay-content">
-      <app-add-task></app-add-task>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </main>
