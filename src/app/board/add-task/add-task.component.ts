@@ -1,4 +1,4 @@
-import { Component, inject, HostListener, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, inject, HostListener, ViewChild, ElementRef, Output, Input, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../../firebase-services/contacts.service';
@@ -8,7 +8,7 @@ import { Itasks } from '../../interfaces/itasks';
 import { TasksService } from '../../firebase-services/tasks.service';
 
 @Component({
-  selector: 'app-add-task', // Ändere den Selektor, falls nötig
+  selector: 'app-add-task',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './add-task.component.html',
@@ -17,8 +17,9 @@ import { TasksService } from '../../firebase-services/tasks.service';
 export class AddTaskComponent {
   @ViewChild('inputSearch') inputSearch!: ElementRef;
   @ViewChild('subtaskInputElement') subtaskInputElement!: ElementRef;
+  @Input() targetStatus: string = 'todo'; // Empfängt den Status von BoardComponent
   @Output() taskAdded = new EventEmitter<void>();
-  @Output() closeOverlay = new EventEmitter<void>(); // Neuer EventEmitter zum Schließen
+  @Output() closeOverlay = new EventEmitter<void>();
   public contacts = inject(ContactsService);
   readonly date = new FormControl(new Date());
   readonly serializedDate = new FormControl(new Date().toISOString());
@@ -72,7 +73,6 @@ export class AddTaskComponent {
     this.date.setValue(new Date(this.taskForm.value.dueDate));
   }
 
-  // Bestehende Methoden bleiben größtenteils unverändert
   onDateChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const selectedDate = new Date(inputElement.value);
@@ -215,7 +215,7 @@ export class AddTaskComponent {
         prio: prio,
         assigned: selectedContacts,
         subtask: this.subtasklist,
-        status: 'todo',
+        status: this.targetStatus, // Verwendet den übergebenen targetStatus
       };
 
       this.tasksService.addTask(newTask).then(() => {
@@ -223,12 +223,12 @@ export class AddTaskComponent {
         this.newTaskAdded = true;
         setTimeout(() => {
           this.isFadingOut = true;
-        }, 1500);
+        }, 500);
         setTimeout(() => {
           this.newTaskAdded = false;
           this.isFadingOut = false;
           this.taskAdded.emit(); // Overlay nach Meldung schließen
-        }, 2000);
+        }, 500);
       }).catch(error => {
         console.error('Fehler beim Hinzufügen des Tasks:', error);
       });

@@ -22,7 +22,7 @@
         <img
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
-          (click)="openAddTaskOverlay()"
+          (click)="openAddTaskOverlay('todo')"
         />
       </div>
       <div class="tasks">
@@ -107,7 +107,7 @@
         <img
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
-          (click)="openAddTaskOverlay()"
+          (click)="openAddTaskOverlay('in-progress')"
         />
       </div>
       <div class="tasks">
@@ -192,7 +192,7 @@
         <img
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
-          (click)="openAddTaskOverlay()"
+          (click)="openAddTaskOverlay('await-feedback')"
         />
       </div>
       <div class="tasks">
@@ -277,7 +277,7 @@
         <img
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
-          (click)="openAddTaskOverlay()"
+          (click)="openAddTaskOverlay('done')"
         />
       </div>
       <div class="tasks">
@@ -376,6 +376,7 @@
   >
     <div class="overlay-content" (click)="stopPropagation($event)">
       <app-add-task
+        [targetStatus]="targetStatus"
         (taskAdded)="closeAddTaskOverlay()"
         (closeOverlay)="closeAddTaskOverlay()"
       ></app-add-task>

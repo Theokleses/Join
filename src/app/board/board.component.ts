@@ -39,10 +39,11 @@ export class BoardComponent implements OnInit {
 
   selectedTask: Itasks | null = null;
   isTasksOverlayOpen: boolean = false;
+  targetStatus: string = 'todo';
 
-  // Neue Methoden zum Öffnen und Schließen des Overlays
-  openAddTaskOverlay() {
-    this.isTasksOverlayOpen = true;
+  openAddTaskOverlay(status: string = 'todo') {
+    this.targetStatus = status; // Speichere den Zielstatus
+    this.isTasksOverlayOpen = true; // Öffne das Overlay
   }
 
   closeAddTaskOverlay() {
@@ -106,14 +107,6 @@ export class BoardComponent implements OnInit {
     return `${firstname?.charAt(0)?.toUpperCase() || ''}${
       lastname?.charAt(0)?.toUpperCase() || ''
     }`;
-  }
-
-  getCategoryClass(category: string): string {
-    return category === 'User Story'
-      ? 'darkblue'
-      : category === 'Technical Task'
-      ? 'blue'
-      : 'default';
   }
 
   async deleteTask() {
