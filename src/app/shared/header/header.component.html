@@ -1,15 +1,25 @@
 <main>
   <div class="header-text">
     <p>Kanban Project Management Tool</p>
-    <img class="header-icon d-none" src="assets\img\logo-small.png" alt="Join-logo">
+    <img
+      class="header-icon d-none"
+      src="assets\img\logo-small.png"
+      alt="Join-logo"
+    />
   </div>
   <div class="header-icons">
-    <img class="icon" src="assets/img/07_header/help.png" alt="Questionmark-logo" /> 
-    <div class="avatar" [ngClass]="{ show: menuOpen }" (click)="toggleMenu()">SM</div>
-      <div class="menu" *ngIf="menuOpen">
-        <a href="#" (click)="closeMenu()">Legal Notice</a>
-        <a href="#" (click)="closeMenu()">Privacy Policy</a>
-        <a href="#" (click)="closeMenu()">Log out</a>
-      </div>
-</div>
+    <img
+      class="icon"
+      src="assets/img/07_header/help.png"
+      alt="Questionmark-logo"
+    />
+    <div class="avatar" [ngClass]="{ show: menuOpen }" (click)="toggleMenu()">
+      {{ initials }}
+    </div>
+    <div class="menu" *ngIf="menuOpen">
+      <a href="#" (click)="closeMenu()">Legal Notice</a>
+      <a href="#" (click)="closeMenu()">Privacy Policy</a>
+      <a href="#" (click)="closeMenu()">Log out</a>
+    </div>
+  </div>
 </main>

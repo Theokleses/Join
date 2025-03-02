@@ -19,14 +19,13 @@ export class SignupComponent {
 
   onCheckboxChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
-    this.isPrivacyAccepted = checkbox.checked; // Aktualisiert den Status
-    console.log('Checkbox status:', this.isPrivacyAccepted); // Debugging
+    this.isPrivacyAccepted = checkbox.checked;
+    console.log('Checkbox status:', this.isPrivacyAccepted); 
   }
 
   signUp() {
     if (this.isPrivacyAccepted) {
       console.log('Sign up clicked!');
-      // Hier kannst du deine Signup-Logik einfügen, z. B. this.router.navigate(['/somewhere']);
     }
   }
 

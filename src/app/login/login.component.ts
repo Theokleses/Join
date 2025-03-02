@@ -2,20 +2,86 @@ import { CommonModule } from '@angular/common';
 import { Component, Renderer2, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
+import { LoginService } from '../firebase-services/login.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements AfterViewInit {
+  email: string = '';
+
   constructor(
     private router: Router,
     private appComponent: AppComponent,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private loginService: LoginService
   ) {}
+
+  navigateToSummary() {
+    this.appComponent.isLoggedIn = true;
+    this.router.navigate(['/summary']);
+  }
+
+  navigateToSignup() {
+    this.router.navigate(['/signup']);
+  }
+
+  guestLogin() {
+    this.loginService.setInitials('G');
+  }
+
+  handleGuestLogin() {
+    this.guestLogin();
+    this.navigateToSummary();
+  }
+
+  handleLogin() {
+    if (this.email && this.email.includes('@')) {
+      const namePart = this.email.split('@')[0]; 
+      let initials = '';
+      // Fall 1: Mit Punkt getrennt (z. B. "max.mustermann")
+      if (namePart.includes('.')) {
+        const names = namePart.split('.');
+        if (names.length >= 2) {
+          initials = names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
+        }
+      } 
+      // Fall 2: Mit Bindestrich getrennt (z. B. "max-mustermann")
+      else if (namePart.includes('-')) {
+        const names = namePart.split('-');
+        if (names.length >= 2) {
+          initials = names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
+        }
+      } 
+      // Fall 3: Mit Unterstrich getrennt (z. B. "max_mustermann")
+      else if (namePart.includes('_')) {
+        const names = namePart.split('_');
+        if (names.length >= 2) {
+          initials = names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
+        }
+      } 
+      // Fall 4: Mit Großbuchstaben (z. B. "maxMustermann")
+      else if (namePart.match(/[A-Z]/)) {
+        const nameParts = namePart.split(/(?=[A-Z])/);
+        if (nameParts.length >= 2) {
+          initials = nameParts[0].charAt(0).toUpperCase() + nameParts[1].charAt(0).toUpperCase();
+        }
+      } 
+      // Fall 5: Keine klare Trennung (z. B. "maxmustermann")
+      else {
+        initials = namePart.slice(0, 2).toUpperCase(); // Erste zwei Buchstaben
+      }
+      this.loginService.setInitials(initials);
+      this.navigateToSummary();
+    } else {
+      console.log('Ungültige Email-Adresse');
+    }
+  }
 
   ngAfterViewInit(): void {
     const logoElement = document.querySelector('.logo');
@@ -41,17 +107,7 @@ export class LoginComponent implements AfterViewInit {
     handleMediaChange(mediaQuery);
     mediaQuery.addEventListener('change', handleMediaChange);
   }
-
-  navigateToSummary() {
-    this.appComponent.isLoggedIn = true;
-    this.router.navigate(['/summary']);
-  }
-
-  navigateToSignup() {
-    this.router.navigate(['/signup']);
-  }
 }
-
 // constructor(private router: Router) {}
 
 // navigateToSummary() {

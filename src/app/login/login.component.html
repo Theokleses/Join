@@ -26,6 +26,7 @@
               name="email"
               id="email"
               placeholder="Email"
+              [(ngModel)]="email"
               required
             /><img src="/assets/img/06_contacts/mail.png" alt="" />
           </div>
@@ -40,8 +41,8 @@
           </div>
         </div>
         <div class="login-button">
-          <button class="dark-btn">Log in</button>
-          <button class="bright-btn" (click)="navigateToSummary()">
+          <button class="dark-btn" (click)="handleLogin()">Log in</button>
+          <button class="bright-btn" (click)="handleGuestLogin()">
             Guest Log in
           </button>
         </div>
