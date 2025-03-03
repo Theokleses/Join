@@ -111,7 +111,6 @@ export class TasksService implements OnDestroy {
     try {
       const tasksCollection = collection(this.firestore, 'tasks');
       const docRef = await addDoc(tasksCollection, task);
-      console.log('Task erfolgreich hinzugefügt mit ID:', docRef.id);
     } catch (error) {
       console.error('Fehler beim Hinzufügen des Tasks:', error);
     }
@@ -129,9 +128,7 @@ export class TasksService implements OnDestroy {
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`);
     try {
       await updateDoc(taskDocRef, { status: newStatus });
-      console.log(
-        `Task ${taskId} erfolgreich auf Status ${newStatus} aktualisiert`
-      );
+
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Task-Status:', error);
     }
@@ -142,7 +139,6 @@ export class TasksService implements OnDestroy {
     try {
       const { id, ...updateData } = task;
       await updateDoc(taskDocRef, updateData);
-      console.log(`Task ${taskId} erfolgreich aktualisiert`);
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Tasks:', error);
     }

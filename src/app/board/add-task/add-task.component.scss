@@ -382,9 +382,6 @@ input {
   }
 }
 
-@media (max-width: 800px) {
-
-}
 @media (max-width: 700px) {
   ::-webkit-scrollbar {
     width: 0;
@@ -400,7 +397,7 @@ input {
     background: transparent;
   }
 
-  .overlay{
+  .overlay {
     max-width: 400px;
     width: 300px;
   }

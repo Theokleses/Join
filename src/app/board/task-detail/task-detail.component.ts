@@ -1,4 +1,12 @@
-import { Component, inject, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { Itasks } from '../../interfaces/itasks';
 import { TasksService } from '../../firebase-services/tasks.service';
 import { Firestore, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
@@ -33,10 +41,11 @@ export class TaskDetailComponent implements OnChanges {
       this.idToDelete = this.task.id;
       this.showAnimation = true;
       if (this.task.subtask && !this.task.subtaskStatus) {
-        this.task.subtaskStatus = new Array(this.task.subtask.length).fill(false);
+        this.task.subtaskStatus = new Array(this.task.subtask.length).fill(
+          false
+        );
         this.saveSubtaskStatus();
       }
-      console.log('Task loaded:', this.task);
     } else if (changes['task'] && !this.task) {
       this.dialogClosed.emit();
     }
@@ -71,11 +80,11 @@ export class TaskDetailComponent implements OnChanges {
     try {
       const taskDocRef = doc(this.firestore, 'tasks', this.idToDelete);
       await deleteDoc(taskDocRef);
-      console.log('Task successfully deleted:', this.idToDelete);
       this.deleteError = null;
       this.dialogClosed.emit();
     } catch (error) {
-      this.deleteError = 'Fehler beim Löschen des Tasks. Bitte versuche es erneut.';
+      this.deleteError =
+        'Fehler beim Löschen des Tasks. Bitte versuche es erneut.';
       console.error('Error deleting document:', error);
     }
   }
@@ -85,7 +94,6 @@ export class TaskDetailComponent implements OnChanges {
   }
 
   handleDialogToggle() {
-    console.log('X button clicked, emitting dialogClosed');
     this.dialogClosed.emit();
   }
 
@@ -98,14 +106,18 @@ export class TaskDetailComponent implements OnChanges {
   onEditComplete(updatedTask: Itasks | null) {
     if (updatedTask) {
       this.task = { ...updatedTask };
-      // Synchronisiere subtaskStatus nach Editieren
-      if (this.task.subtask && (!this.task.subtaskStatus || this.task.subtaskStatus.length !== this.task.subtask.length)) {
+      if (
+        this.task.subtask &&
+        (!this.task.subtaskStatus ||
+          this.task.subtaskStatus.length !== this.task.subtask.length)
+      ) {
         const oldStatus = this.task.subtaskStatus || [];
-        this.task.subtaskStatus = this.task.subtask.map((_, i) => oldStatus[i] || false);
+        this.task.subtaskStatus = this.task.subtask.map(
+          (_, i) => oldStatus[i] || false
+        );
         this.saveSubtaskStatus();
       }
       this.isEditing = false;
-      console.log('Task updated:', this.task);
     } else {
       this.isEditing = false;
     }
