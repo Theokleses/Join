@@ -36,7 +36,14 @@
         <h3>Subtasks</h3>
         <ul>
           @for (subtask of task?.subtask; track $index) {
-          <li>{{ subtask }}</li>
+            <li>
+              <input 
+                type="checkbox" 
+                [checked]="task?.subtaskStatus?.[$index]" 
+                (change)="toggleSubtask($index)" 
+              />
+              {{ subtask }}
+            </li>
           }
         </ul>
       </div>
