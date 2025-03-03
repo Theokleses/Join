@@ -40,6 +40,7 @@ export class BoardComponent implements OnInit {
   selectedTask: Itasks | null = null;
   isTasksOverlayOpen: boolean = false;
   targetStatus: string = 'todo';
+  searchQuery: string = '';
 
   openAddTaskOverlay(status: string = 'todo') {
     this.targetStatus = status; // Speichere den Zielstatus
@@ -86,6 +87,17 @@ export class BoardComponent implements OnInit {
         this.tasksService.updateTaskStatus(currentTask.id, event.container.id);
       }
     }
+  }
+
+  taskMatchesSearch(task: Itasks): boolean {
+    if (!this.searchQuery) {
+      return true;
+    }
+    const query = this.searchQuery.toLowerCase();
+    return (
+      (task.title || '').toLowerCase().includes(query) ||
+      (task.description || '').toLowerCase().includes(query)
+    );
   }
 
   getSubtaskProgress(task: Itasks): number {

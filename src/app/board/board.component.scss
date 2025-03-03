@@ -224,6 +224,10 @@ h2 {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 @media (max-width: 1300px) {
   .taskboard {
     gap: 16px;
