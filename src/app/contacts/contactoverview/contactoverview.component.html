@@ -75,18 +75,16 @@
       [ngStyle]="{ display: showEditDelete ? 'flex' : 'none' }"
     >
     <div class="dialog">
-      <a class="center-line" 
+      <a class="center-line" (click)="contacts.toggleDialogEdit()" 
         ><img
           src="./assets/img/06_contacts/edit.png"
           alt="Edit-icon"
-          (click)="contacts.toggleDialogEdit()"
         />Edit</a
       >
-      <a class="center-line"
+      <a class="center-line" (click)="deleteContact()"
         ><img
           src="./assets/img/06_contacts/delete.png"
           alt="Delete-icon"
-          (click)="deleteContact()"
         />Delete</a
       >
     </div>
