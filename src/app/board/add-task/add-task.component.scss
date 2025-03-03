@@ -36,7 +36,7 @@
 .close-btn {
   cursor: pointer;
   font-size: 20px;
-  margin-left: 220px;
+  margin-left: 240px;
 }
 
 .label-input-container {
@@ -345,4 +345,69 @@ input {
   display: block;
   color: red;
   font-size: 12px;
+}
+
+@media (max-width: 1050px) {
+  .overlay {
+    border-radius: 20px;
+    width: auto;
+    max-width: 400px;
+    width: 400px;
+    height: auto;
+    margin: 0 auto;
+    background: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
+
+  .overlay-content {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+    margin: 0;
+  }
+
+  .label-input-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 800px) {
+
+}
+@media (max-width: 700px) {
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  .overlay{
+    max-width: 400px;
+    width: 300px;
+  }
+
+  .close-btn {
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 160px;
+  }
 }

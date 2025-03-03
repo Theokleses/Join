@@ -43,7 +43,7 @@ h2 {
 }
 
 .content {
-  flex: 1; 
+  flex: 1;
   overflow-y: auto;
 }
 
@@ -199,5 +199,47 @@ li {
   to {
     transform: translate(-50%, 100%); // Endposition: Unten
     opacity: 0;
+  }
+}
+
+@media (max-width: 1050px) {
+  .overlay-content {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+    margin: 0;
+  }
+
+  .label-input-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 800px) {
+}
+@media (max-width: 700px) {
+  .close-btn {
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 160px;
+  }
+
+  .overlay-content {
+    background: white;
+    padding: 10px;
+    border-radius: 20px;
+    width: 300px !important;
+    max-width: 320px;
+    height: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    margin: 0 auto;
   }
 }

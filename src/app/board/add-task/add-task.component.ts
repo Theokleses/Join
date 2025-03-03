@@ -215,7 +215,7 @@ export class AddTaskComponent {
         prio: prio,
         assigned: selectedContacts,
         subtask: this.subtasklist,
-        status: this.targetStatus, // Verwendet den übergebenen targetStatus
+        status: this.targetStatus,
       };
 
       this.tasksService.addTask(newTask).then(() => {
@@ -227,7 +227,7 @@ export class AddTaskComponent {
         setTimeout(() => {
           this.newTaskAdded = false;
           this.isFadingOut = false;
-          this.taskAdded.emit(); // Overlay nach Meldung schließen
+          this.taskAdded.emit();
         }, 500);
       }).catch(error => {
         console.error('Fehler beim Hinzufügen des Tasks:', error);

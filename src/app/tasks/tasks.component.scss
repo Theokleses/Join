@@ -133,8 +133,7 @@ main {
               flex-direction: row;
               align-items: center;
               position: relative;
-              #input-search {
-              }
+
               img {
                 width: 0.5em;
                 aspect-ratio: 1/1;
@@ -512,12 +511,6 @@ main {
       h2 {
         font-size: 2em !important;
         margin: 0 !important;
-      }
-      #all-fields {
-        #left-field {
-        }
-        #right-field {
-        }
       }
     }
   }

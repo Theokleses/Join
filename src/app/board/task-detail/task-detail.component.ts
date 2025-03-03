@@ -32,14 +32,12 @@ export class TaskDetailComponent implements OnChanges {
     if (changes['task'] && this.task && this.task.id) {
       this.idToDelete = this.task.id;
       this.showAnimation = true;
-      // Initialisiere subtaskStatus, falls nicht vorhanden
       if (this.task.subtask && !this.task.subtaskStatus) {
         this.task.subtaskStatus = new Array(this.task.subtask.length).fill(false);
-        this.saveSubtaskStatus(); // Speichere Initialwert
+        this.saveSubtaskStatus();
       }
       console.log('Task loaded:', this.task);
     } else if (changes['task'] && !this.task) {
-      console.log('Task cleared, closing dialog');
       this.dialogClosed.emit();
     }
   }
@@ -58,7 +56,6 @@ export class TaskDetailComponent implements OnChanges {
         await updateDoc(taskDocRef, {
           subtaskStatus: this.task.subtaskStatus,
         });
-        console.log('Subtask status updated for task:', this.task.id);
       } catch (error) {
         console.error('Error updating subtask status:', error);
       }
@@ -68,7 +65,6 @@ export class TaskDetailComponent implements OnChanges {
   async deleteTask() {
     if (!this.idToDelete) {
       this.deleteError = 'Keine Task-ID zum Löschen gefunden.';
-      console.log('Delete task triggered, no ID');
       return;
     }
 
@@ -96,7 +92,6 @@ export class TaskDetailComponent implements OnChanges {
   startEdit() {
     if (this.task) {
       this.isEditing = true;
-      console.log('Edit mode started, isEditing:', this.isEditing);
     }
   }
 
