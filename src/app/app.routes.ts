@@ -7,6 +7,7 @@ import { SignupComponent } from './signup/signup.component';
 import { SummaryComponent } from './summary/summary.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
+import { HelpUserComponent } from './help-user/help-user.component';
 
 export const routes: Routes = [
   //   { path: '', component: ContactsComponent }, wenn contacts fertig ist wieder einfügen fürs testen ist path leer
@@ -19,4 +20,5 @@ export const routes: Routes = [
   { path: 'contacts', component: ContactsComponent },
   { path: 'privacy-notice', component: PrivacyComponent },
   { path: 'legal-notice', component: LegalNoticeComponent },
+  { path: 'help-user', component: HelpUserComponent}
 ];
