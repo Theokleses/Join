@@ -19,6 +19,9 @@
   padding: 20px;
   font-size: 14px;
   height:auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .edit-detail {
@@ -299,6 +302,20 @@ input {
     cursor: pointer;
     border-radius: 4px;
   }
+}
+
+.task-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Buttons bleiben unten */
+  height: 100%;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.content {
+  flex: 1; 
+  overflow-y: auto;
 }
 
 @keyframes slideInFromRight {
