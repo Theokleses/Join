@@ -205,7 +205,6 @@ export class TaskEditComponent implements OnInit {
     const inputElement = event.target as HTMLInputElement;
     const selectedDate = inputElement.value;
     this.taskForm.get('dueDate')?.setValue(selectedDate);
-    console.log('Date changed to:', selectedDate);
   }
 
   showIcons(index: number) {
@@ -244,7 +243,6 @@ export class TaskEditComponent implements OnInit {
         subtask: updatedTask.subtask,
       };
       await updateDoc(taskDocRef, updateData);
-      console.log('Task successfully updated:', updatedTask.id);
       this.editError = null;
       this.editComplete.emit(updatedTask);
     } catch (error) {

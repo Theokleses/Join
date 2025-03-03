@@ -4,13 +4,14 @@ main {
   height: 100vh;
   background-color: $grey;
   overflow-y: auto;
+  text-wrap: wrap;
 }
 
 .overlay-background {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); // Zentriert
+  transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -19,6 +20,10 @@ main {
   align-items: center;
   z-index: 1000;
   animation: slideInFromRight 0.3s ease-out forwards;
+}
+
+.plus-button {
+  cursor: pointer;
 }
 
 h2 {
@@ -54,14 +59,16 @@ h2 {
 }
 
 .taskboard {
-  height: 85vh;
+  height: 1000px;
   @include dF(space-evenly, flex-start);
   @include pad();
   gap: 25px;
+  text-wrap: wrap;
 }
 
 .list-item {
   width: 30%;
+  text-wrap: wrap;
 }
 
 .headline {
@@ -76,6 +83,7 @@ h2 {
   border-radius: 20px;
   padding: 25px 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-wrap: wrap;
   cursor: pointer;
 }
 
@@ -171,6 +179,7 @@ h2 {
 }
 
 .task-details {
+  text-wrap: wrap;
   h2 {
     margin-top: 0;
     font-size: 24px;
@@ -231,6 +240,7 @@ h2 {
 @media (max-width: 1300px) {
   .taskboard {
     gap: 16px;
+    padding: 0 40px !important;
   }
 
   .task {
@@ -248,6 +258,8 @@ h2 {
 @media (max-width: 1200px) {
   .taskboard {
     flex-direction: column;
+    height: auto;
+    margin-bottom: 160px;
   }
 
   .drop-area {
@@ -261,6 +273,11 @@ h2 {
 }
 
 @media (max-width: 800px) {
+  .taskboard {
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 200px;
+  }
   .list-item {
     width: 40%;
   }
@@ -268,6 +285,10 @@ h2 {
   .header {
     flex-direction: column;
     align-items: start;
+  }
+
+  .dark-btn span {
+    display: none;
   }
 }
 
@@ -279,6 +300,23 @@ h2 {
 
 @media (max-width: 500px) {
   .list-item {
-    width: 60%;
+    width: 100%;
+  }
+
+  .searchfield {
+    @include dF();
+    background-color: white;
+    border-radius: 10px;
+    border: 1.5px solid $darkgrey;
+    input {
+      width: 160px;
+      border: none;
+      padding: 4px 6px;
+      outline: none;
+
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.2);
+      }
+    }
   }
 }

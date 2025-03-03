@@ -18,7 +18,7 @@
 .overlay-content {
   padding: 20px;
   font-size: 14px;
-  height:auto;
+  height: auto;
   word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 100%;
@@ -304,17 +304,8 @@ input {
   }
 }
 
-.task-detail {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Buttons bleiben unten */
-  height: 100%;
-  font-size: 14px;
-  font-weight: 400;
-}
-
 .content {
-  flex: 1; 
+  flex: 1;
   overflow-y: auto;
 }
 
@@ -333,4 +324,49 @@ input {
 
 .slide-in {
   animation: slideInFromRight 0.3s ease-out forwards;
+}
+
+@media (max-width: 1050px) {
+  .overlay {
+    border-radius: 20px;
+    width: auto;
+    max-width: 400px;
+    width: 400px;
+    height: 85vh;
+    margin: 0 auto;
+    background: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
+
+  .overlay-content {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+    margin: 0;
+  }
+
+  .label-input-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 600px) {
+  .overlay {
+    border-radius: 20px;
+    width: 300px;
+    height: 85vh;
+    margin: 0 auto;
+    z-index: 1000;
+  }
 }

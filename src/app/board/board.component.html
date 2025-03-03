@@ -5,11 +5,15 @@
     </div>
     <div class="searchbar">
       <div class="searchfield">
-        <input type="search" placeholder="Search task..." [(ngModel)]="searchQuery" />
+        <input
+          type="search"
+          placeholder="Search task..."
+          [(ngModel)]="searchQuery"
+        />
         <img src="../../assets/img/05_board/search.png" alt="search-icon" />
       </div>
       <button class="dark-btn" (click)="openAddTaskOverlay()">
-        Add task +
+        <span>Add task</span> +
       </button>
     </div>
   </div>
@@ -20,6 +24,7 @@
         <h3>To do</h3>
 
         <img
+          class="plus-button"
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
           (click)="openAddTaskOverlay('todo')"
@@ -39,7 +44,12 @@
             <p>No tasks To do</p>
           </div>
           } @for (task of todo; track task.id) {
-          <div class="task" cdkDrag (click)="selectTask(task)" [ngClass]="{'hidden': !taskMatchesSearch(task)}">
+          <div
+            class="task"
+            cdkDrag
+            (click)="selectTask(task)"
+            [ngClass]="{ hidden: !taskMatchesSearch(task) }"
+          >
             <div>
               @if (task.category === 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
@@ -109,6 +119,7 @@
         <h3>In progress</h3>
 
         <img
+          class="plus-button"
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
           (click)="openAddTaskOverlay('in-progress')"
@@ -128,7 +139,12 @@
             <p>No tasks in progress.</p>
           </div>
           } @for (task of inProgress; track task.id) {
-          <div class="task" cdkDrag (click)="selectTask(task)" [ngClass]="{'hidden': !taskMatchesSearch(task)}">
+          <div
+            class="task"
+            cdkDrag
+            (click)="selectTask(task)"
+            [ngClass]="{ hidden: !taskMatchesSearch(task) }"
+          >
             <div>
               @if (task.category === 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
@@ -198,6 +214,7 @@
         <h3>Await feedback</h3>
 
         <img
+          class="plus-button"
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
           (click)="openAddTaskOverlay('await-feedback')"
@@ -217,7 +234,12 @@
             <p>No tasks awaiting feedback.</p>
           </div>
           } @for (task of awaitFeedback; track task.id) {
-          <div class="task" cdkDrag (click)="selectTask(task)" [ngClass]="{'hidden': !taskMatchesSearch(task)}">
+          <div
+            class="task"
+            cdkDrag
+            (click)="selectTask(task)"
+            [ngClass]="{ hidden: !taskMatchesSearch(task) }"
+          >
             <div>
               @if (task.category === 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
@@ -287,6 +309,7 @@
         <h3>Done</h3>
 
         <img
+          class="plus-button"
           src="../../assets/img/05_board/plus button.png"
           alt="plus-button"
           (click)="openAddTaskOverlay('done')"
@@ -306,7 +329,12 @@
             <p>No tasks done yet.</p>
           </div>
           } @for (task of done; track task.id) {
-          <div class="task" cdkDrag (click)="selectTask(task)" [ngClass]="{'hidden': !taskMatchesSearch(task)}">
+          <div
+            class="task"
+            cdkDrag
+            (click)="selectTask(task)"
+            [ngClass]="{ hidden: !taskMatchesSearch(task) }"
+          >
             <div>
               @if (task.category === 'User Story') {
               <p class="darkblue">{{ task.category }}</p>
