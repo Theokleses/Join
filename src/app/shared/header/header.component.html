@@ -10,6 +10,7 @@
   <div class="header-icons">
     <img
       class="icon"
+      [ngClass]="{'d-none': loginService.hideHelpIcon}"
       src="assets/img/07_header/help.png"
       alt="Questionmark-logo"
       (click)="goToHelp()"

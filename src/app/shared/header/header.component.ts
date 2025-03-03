@@ -7,20 +7,20 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule,HelpUserComponent],
+  imports: [CommonModule, HelpUserComponent],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'] 
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
   menuOpen = false;
   helpOpen = false;
   initials: string = 'SM';
 
-  constructor(private loginService: LoginService, private router: Router) {}
-  
+  constructor(public loginService: LoginService, private router: Router) {}
+
   ngOnInit() {
     this.loginService.initials$.subscribe((newInitials) => {
-      this.initials = newInitials; 
+      this.initials = newInitials;
     });
   }
 
@@ -33,8 +33,7 @@ export class HeaderComponent implements OnInit {
   }
 
   goToHelp() {
+    this.loginService.setHideHelpIcon(true);
     this.router.navigate(['/help-user']);
   }
-
-
 }
