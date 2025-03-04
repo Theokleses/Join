@@ -14,6 +14,9 @@
       @for (contact of group.contacts; track $index) {
         <div
           id="contact-container"
+          [class.selected]="
+            (contacts.selectedContactId$ | async) === contact.id
+          "
           (click)="contacts.setSelectedContactId(contact.id)"
         >
           <div
