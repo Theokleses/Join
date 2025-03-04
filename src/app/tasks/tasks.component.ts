@@ -1,11 +1,26 @@
-import { Component, inject, HostListener, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
+import {
+  Component,
+  inject,
+  HostListener,
+  ViewChild,
+  ElementRef,
+  Output,
+  EventEmitter,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormControl,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../firebase-services/contacts.service';
 import { FormsModule } from '@angular/forms';
 import { Icontacts } from '../interfaces/icontacts';
 import { Itasks } from '../interfaces/itasks';
 import { TasksService } from '../firebase-services/tasks.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tasks',
@@ -43,6 +58,7 @@ export class TasksComponent {
   editingIndex: number | null = null;
 
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private tasksService: TasksService,
   ) {
@@ -76,6 +92,19 @@ export class TasksComponent {
     const inputElement = event.target as HTMLInputElement;
     const selectedDate = new Date(inputElement.value);
     this.date.setValue(selectedDate);
+  }
+
+  getSelectedContacts(): Icontacts[] {
+    return this.contacts.contactlist.filter((c) => c.checked);
+  }
+
+  getFirstFiveSelectedContacts(): Icontacts[] {
+    return this.getSelectedContacts().slice(0, 5);
+  }
+
+  getAdditionalContactsCount(): number {
+    const selectedCount = this.getSelectedContacts().length;
+    return selectedCount > 5 ? selectedCount - 5 : 0;
   }
 
   checkContact(contactId: string, event: MouseEvent) {
@@ -219,20 +248,24 @@ export class TasksComponent {
         status: 'todo',
       };
 
-      this.tasksService.addTask(newTask).then(() => {
-        this.taskAdded.emit(); // Event auslösen, um das Overlay zu schließen
-        this.onClear();
-        this.newTaskAdded = true;
-        setTimeout(() => {
-          this.isFadingOut = true;
-        }, 1500);
-        setTimeout(() => {
-          this.newTaskAdded = false;
-          this.isFadingOut = false;
-        }, 2000);
-      }).catch(error => {
-        console.error('Fehler beim Hinzufügen des Tasks:', error);
-      });
+      this.tasksService
+        .addTask(newTask)
+        .then(() => {
+          this.taskAdded.emit(); // Event auslösen, um das Overlay zu schließen
+          this.onClear();
+          this.newTaskAdded = true;
+          setTimeout(() => {
+            this.isFadingOut = true;
+          }, 1500);
+          setTimeout(() => {
+            this.newTaskAdded = false;
+            this.isFadingOut = false;
+            this.router.navigate(['/board']);
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error('Fehler beim Hinzufügen des Tasks:', error);
+        });
     } else {
       this.requiredInfo = !this.requiredInfo;
     }

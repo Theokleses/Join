@@ -199,6 +199,11 @@ main {
           display: flex;
           margin-top: 1em;
           gap: 0.3em;
+          align-items: center;
+          #initials-plus {
+            font-size: 1.2em;
+            font-weight: 700;
+          }
         }
       }
     }

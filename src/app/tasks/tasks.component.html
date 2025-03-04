@@ -100,18 +100,24 @@
                   }
                 </div>
                 <div id="contact-initials">
-                  @for (contact of contacts.contactlist; track $index) {
-                    @if (contact.checked) {
-                      <div
-                        id="initials"
-                        [ngStyle]="{ 'background-color': contact.initialBg }"
-                      >
-                        <p>
-                          {{ contact.firstname[0].toUpperCase()
-                          }}{{ contact.lastname[0].toUpperCase() }}
-                        </p>
-                      </div>
-                    }
+                  @for (
+                    contact of getFirstFiveSelectedContacts();
+                    track $index
+                  ) {
+                    <div
+                      id="initials"
+                      [ngStyle]="{ 'background-color': contact.initialBg }"
+                    >
+                      <p>
+                        {{ contact.firstname[0].toUpperCase()
+                        }}{{ contact.lastname[0].toUpperCase() }}
+                      </p>
+                    </div>
+                  }
+                  @if (getAdditionalContactsCount() > 0) {
+                    <div id="initials-plus">
+                      +{{ getAdditionalContactsCount() }}
+                    </div>
                   }
                 </div>
               </div>
