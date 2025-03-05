@@ -20,5 +20,5 @@ export const routes: Routes = [
   { path: 'contacts', component: ContactsComponent },
   { path: 'privacy-notice', component: PrivacyComponent },
   { path: 'legal-notice', component: LegalNoticeComponent },
-  { path: 'help-user', component: HelpUserComponent}
+  { path: 'help-user', component: HelpUserComponent },
 ];

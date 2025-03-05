@@ -222,53 +222,76 @@ export class TasksComponent {
     this.taskForm.markAllAsTouched();
 
     if (this.taskForm.valid) {
-      const formValues = this.taskForm.value;
-
-      const selectedContacts: Icontacts[] = this.contacts.contactlist.filter(
-        (contact) => contact.checked,
-      );
-
-      let prio: 'Urgent' | 'Medium' | 'Low' = 'Medium';
-      if (this.isUrgentClicked) prio = 'Urgent';
-      else if (this.isMediumClicked) prio = 'Medium';
-      else if (this.isLowClicked) prio = 'Low';
-
-      const dueDate = this.date.value
-        ? this.date.value.toLocaleDateString()
-        : '';
-
-      const newTask: Itasks = {
-        title: formValues.title,
-        description: formValues.description,
-        category: formValues.category as 'Technical Task' | 'User Story',
-        dueDate: dueDate,
-        prio: prio,
-        assigned: selectedContacts,
-        subtask: this.subtasklist,
-        status: 'todo',
-      };
-
-      this.tasksService
-        .addTask(newTask)
-        .then(() => {
-          this.taskAdded.emit(); // Event auslösen, um das Overlay zu schließen
-          this.onClear();
-          this.newTaskAdded = true;
-          setTimeout(() => {
-            this.isFadingOut = true;
-          }, 1500);
-          setTimeout(() => {
-            this.newTaskAdded = false;
-            this.isFadingOut = false;
-            this.router.navigate(['/board']);
-          }, 2000);
-        })
-        .catch((error) => {
-          console.error('Fehler beim Hinzufügen des Tasks:', error);
-        });
+      const newTask = this.createNewTask();
+      this.addTaskAndNavigate(newTask);
     } else {
-      this.requiredInfo = !this.requiredInfo;
+      this.toggleRequiredInfo();
     }
+  }
+
+  createNewTask(): Itasks {
+    const formValues = this.taskForm.value;
+    const selectedContacts = this.getSelectedContacts();
+    const prio = this.getPriority();
+    const dueDate = this.getDueDate();
+
+    return {
+      title: formValues.title,
+      description: formValues.description,
+      category: formValues.category as 'Technical Task' | 'User Story',
+      dueDate: dueDate,
+      prio: prio,
+      assigned: selectedContacts,
+      subtask: this.subtasklist,
+      status: 'todo',
+    };
+  }
+
+  getPriority(): 'Urgent' | 'Medium' | 'Low' {
+    if (this.isUrgentClicked) return 'Urgent';
+    if (this.isLowClicked) return 'Low';
+    return 'Medium';
+  }
+
+  getDueDate(): string {
+    return this.date.value ? this.date.value.toLocaleDateString() : '';
+  }
+
+  addTaskAndNavigate(newTask: Itasks) {
+    this.tasksService
+      .addTask(newTask)
+      .then(() => {
+        this.handleTaskAdded();
+      })
+      .catch((error) => {
+        console.error('Fehler beim Hinzufügen des Tasks:', error);
+      });
+  }
+
+  handleTaskAdded() {
+    this.taskAdded.emit();
+    this.onClear();
+    this.newTaskAdded = true;
+    this.startFadeOut();
+    this.navigateToBoard();
+  }
+
+  startFadeOut() {
+    setTimeout(() => {
+      this.isFadingOut = true;
+    }, 1500);
+  }
+
+  navigateToBoard() {
+    setTimeout(() => {
+      this.newTaskAdded = false;
+      this.isFadingOut = false;
+      this.router.navigate(['/board']);
+    }, 2000);
+  }
+
+  toggleRequiredInfo() {
+    this.requiredInfo = !this.requiredInfo;
   }
 
   onClear() {
