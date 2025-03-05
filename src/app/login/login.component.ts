@@ -18,12 +18,14 @@ export class LoginComponent implements AfterViewInit {
   errorMessage: string = '';
   emailErrorMessage: string = '';
   passwordErrorMessage: string = '';
+  firstName: string = '';
+  lastName: string = '';
 
   constructor(
     private router: Router,
     private appComponent: AppComponent,
     private renderer: Renderer2,
-    private loginService: LoginService
+    private loginService: LoginService,
   ) {}
 
   navigateToSummary() {
@@ -36,6 +38,9 @@ export class LoginComponent implements AfterViewInit {
   }
 
   guestLogin() {
+    this.firstName = 'Guest';
+    this.lastName = '';
+    this.loginService.setFirstName(this.firstName);
     this.loginService.setInitials('G');
   }
 
@@ -86,6 +91,10 @@ export class LoginComponent implements AfterViewInit {
     return isValid;
   }
 
+  capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+
   handleLogin() {
     if (this.email && this.email.includes('@')) {
       const namePart = this.email.split('@')[0];
@@ -94,6 +103,8 @@ export class LoginComponent implements AfterViewInit {
       if (namePart.includes('.')) {
         const names = namePart.split('.');
         if (names.length >= 2) {
+          this.firstName = this.capitalizeFirstLetter(names[0]);
+          this.lastName = this.capitalizeFirstLetter(names[1]);
           initials =
             names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
         }
@@ -102,6 +113,8 @@ export class LoginComponent implements AfterViewInit {
       else if (namePart.includes('-')) {
         const names = namePart.split('-');
         if (names.length >= 2) {
+          this.firstName = this.capitalizeFirstLetter(names[0]);
+          this.lastName = this.capitalizeFirstLetter(names[1]);
           initials =
             names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
         }
@@ -110,6 +123,8 @@ export class LoginComponent implements AfterViewInit {
       else if (namePart.includes('_')) {
         const names = namePart.split('_');
         if (names.length >= 2) {
+          this.firstName = this.capitalizeFirstLetter(names[0]);
+          this.lastName = this.capitalizeFirstLetter(names[1]);
           initials =
             names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
         }
@@ -118,6 +133,8 @@ export class LoginComponent implements AfterViewInit {
       else if (namePart.match(/[A-Z]/)) {
         const nameParts = namePart.split(/(?=[A-Z])/);
         if (nameParts.length >= 2) {
+          this.firstName = this.capitalizeFirstLetter(nameParts[0]);
+          this.lastName = this.capitalizeFirstLetter(nameParts[1]);
           initials =
             nameParts[0].charAt(0).toUpperCase() +
             nameParts[1].charAt(0).toUpperCase();
@@ -125,8 +142,12 @@ export class LoginComponent implements AfterViewInit {
       }
       // Fall 5: Keine klare Trennung (z. B. "maxmustermann")
       else {
+        this.firstName = namePart.slice(0, 1).toUpperCase();
+        this.lastName = namePart.slice(1, 2).toUpperCase();
         initials = namePart.slice(0, 2).toUpperCase(); // Erste zwei Buchstaben
       }
+      this.loginService.setFirstName(this.firstName);
+      this.loginService.setLastName(this.lastName);
       this.loginService.setInitials(initials);
       this.navigateToSummary();
     } else {

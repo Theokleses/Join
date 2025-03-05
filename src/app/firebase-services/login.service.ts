@@ -9,6 +9,10 @@ export class LoginService {
   private _hideHelpIcon: boolean = false;
   private initialsSubject = new BehaviorSubject<string>('SM');
   initials$ = this.initialsSubject.asObservable();
+  private firstNameSubject = new BehaviorSubject<string>('');
+  firstName$ = this.firstNameSubject.asObservable();
+  private lastNameSubject = new BehaviorSubject<string>('');
+  lastName$ = this.lastNameSubject.asObservable();
   auth = getAuth();
 
   constructor() {}
@@ -25,19 +29,27 @@ export class LoginService {
     this._hideHelpIcon = value;
   }
 
+  setFirstName(firstName: string) {
+    this.firstNameSubject.next(firstName);
+  }
+
+  setLastName(lastName: string) {
+    this.lastNameSubject.next(lastName);
+  }
+
   setInitials(initials: string) {
     this.initialsSubject.next(initials);
   }
-  
+
   async login(
     email: string,
-    password: string
+    password: string,
   ): Promise<{ success: boolean; user?: any; error?: any }> {
     try {
       const userCredential = await signInWithEmailAndPassword(
         this.auth,
         email,
-        password
+        password,
       );
       const user = userCredential.user;
       console.log('Erfolgreich eingeloggt:', user);
