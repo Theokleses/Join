@@ -2,7 +2,11 @@
   <header>
     <div class="header-img animate-logo logo">
       <img class="dark-logo" src="/assets/img/main-logo.png" alt="Dark-logo" />
-      <img class="light-logo" src="/assets/img/main-logo-white.png" alt="Lightlogo" />
+      <img
+        class="light-logo"
+        src="/assets/img/main-logo-white.png"
+        alt="Lightlogo"
+      />
     </div>
     <div class="sign-up">
       <p>Not a Join user?</p>
@@ -19,33 +23,49 @@
             <img src="/assets/img/blueLine.png" alt="Blue-line" />
           </div>
         </div>
-        <div id="inputs">
-          <div id="email-container">
-            <input
-              type="text"
-              name="email"
-              id="email"
-              placeholder="Email"
-              [(ngModel)]="email"
-              required
-            /><img src="/assets/img/06_contacts/mail.png" alt="" />
+        <form (ngSubmit)="onLogin()">
+          <div id="inputs">
+            <div id="email-container">
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                  [(ngModel)]="email"
+                  (input)="onInput('email')"
+                  required
+                />
+                <img src="/assets/img/06_contacts/mail.png" alt="" />
+              </div>
+              <p class="error-message">{{ emailErrorMessage }}</p>
+            </div>
+
+            <div id="password-container">
+              <div class="input-wrapper">
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                  [(ngModel)]="password"
+                  (input)="onInput('password')"
+                  required
+                />
+                <img src="/assets/img/01_login/lock.png" alt="" />
+              </div>
+              <p class="error-message">{{ passwordErrorMessage }}</p>
+              <p class="error-message">{{ errorMessage }}</p>
+            </div>
           </div>
-          <div id="password-container">
-            <input
-              type="text"
-              name="password"
-              id="password"
-              placeholder="Password"
-              required
-            /><img src="/assets/img/01_login/lock.png" alt="" />
+
+          <div class="login-button">
+            <button type="submit" class="dark-btn">Log in</button>
+            <button class="bright-btn" (click)="handleGuestLogin()">
+              Guest Log in
+            </button>
           </div>
-        </div>
-        <div class="login-button">
-          <button class="dark-btn" (click)="handleLogin()">Log in</button>
-          <button class="bright-btn" (click)="handleGuestLogin()">
-            Guest Log in
-          </button>
-        </div>
+        </form>
       </div>
     </section>
 

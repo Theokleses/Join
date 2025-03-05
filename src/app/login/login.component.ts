@@ -14,6 +14,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent implements AfterViewInit {
   email: string = '';
+  password: string = '';
+  errorMessage: string = '';
+  emailErrorMessage: string = '';
+  passwordErrorMessage: string = '';
 
   constructor(
     private router: Router,
@@ -40,38 +44,85 @@ export class LoginComponent implements AfterViewInit {
     this.navigateToSummary();
   }
 
+  async onLogin() {
+    this.errorMessage = '';
+
+    if (!this.validateInputs()) {
+      return;
+    }
+
+    const result = await this.loginService.login(this.email, this.password);
+
+    if (result.success) {
+      this.navigateToSummary();
+      this.handleLogin();
+    } else {
+      this.errorMessage = 'Incorrect email or password';
+    }
+  }
+
+  onInput(field: string) {
+    if (field === 'email' && this.email) {
+      this.emailErrorMessage = '';
+    } else if (field === 'password' && this.password) {
+      this.passwordErrorMessage = '';
+    }
+  }
+
+  validateInputs() {
+    let isValid = true;
+    this.emailErrorMessage = '';
+    this.passwordErrorMessage = '';
+
+    if (!this.email) {
+      this.emailErrorMessage = 'Email is required';
+      isValid = false;
+    }
+    if (!this.password) {
+      this.passwordErrorMessage = 'Password is required';
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
   handleLogin() {
     if (this.email && this.email.includes('@')) {
-      const namePart = this.email.split('@')[0]; 
+      const namePart = this.email.split('@')[0];
       let initials = '';
       // Fall 1: Mit Punkt getrennt (z. B. "max.mustermann")
       if (namePart.includes('.')) {
         const names = namePart.split('.');
         if (names.length >= 2) {
-          initials = names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
+          initials =
+            names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
         }
-      } 
+      }
       // Fall 2: Mit Bindestrich getrennt (z. B. "max-mustermann")
       else if (namePart.includes('-')) {
         const names = namePart.split('-');
         if (names.length >= 2) {
-          initials = names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
+          initials =
+            names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
         }
-      } 
+      }
       // Fall 3: Mit Unterstrich getrennt (z. B. "max_mustermann")
       else if (namePart.includes('_')) {
         const names = namePart.split('_');
         if (names.length >= 2) {
-          initials = names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
+          initials =
+            names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
         }
-      } 
+      }
       // Fall 4: Mit Großbuchstaben (z. B. "maxMustermann")
       else if (namePart.match(/[A-Z]/)) {
         const nameParts = namePart.split(/(?=[A-Z])/);
         if (nameParts.length >= 2) {
-          initials = nameParts[0].charAt(0).toUpperCase() + nameParts[1].charAt(0).toUpperCase();
+          initials =
+            nameParts[0].charAt(0).toUpperCase() +
+            nameParts[1].charAt(0).toUpperCase();
         }
-      } 
+      }
       // Fall 5: Keine klare Trennung (z. B. "maxmustermann")
       else {
         initials = namePart.slice(0, 2).toUpperCase(); // Erste zwei Buchstaben
@@ -108,6 +159,7 @@ export class LoginComponent implements AfterViewInit {
     mediaQuery.addEventListener('change', handleMediaChange);
   }
 }
+
 // constructor(private router: Router) {}
 
 // navigateToSummary() {

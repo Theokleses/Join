@@ -19,7 +19,7 @@ import { SignupComponent } from './signup/signup.component';
     HeaderComponent,
     SidebarComponent,
     CommonModule,
-    FormsModule,
+    FormsModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -30,19 +30,6 @@ export class AppComponent {
   public contacts = inject(ContactsService);
   showHeaderAndSidebar: boolean = true;
   isLoggedIn: boolean = false;
-
-  //   constructor() {
-  //     this.contacts;
-  //   }
-  //   onRouterOutletActivate(event: any) {
-  //     // Überprüfe, ob die aktive Komponente die LoginComponent ist
-  //     this.showHeaderAndSidebar = !(event instanceof LoginComponent);
-  //   }
-
-  //   onRouterOutletDeactivate(event: any) {
-  //     // Optional: Hier kannst du Logik hinzufügen, wenn eine Komponente deaktiviert wird
-  //   }
-  // }
 
   constructor(private router: Router) {}
 
@@ -59,3 +46,17 @@ export class AppComponent {
 
   onRouterOutletDeactivate(event: any) {}
 }
+
+
+  //   constructor() {
+  //     this.contacts;
+  //   }
+  //   onRouterOutletActivate(event: any) {
+  //     // Überprüfe, ob die aktive Komponente die LoginComponent ist
+  //     this.showHeaderAndSidebar = !(event instanceof LoginComponent);
+  //   }
+
+  //   onRouterOutletDeactivate(event: any) {
+  //     // Optional: Hier kannst du Logik hinzufügen, wenn eine Komponente deaktiviert wird
+  //   }
+  // }
