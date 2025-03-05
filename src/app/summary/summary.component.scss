@@ -1,0 +1,127 @@
+@use "../../styles.scss" as *;
+
+h1,
+h2,
+p {
+  margin: 0;
+  padding: 0;
+}
+.border-style {
+  padding: 2em;
+  border: 1px solid $darkgrey;
+  background-color: white;
+  border-radius: 1em;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition:
+    transform 0.125s ease,
+    background-color 0.125s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: $darkblue;
+    color: white;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 70%;
+    height: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    filter: blur(4px);
+    transform: translateX(-50%);
+    transition: opacity 0.125s ease;
+    opacity: 0;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+main {
+  box-sizing: border-box;
+  max-width: 1920px;
+  #grey-bg {
+    height: 90vh;
+    width: 100%;
+    background-color: $grey;
+    z-index: -9999;
+    position: absolute;
+    overflow-x: hidden;
+  }
+  #padding {
+    padding: 3em 6em;
+    #header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2em;
+      h1 {
+        font-size: 4em;
+      }
+      span {
+        margin: 0 0.2em;
+        font-size: 4em;
+        color: $lightblue;
+      }
+      p {
+        font-size: 2em;
+      }
+    }
+
+    #dashboard-greeting-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      #dashboard-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        width: 50%;
+        #todo-done,
+        #deadline,
+        #tasks {
+          display: flex;
+          gap: 1em;
+
+          .border-style {
+            flex: 1;
+          }
+          #todo-done {
+            display: flex;
+            .border-style {
+              flex: 1;
+            }
+          }
+
+          #deadline {
+            .border-style {
+              flex: 1;
+            }
+          }
+
+          #tasks {
+            .border-style {
+              flex: 1;
+            }
+          }
+        }
+      }
+      #greeting-container {
+        width: 45%;
+        p {
+          font-size: 2em;
+        }
+        h2 {
+          font-size: 4em;
+          color: $lightblue;
+        }
+      }
+    }
+  }
+}
