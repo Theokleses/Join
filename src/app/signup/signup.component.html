@@ -27,6 +27,7 @@
             name="name"
             id="name"
             placeholder="Name"
+            [(ngModel)]="name"
             required
           /><img src="/assets/img/01_login/person.png" alt="" />
         </div>
@@ -36,26 +37,41 @@
             name="email"
             id="email"
             placeholder="Email"
+            [(ngModel)]="email"
             required
           /><img src="/assets/img/06_contacts/mail.png" alt="" />
+          <!-- Fehlermeldung für E-Mail -->
+          <div *ngIf="emailErrorMessage" class="error-message">
+            {{ emailErrorMessage }}
+          </div>
         </div>
         <div id="password-container">
           <input
-            type="text"
+            type="password"
             name="password"
             id="password"
             placeholder="Password"
+            [(ngModel)]="password"
             required
           /><img src="/assets/img/01_login/lock.png" alt="" />
+          <!-- Fehlermeldung für Passwort -->
+          <div *ngIf="passwordErrorMessage" class="error-message">
+            {{ passwordErrorMessage }}
+          </div>
         </div>
         <div id="password-container">
           <input
-            type="text"
+            type="password"
             name="confirm-password"
             id="confirm-password"
             placeholder="Confirm Password"
+            [(ngModel)]="confirmPassword"
             required
           /><img src="/assets/img/01_login/lock.png" alt="" />
+          <!-- Fehlermeldung für Passwort bestätigen -->
+          <div *ngIf="confirmPasswordErrorMessage" class="error-message">
+            {{ confirmPasswordErrorMessage }}
+          </div>
         </div>
         <div class="privacy-class">
           <label class="checkbox-container">
@@ -65,7 +81,11 @@
           <p>I accept the <a href="#">Privacy policy</a></p>
         </div>
         <div class="signup-button">
-          <button class="dark-btn" [disabled]="!isPrivacyAccepted">Sign up</button>
+          <button class="dark-btn" [disabled]="!isPrivacyAccepted" (click)="onSignUp()">Sign up</button>
+        </div>
+        <!-- Allgemeine Fehlermeldung -->
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
         </div>
       </div>
     </div>

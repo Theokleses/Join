@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { getAuth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -57,6 +57,22 @@ export class LoginService {
     } catch (error) {
       console.error('Fehler beim Einloggen:', error);
       return { success: false, error }; // Rückgabe bei Fehler
+    }
+  }
+
+  async signUp(email: string, password: string) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log('Erfolgreich registriert:', user);
+      return { success: true, user };
+    } catch (error) {
+      console.error('Fehler bei der Registrierung:', error);
+      return { success: false, error };
     }
   }
 }
