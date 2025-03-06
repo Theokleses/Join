@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../firebase-services/login.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -15,90 +16,118 @@ export class SignupComponent {
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
-  errorMessage: string = ''; 
-  emailErrorMessage: string = ''; 
-  passwordErrorMessage: string = ''; 
-  confirmPasswordErrorMessage: string = ''; 
+  errorMessage: string = '';
+  nameErrorMessage: string = '';
+  emailErrorMessage: string = '';
+  passwordErrorMessage: string = '';
+  confirmPasswordErrorMessage: string = '';
   isPrivacyAccepted: boolean = false;
+  isFormSubmitted: boolean = false;
+  showSuccessMessage: boolean = false;
+
+  isNameTouched: boolean = false;
+  isEmailTouched: boolean = false;
+  isPasswordTouched: boolean = false;
+  isConfirmPasswordTouched: boolean = false;
 
   constructor(private router: Router, private loginService: LoginService) {}
 
   navigateToLogin() {
-    this.router.navigate(['/login']); 
+    this.router.navigate(['/login']);
   }
 
   onCheckboxChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.isPrivacyAccepted = checkbox.checked;
-    console.log('Checkbox status:', this.isPrivacyAccepted); 
   }
 
-  signUp() {
-    if (this.isPrivacyAccepted) {
-      console.log('Sign up clicked!');
-    }
+  onInputTouched(field: string) {
+    if (field === 'name') this.isNameTouched = true;
+    if (field === 'email') this.isEmailTouched = true;
+    if (field === 'password') this.isPasswordTouched = true;
+    if (field === 'confirmPassword') this.isConfirmPasswordTouched = true;
+
+    this.validateInputs();
+  }
+
+  isFormValid(): boolean {
+    return this.validateInputs() && this.isPrivacyAccepted;
   }
 
   private validateInputs(): boolean {
     let isValid = true;
 
-    // Zurücksetzen der Fehlermeldungen
+    this.nameErrorMessage = '';
     this.emailErrorMessage = '';
     this.passwordErrorMessage = '';
     this.confirmPasswordErrorMessage = '';
 
     // Validierung des Namens
-    if (!this.name) {
+    if (!this.name && this.isNameTouched) {
+      this.nameErrorMessage = 'Name is required';
       isValid = false;
     }
 
     // Validierung der E-Mail
-    if (!this.email) {
+    if (!this.email && this.isEmailTouched) {
       this.emailErrorMessage = 'Email is required';
       isValid = false;
-    } else if (!this.email.includes('@')) {
-      this.emailErrorMessage = 'Invalid email address';
+    } else if (
+      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.email) &&
+      this.isEmailTouched
+    ) {
+      this.emailErrorMessage =
+        'Invalid email address (e.g., example@domain.com)';
       isValid = false;
     }
 
     // Validierung des Passworts
-    if (!this.password) {
+    if (!this.password && this.isPasswordTouched) {
       this.passwordErrorMessage = 'Password is required';
       isValid = false;
-    } else if (this.password.length < 6) {
+    } else if (this.password.length < 6 && this.isPasswordTouched) {
       this.passwordErrorMessage = 'Password must be at least 6 characters';
       isValid = false;
     }
 
     // Validierung der Passwort-Bestätigung
-    if (!this.confirmPassword) {
+    if (!this.confirmPassword && this.isConfirmPasswordTouched) {
       this.confirmPasswordErrorMessage = 'Confirm Password is required';
       isValid = false;
-    } else if (this.password !== this.confirmPassword) {
+    } else if (
+      this.password !== this.confirmPassword &&
+      this.isConfirmPasswordTouched
+    ) {
       this.confirmPasswordErrorMessage = 'Passwords do not match';
       isValid = false;
     }
 
     return isValid;
   }
-
+  
   async onSignUp() {
-    this.errorMessage = ''; // Zurücksetzen der allgemeinen Fehlermeldung
-
-
+    this.isFormSubmitted = true;
+    this.errorMessage = '';
+  
+    this.isNameTouched = true;
+    this.isEmailTouched = true;
+    this.isPasswordTouched = true;
+    this.isConfirmPasswordTouched = true;
+  
     if (!this.validateInputs()) {
-      return; 
+      return;
     }
-
-    // Firebase-Registrierung versuchen
+  
     const result = await this.loginService.signUp(this.email, this.password);
-
+  
     if (result.success) {
-      console.log('Erfolgreich registriert:', result.user);
-      this.router.navigate(['/login']); 
+      this.showSuccessMessage = true; 
+  
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 2000);
     } else {
-      this.errorMessage = 'Registration failed. Please try again.'; 
+      this.errorMessage = 'Registration failed. Please try again.';
     }
   }
-
 }

@@ -6,7 +6,10 @@
   </header>
 
   <section>
-    <div class="sign-up">
+    <div *ngIf="showSuccessMessage" class="success-message">
+      Registration was successful! You will be redirected to the login page shortly.
+    </div>
+    <div class="sign-up" *ngIf="!showSuccessMessage">
       <div class="above-input">
         <div class="back-arrow">
           <img
@@ -21,71 +24,81 @@
         </div>
       </div>
       <div id="inputs">
-        <div id="email-container">
-          <input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Name"
-            [(ngModel)]="name"
-            required
-          /><img src="/assets/img/01_login/person.png" alt="" />
+        <div id="name-container">
+          <div class="input-wrapper">
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Name"
+              [(ngModel)]="name"
+              (input)="onInputTouched('name')"
+              required
+            /><img src="/assets/img/01_login/person.png" alt="" />
+          </div>
+          <p class="error-message">{{ nameErrorMessage }}</p>
         </div>
         <div id="email-container">
-          <input
-            type="text"
-            name="email"
-            id="email"
-            placeholder="Email"
-            [(ngModel)]="email"
-            required
-          /><img src="/assets/img/06_contacts/mail.png" alt="" />
-          <!-- Fehlermeldung für E-Mail -->
-          <div *ngIf="emailErrorMessage" class="error-message">
-            {{ emailErrorMessage }}
+          <div class="input-wrapper">
+            <input
+              type="text"
+              name="email"
+              id="email"
+              placeholder="Email"
+              [(ngModel)]="email"
+              (input)="onInputTouched('email')"
+              required
+            /><img src="/assets/img/06_contacts/mail.png" alt="" />
           </div>
+          <p class="error-message">{{ emailErrorMessage }}</p>
         </div>
         <div id="password-container">
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-            [(ngModel)]="password"
-            required
-          /><img src="/assets/img/01_login/lock.png" alt="" />
-          <!-- Fehlermeldung für Passwort -->
-          <div *ngIf="passwordErrorMessage" class="error-message">
-            {{ passwordErrorMessage }}
+          <div class="input-wrapper">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              [(ngModel)]="password"
+              (input)="onInputTouched('password')"
+              required
+            /><img src="/assets/img/01_login/lock.png" alt="" />
           </div>
+          <p class="error-message">{{ passwordErrorMessage }}</p>
         </div>
-        <div id="password-container">
-          <input
-            type="password"
-            name="confirm-password"
-            id="confirm-password"
-            placeholder="Confirm Password"
-            [(ngModel)]="confirmPassword"
-            required
-          /><img src="/assets/img/01_login/lock.png" alt="" />
-          <!-- Fehlermeldung für Passwort bestätigen -->
-          <div *ngIf="confirmPasswordErrorMessage" class="error-message">
-            {{ confirmPasswordErrorMessage }}
+        <div id="passwordconfirm-container">
+          <div class="input-wrapper">
+            <input
+              type="password"
+              name="confirm-password"
+              id="confirm-password"
+              placeholder="Confirm Password"
+              [(ngModel)]="confirmPassword"
+              (input)="onInputTouched('confirm-password')"
+              required
+            /><img src="/assets/img/01_login/lock.png" alt="" />
           </div>
+          <p class="error-message">{{ confirmPasswordErrorMessage }}</p>
         </div>
         <div class="privacy-class">
           <label class="checkbox-container">
-            <input type="checkbox" id="privacy-checkbox" (change)="onCheckboxChange($event)" />
+            <input
+              type="checkbox"
+              id="privacy-checkbox"
+              (change)="onCheckboxChange($event)"
+            />
             <span class="checkmark"></span>
           </label>
           <p>I accept the <a href="#">Privacy policy</a></p>
         </div>
         <div class="signup-button">
-          <button class="dark-btn" [disabled]="!isPrivacyAccepted" (click)="onSignUp()">Sign up</button>
-        </div>
-        <!-- Allgemeine Fehlermeldung -->
-        <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
+          <button
+            class="dark-btn"
+            [disabled]="!isFormValid()"
+            (click)="onSignUp()"
+          >
+            Sign up
+          </button>
         </div>
       </div>
     </div>

@@ -41,6 +41,16 @@ a {
   }
 }
 
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid green;
+  border-radius: 5px;
+  background-color: #e6ffe6;
+}
+
 .dark-btn {
   font-size: 1.2rem;
   border-radius: 0.5rem;
@@ -69,7 +79,7 @@ a {
   flex-direction: column;
   background-color: white;
   width: 550px;
-  height: 550px;
+  height: 580px;
   border-radius: 1.875rem;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   margin-top: -100px;
@@ -120,26 +130,41 @@ a {
   flex-direction: column;
   gap: 1.5rem;
   width: 65%;
+  #name-container,
   #email-container,
-  #password-container {
+  #password-container,
+  #passwordconfirm-container {
     display: flex;
-    justify-content: start;
-    align-items: center;
-    input {
+    flex-direction: column;
+    gap: 0.5rem;
+    .input-wrapper {
+      display: flex;
+      align-items: center;
       width: 100%;
-      height: 28px;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: 0.5rem;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      margin-right: -2rem;
-      &::placeholder {
-        color: rgba(0, 0, 0, 0.2);
+      input {
+        width: 100%;
+        height: 28px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        margin-right: -2rem;
+        &::placeholder {
+          color: rgba(0, 0, 0, 0.2);
+        }
+      }
+      img {
+        width: auto;
+        margin-left: -10px;
       }
     }
-    img {
-      width: auto;
-      margin-left: -10px;
+    .error-message {
+      color: red;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      padding-top: 8px;
+      margin-bottom: -12px;
     }
   }
 }
@@ -207,7 +232,7 @@ a {
   }
   .sign-up {
     width: 320px;
-    height: 500px;
+    height: 555px;
   }
   .back-arrow {
     left: -80px;
