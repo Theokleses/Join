@@ -77,13 +77,17 @@
             </div>
             <div class="contact">
               @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned; track contact.id) {
+              task.assigned.slice(0, 3); track contact.id) {
               <div
                 class="initial-circle"
                 [style.background-color]="contact.initialBg"
                 title="{{ contact.firstname }} {{ contact.lastname }}"
               >
                 {{ getInitials(contact.firstname, contact.lastname) }}
+              </div>
+              } @if (task.assigned.length > 3) {
+              <div class="more-contacts">
+                +{{ task.assigned.length - 3 }} more
               </div>
               } } @else {
               <img
@@ -172,13 +176,17 @@
             </div>
             <div class="contact">
               @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned; track contact.id) {
+              task.assigned.slice(0, 3); track contact.id) {
               <div
                 class="initial-circle"
                 [style.background-color]="contact.initialBg"
                 title="{{ contact.firstname }} {{ contact.lastname }}"
               >
                 {{ getInitials(contact.firstname, contact.lastname) }}
+              </div>
+              } @if (task.assigned.length > 3) {
+              <div class="more-contacts">
+                +{{ task.assigned.length - 3 }} more
               </div>
               } } @else {
               <img
@@ -267,13 +275,17 @@
             </div>
             <div class="contact">
               @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned; track contact.id) {
+              task.assigned.slice(0, 3); track contact.id) {
               <div
                 class="initial-circle"
                 [style.background-color]="contact.initialBg"
                 title="{{ contact.firstname }} {{ contact.lastname }}"
               >
                 {{ getInitials(contact.firstname, contact.lastname) }}
+              </div>
+              } @if (task.assigned.length > 3) {
+              <div class="more-contacts">
+                +{{ task.assigned.length - 3 }} more
               </div>
               } } @else {
               <img
@@ -362,13 +374,17 @@
             </div>
             <div class="contact">
               @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned; track contact.id) {
+              task.assigned.slice(0, 3); track contact.id) {
               <div
                 class="initial-circle"
                 [style.background-color]="contact.initialBg"
                 title="{{ contact.firstname }} {{ contact.lastname }}"
               >
                 {{ getInitials(contact.firstname, contact.lastname) }}
+              </div>
+              } @if (task.assigned.length > 3) {
+              <div class="more-contacts">
+                +{{ task.assigned.length - 3 }} more
               </div>
               } } @else {
               <img

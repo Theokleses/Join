@@ -178,6 +178,11 @@ h2 {
   color: #666;
 }
 
+.more-contacts{
+  font-size: 12px;
+  color: #666;
+}
+
 .task-details {
   text-wrap: wrap;
   h2 {
@@ -280,6 +285,12 @@ h2 {
   }
   .list-item {
     width: 40%;
+  }
+
+  .tasks {
+    flex-direction: row; // Task-Karten nebeneinander
+    flex-wrap: wrap; // Umbruch bei zu vielen Karten
+    justify-content: flex-start;
   }
 
   .header {
