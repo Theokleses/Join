@@ -213,6 +213,10 @@ export class AddTaskComponent {
 
   private createNewTask(): Itasks {
     const formValues = this.taskForm.value;
+    return this.buildTaskObject(formValues);
+  }
+
+  private buildTaskObject(formValues: any): Itasks {
     const selectedContacts = this.getSelectedContacts();
     const prio = this.determinePriority();
     const dueDate = this.formatDueDate();
@@ -293,7 +297,7 @@ export class AddTaskComponent {
       dueDate: today,
       category: '',
       prio: 'Medium',
-      subtask: [], 
+      subtask: [],
     });
   }
 

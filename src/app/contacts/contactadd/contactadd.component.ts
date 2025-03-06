@@ -34,21 +34,29 @@ export class ContactaddComponent {
   }
 
   addNewContact() {
-    if (
+    if (this.isNewContactValid()) {
+      this.handleContactAddition();
+    }
+  }
+
+  private isNewContactValid(): boolean {
+    return !!(
       this.newContact.firstname &&
       this.newContact.lastname &&
       this.newContact.email &&
       this.newContact.phonenumber
-    ) {
-      this.contactsService.addContact(this.newContact);
-      this.clearForm();
-      this.addSuccess = true;
+    );
+  }
 
-      setTimeout(() => {
-        this.addSuccess = false;
-        this.toggleDialogAdd();
-      }, 2000);
-    }
+  private handleContactAddition() {
+    this.contactsService.addContact(this.newContact);
+    this.clearForm();
+    this.addSuccess = true;
+
+    setTimeout(() => {
+      this.addSuccess = false;
+      this.toggleDialogAdd();
+    }, 2000);
   }
 
   handleDialogToggle() {
@@ -78,7 +86,7 @@ export class ContactaddComponent {
     };
   }
 
- // Validierung für Vorname
+  // Validierung für Vorname
   isFirstNameValid(): boolean {
     const nameRegex = /^[a-zA-ZüöäÜÖÄß\s]+$/;
     return nameRegex.test(this.newContact.firstname.trim());

@@ -76,15 +76,13 @@ export class TaskDetailComponent implements OnChanges {
       this.deleteError = 'Keine Task-ID zum Löschen gefunden.';
       return;
     }
-
     try {
       const taskDocRef = doc(this.firestore, 'tasks', this.idToDelete);
       await deleteDoc(taskDocRef);
       this.deleteError = null;
       this.dialogClosed.emit();
     } catch (error) {
-      this.deleteError =
-        'Fehler beim Löschen des Tasks. Bitte versuche es erneut.';
+      this.deleteError = 'Fehler beim Löschen des Tasks. Bitte versuche es erneut.';
     }
   }
 
@@ -103,22 +101,18 @@ export class TaskDetailComponent implements OnChanges {
   }
 
   onEditComplete(updatedTask: Itasks | null) {
+    this.isEditing = false;
     if (updatedTask) {
       this.task = { ...updatedTask };
-      if (
-        this.task.subtask &&
-        (!this.task.subtaskStatus ||
-          this.task.subtaskStatus.length !== this.task.subtask.length)
-      ) {
-        const oldStatus = this.task.subtaskStatus || [];
+      if (this.task.subtask && this.needsSubtaskStatusUpdate()) {
         this.task.subtaskStatus = this.task.subtask.map(
-          (_, i) => oldStatus[i] || false
+          (_, i) => (this.task?.subtaskStatus?.[i] || false)
         );
         this.saveSubtaskStatus();
       }
-      this.isEditing = false;
-    } else {
-      this.isEditing = false;
     }
   }
-}
+  
+  private needsSubtaskStatusUpdate(): boolean {
+    return !this.task?.subtaskStatus || this.task.subtaskStatus.length !== this.task.subtask?.length;
+  }}
