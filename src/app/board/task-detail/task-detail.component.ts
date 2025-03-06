@@ -85,7 +85,6 @@ export class TaskDetailComponent implements OnChanges {
     } catch (error) {
       this.deleteError =
         'Fehler beim Löschen des Tasks. Bitte versuche es erneut.';
-      console.error('Error deleting document:', error);
     }
   }
 

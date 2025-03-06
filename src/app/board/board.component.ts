@@ -68,24 +68,39 @@ export class BoardComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<Itasks[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+    if (this.isSameContainer(event)) {
+      this.reorderWithinContainer(event);
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      this.transferBetweenContainers(event);
+      this.updateTaskStatus(event);
+    }
+  }
 
-      const currentTask = event.container.data[event.currentIndex];
-      if (currentTask.id) {
-        this.tasksService.updateTaskStatus(currentTask.id, event.container.id);
-      }
+  private isSameContainer(event: CdkDragDrop<Itasks[]>): boolean {
+    return event.previousContainer === event.container;
+  }
+
+  private reorderWithinContainer(event: CdkDragDrop<Itasks[]>) {
+    moveItemInArray(
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
+  }
+
+  private transferBetweenContainers(event: CdkDragDrop<Itasks[]>) {
+    transferArrayItem(
+      event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
+  }
+
+  private updateTaskStatus(event: CdkDragDrop<Itasks[]>) {
+    const currentTask = event.container.data[event.currentIndex];
+    if (currentTask.id) {
+      this.tasksService.updateTaskStatus(currentTask.id, event.container.id);
     }
   }
 

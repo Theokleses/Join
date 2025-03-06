@@ -56,23 +56,37 @@ export class TaskEditComponent implements OnInit {
   editedSubtaskText: string = '';
 
   ngOnInit() {
+    this.initializeContacts();
+    this.initializeTaskForm();
+    this.initializeSubtasks();
+    this.markAssignedContacts();
+    this.setPriorityButtons();
+  }
+
+  private initializeContacts() {
     this.contacts.contactlist = [...this.contactsService.contactlist];
     this.filteredContacts = [...this.contacts.contactlist];
     this.showAnimation = true;
+  }
 
+  private initializeTaskForm() {
     const today = new Date().toISOString().split('T')[0];
-    this.taskForm = this.fb.group({
+    this.taskForm = this.fb.group(this.setTaskForm(today));
+  }
+
+  private setTaskForm(defaultDate: string) {
+    return {
       title: [this.task?.title || '', Validators.required],
       description: [this.task?.description || ''],
-      dueDate: [this.task?.dueDate || today, Validators.required],
+      dueDate: [this.task?.dueDate || defaultDate, Validators.required],
       category: [this.task?.category || '', Validators.required],
       prio: [this.task?.prio || 'Medium'],
       assigned: [this.task?.assigned || []],
       subtask: [this.task?.subtask || []],
-    });
+    };
+  }
 
-    this.markAssignedContacts();
-    this.setPriorityButtons();
+  private initializeSubtasks() {
     this.subtasklist = this.task?.subtask ? [...this.task.subtask] : [];
   }
 
@@ -87,25 +101,41 @@ export class TaskEditComponent implements OnInit {
   setPriorityButtons() {
     switch (this.task?.prio) {
       case 'Urgent':
-        this.isUrgentClicked = true;
-        this.isMediumClicked = false;
-        this.isLowClicked = false;
+        this.checkCaseUrgent();
         break;
       case 'Medium':
-        this.isUrgentClicked = false;
-        this.isMediumClicked = true;
-        this.isLowClicked = false;
+        this.checkCaseMedium();
         break;
       case 'Low':
-        this.isUrgentClicked = false;
-        this.isMediumClicked = false;
-        this.isLowClicked = true;
+        this.checkCaseLow();
         break;
       default:
-        this.isUrgentClicked = false;
-        this.isMediumClicked = true;
-        this.isLowClicked = false;
+        this.setDefaultPriority();
     }
+  }
+
+  private checkCaseUrgent() {
+    this.isUrgentClicked = true;
+    this.isMediumClicked = false;
+    this.isLowClicked = false;
+  }
+
+  private checkCaseMedium() {
+    this.isUrgentClicked = false;
+    this.isMediumClicked = true;
+    this.isLowClicked = false;
+  }
+
+  private checkCaseLow() {
+    this.isUrgentClicked = false;
+    this.isMediumClicked = false;
+    this.isLowClicked = true;
+  }
+
+  private setDefaultPriority() {
+    this.isUrgentClicked = false;
+    this.isMediumClicked = true; // Medium als Standard
+    this.isLowClicked = false;
   }
 
   @HostListener('document:click', ['$event'])
@@ -218,37 +248,64 @@ export class TaskEditComponent implements OnInit {
   }
 
   async saveEditedTask() {
-    if (this.taskForm.invalid) {
-      this.editError = 'Bitte füllen Sie alle Pflichtfelder aus.';
-      return;
-    }
+    this.checkFormValid();
 
-    const updatedTask: Itasks = {
+    const updatedTask = this.prepareUpdatedTask();
+    await this.updateTaskInFirestore(updatedTask);
+  }
+
+  private prepareUpdatedTask(): Itasks {
+    return {
       ...this.task,
       ...this.taskForm.value,
       assigned: this.taskForm.get('assigned')?.value,
       subtask: this.taskForm.get('subtask')?.value,
       id: this.task?.id,
     };
+  }
 
+  private async updateTaskInFirestore(updatedTask: Itasks) {
     try {
-      const taskDocRef = doc(this.firestore, 'tasks', updatedTask.id!);
-      const updateData = {
-        title: updatedTask.title,
-        description: updatedTask.description,
-        dueDate: updatedTask.dueDate,
-        category: updatedTask.category,
-        prio: updatedTask.prio,
-        assigned: updatedTask.assigned,
-        subtask: updatedTask.subtask,
-      };
+      const taskDocRef = this.getTaskDocRef(updatedTask.id!);
+      const updateData = this.extractUpdateData(updatedTask);
       await updateDoc(taskDocRef, updateData);
-      this.editError = null;
-      this.editComplete.emit(updatedTask);
+      this.handleUpdateSuccess(updatedTask);
     } catch (error) {
-      this.editError =
-        'Fehler beim Bearbeiten des Tasks. Bitte versuche es erneut.';
-      console.error('Error updating document: ', error);
+      this.handleUpdateError(error);
+    }
+  }
+
+  private getTaskDocRef(taskId: string) {
+    return doc(this.firestore, 'tasks', taskId);
+  }
+
+  private extractUpdateData(updatedTask: Itasks) {
+    return {
+      title: updatedTask.title,
+      description: updatedTask.description,
+      dueDate: updatedTask.dueDate,
+      category: updatedTask.category,
+      prio: updatedTask.prio,
+      assigned: updatedTask.assigned,
+      subtask: updatedTask.subtask,
+    };
+  }
+
+  private handleUpdateSuccess(updatedTask: Itasks) {
+    this.editError = null;
+    this.editComplete.emit(updatedTask);
+  }
+
+  private handleUpdateError(error: any) {
+    this.editError =
+      'Fehler beim Bearbeiten des Tasks. Bitte versuche es erneut.';
+    console.error('Update error:', error); // Optional für Debugging
+  }
+
+  checkFormValid() {
+    if (this.taskForm.invalid) {
+      this.editError = 'Bitte füllen Sie alle Pflichtfelder aus.';
+      return;
     }
   }
 

@@ -1,5 +1,20 @@
-import { Component, inject, HostListener, ViewChild, ElementRef, Output, Input, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
+import {
+  Component,
+  inject,
+  HostListener,
+  ViewChild,
+  ElementRef,
+  Output,
+  Input,
+  EventEmitter,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormControl,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../../firebase-services/contacts.service';
 import { FormsModule } from '@angular/forms';
@@ -44,10 +59,7 @@ export class AddTaskComponent {
   editedSubtask: string = '';
   editingIndex: number | null = null;
 
-  constructor(
-    private fb: FormBuilder,
-    private tasksService: TasksService,
-  ) {
+  constructor(private fb: FormBuilder, private tasksService: TasksService) {
     this.minDate = new Date().toISOString().split('T')[0];
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
@@ -102,7 +114,7 @@ export class AddTaskComponent {
     const inputValue = inputElement.value.toLowerCase();
     if (inputValue) {
       this.filteredContacts = this.contacts.contactlist.filter((contact) =>
-        contact.firstname.toLowerCase().startsWith(inputValue),
+        contact.firstname.toLowerCase().startsWith(inputValue)
       );
       this.isDropdownOpen = true;
     } else {
@@ -192,70 +204,118 @@ export class AddTaskComponent {
     this.taskForm.markAllAsTouched();
 
     if (this.taskForm.valid) {
-      const formValues = this.taskForm.value;
-
-      const selectedContacts: Icontacts[] = this.contacts.contactlist.filter(
-        (contact) => contact.checked,
-      );
-
-      let prio: 'Urgent' | 'Medium' | 'Low' = 'Medium';
-      if (this.isUrgentClicked) prio = 'Urgent';
-      else if (this.isMediumClicked) prio = 'Medium';
-      else if (this.isLowClicked) prio = 'Low';
-
-      const dueDate = this.date.value
-        ? this.date.value.toLocaleDateString()
-        : '';
-
-      const newTask: Itasks = {
-        title: formValues.title,
-        description: formValues.description,
-        category: formValues.category as 'Technical Task' | 'User Story',
-        dueDate: dueDate,
-        prio: prio,
-        assigned: selectedContacts,
-        subtask: this.subtasklist,
-        status: this.targetStatus,
-      };
-
-      this.tasksService.addTask(newTask).then(() => {
-        this.onClear();
-        this.newTaskAdded = true;
-        setTimeout(() => {
-          this.isFadingOut = true;
-        }, 500);
-        setTimeout(() => {
-          this.newTaskAdded = false;
-          this.isFadingOut = false;
-          this.taskAdded.emit();
-        }, 500);
-      }).catch(error => {
-        console.error('Fehler beim Hinzufügen des Tasks:', error);
-      });
+      const newTask = this.createNewTask();
+      this.saveNewTask(newTask);
     } else {
-      this.requiredInfo = !this.requiredInfo;
+      this.toggleRequiredInfo();
     }
   }
 
+  private createNewTask(): Itasks {
+    const formValues = this.taskForm.value;
+    const selectedContacts = this.getSelectedContacts();
+    const prio = this.determinePriority();
+    const dueDate = this.formatDueDate();
+
+    return {
+      title: formValues.title,
+      description: formValues.description,
+      category: formValues.category as 'Technical Task' | 'User Story',
+      dueDate: dueDate,
+      prio: prio,
+      assigned: selectedContacts,
+      subtask: this.subtasklist,
+      status: this.targetStatus,
+    };
+  }
+
+  private getSelectedContacts(): Icontacts[] {
+    return this.contacts.contactlist.filter((contact) => contact.checked);
+  }
+
+  private determinePriority(): 'Urgent' | 'Medium' | 'Low' {
+    if (this.isUrgentClicked) return 'Urgent';
+    if (this.isLowClicked) return 'Low';
+    return 'Medium'; // Standardwert
+  }
+
+  private formatDueDate(): string {
+    return this.date.value ? this.date.value.toLocaleDateString() : '';
+  }
+
+  private saveNewTask(newTask: Itasks) {
+    this.tasksService
+      .addTask(newTask)
+      .then(() => {
+        this.handleTaskSaveSuccess();
+      })
+      .catch((error) => {
+        this.handleTaskSaveError(error);
+      });
+  }
+
+  private handleTaskSaveSuccess() {
+    this.onClear();
+    this.newTaskAdded = true;
+    setTimeout(() => {
+      this.isFadingOut = true;
+    }, 500);
+    setTimeout(() => {
+      this.resetTaskAddedState();
+    }, 500);
+  }
+
+  private handleTaskSaveError(error: any) {
+    console.error('Fehler beim Hinzufügen des Tasks:', error);
+  }
+
+  private resetTaskAddedState() {
+    this.newTaskAdded = false;
+    this.isFadingOut = false;
+    this.taskAdded.emit();
+  }
+
+  private toggleRequiredInfo() {
+    this.requiredInfo = !this.requiredInfo;
+  }
+
   onClear() {
+    this.resetTaskForm();
+    this.clearComponentState();
+  }
+
+  private resetTaskForm() {
     const today = new Date().toISOString().split('T')[0];
     this.taskForm.reset({
       title: '',
       description: '',
-      assignedTo: [],
+      assigned: [],
       dueDate: today,
       category: '',
+      prio: 'Medium',
+      subtask: [], 
     });
-    this.contacts.contactlist.forEach((contact) => (contact.checked = false));
+  }
+
+  private clearComponentState() {
+    this.uncheckAllContacts();
     this.filteredContacts = [...this.contacts.contactlist];
     this.selectedContactIds = [];
     this.isDropdownOpen = false;
     this.searchQuery = '';
     this.subtasklist = [];
     this.inputSubtask = '';
+    this.setDefaultPriority();
+    this.requiredInfo = false;
+  }
+
+  private uncheckAllContacts() {
+    this.contacts.contactlist.forEach((contact) => (contact.checked = false));
+  }
+
+  private setDefaultPriority() {
     this.isUrgentClicked = false;
     this.isMediumClicked = true;
     this.isLowClicked = false;
-    this.requiredInfo = false;
   }
 }

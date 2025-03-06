@@ -80,13 +80,13 @@ export class ContactaddComponent {
 
  // Validierung für Vorname
   isFirstNameValid(): boolean {
-    const nameRegex = /^[a-zA-ZüöäÜÖÄß\s]+$/; // Nur Buchstaben und Leerzeichen erlaubt
+    const nameRegex = /^[a-zA-ZüöäÜÖÄß\s]+$/;
     return nameRegex.test(this.newContact.firstname.trim());
   }
 
   // Validierung für Nachname
   isLastNameValid(): boolean {
-    const nameRegex = /^[a-zA-ZüöäÜÖÄß\s]+$/; // Nur Buchstaben und Leerzeichen erlaubt
+    const nameRegex = /^[a-zA-ZüöäÜÖÄß\s]+$/;
     return nameRegex.test(this.newContact.lastname.trim());
   }
 

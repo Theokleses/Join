@@ -61,17 +61,19 @@
               <p class="task-title">{{ task.title }}</p>
               <p>{{ task.description }}</p>
             </div>
+
             <div class="progress">
               <div class="progress-bar-container">
                 <div
                   class="progress-bar"
                   [style.width]="getSubtaskProgress(task) + '%'"
                 ></div>
+
+                <span class="progress-text">
+                  {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                  Subtasks
+                </span>
               </div>
-              <span class="progress-text">
-                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
-                Subtasks
-              </span>
             </div>
             <div class="contact">
               @if (task.assigned && task.assigned.length > 0) { @for (contact of
