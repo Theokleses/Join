@@ -40,8 +40,7 @@ export class LoginComponent implements AfterViewInit {
   }
 
   guestLogin() {
-    this.loginService.setInitials('G');
-    this.loginService.setDisplayName('Guest');
+    this.loginService.loginAsGuest();
   }
 
   handleGuestLogin() {

@@ -13,7 +13,7 @@ import {
 })
 export class LoginService {
   private _hideHelpIcon: boolean = false;
-  private initialsSubject = new BehaviorSubject<string>('GM');
+  private initialsSubject = new BehaviorSubject<string>('');
   initials$ = this.initialsSubject.asObservable();
   private firstNameSubject = new BehaviorSubject<string>('');
   firstName$ = this.firstNameSubject.asObservable();
@@ -22,11 +22,33 @@ export class LoginService {
   private displayNameSubject = new BehaviorSubject<string>('');
   displayName$ = this.displayNameSubject.asObservable();
   auth = getAuth();
-  isLoggedIn: boolean = false;
+  isLoggedIn: boolean = localStorage.getItem('isLoggedIn') === 'true'; 
+  isGuest: boolean = localStorage.getItem('isGuest') === 'true';
 
   constructor() {
     onAuthStateChanged(this.auth, (user) => {
-      this.isLoggedIn = !!user; 
+      if (user && !this.isGuest) { 
+        this.isLoggedIn = true;
+        this.isGuest = false;
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('isGuest', 'false');
+        const displayName = user.displayName || localStorage.getItem('displayName') || '';
+        const initials = displayName.split(' ').map(n => n.charAt(0)).join('').toUpperCase() || localStorage.getItem('initials') || '';
+        this.setDisplayName(displayName);
+        this.setInitials(initials);
+      } else if (this.isGuest) { 
+        this.isLoggedIn = true;
+        localStorage.setItem('isLoggedIn', 'true');
+        this.setDisplayName(localStorage.getItem('displayName') || 'Guest');
+        this.setInitials(localStorage.getItem('initials') || 'G');
+      } else { 
+        this.isLoggedIn = false;
+        this.isGuest = false;
+        localStorage.setItem('isLoggedIn', 'false');
+        localStorage.setItem('isGuest', 'false');
+        this.setDisplayName('');
+        this.setInitials('');
+      }
     });
   }
 
@@ -52,10 +74,12 @@ export class LoginService {
 
   setInitials(initials: string) {
     this.initialsSubject.next(initials);
+    localStorage.setItem('initials', initials);
   }
 
   setDisplayName(displayName: string) {
     this.displayNameSubject.next(displayName);
+    localStorage.setItem('displayName', displayName);
   }
 
   async signUp(email: string, password: string, displayName: string) {
@@ -66,9 +90,9 @@ export class LoginService {
         password
       );
       const user = userCredential.user;
-
       await updateProfile(user, { displayName });
       this.isLoggedIn = true;
+      localStorage.setItem('isLoggedIn', 'true');
       console.log('Erfolgreich registriert:', user);
       return { success: true, user };
     } catch (error) {
@@ -89,6 +113,7 @@ export class LoginService {
       );
       const user = userCredential.user;
       this.isLoggedIn = true;  
+      localStorage.setItem('isLoggedIn', 'true');
       if (user.displayName) {
         const [firstName, lastName] = user.displayName.split(' ').map(name => 
           name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
@@ -109,4 +134,21 @@ export class LoginService {
       return { success: false, error };
     }
   }
+
+  loginAsGuest() { 
+    this.isLoggedIn = true;
+    this.isGuest = true;
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('isGuest', 'true');
+    this.setDisplayName('Guest');
+    this.setInitials('G');
+  }
+
+  // logout() {
+  //   this.auth.signOut();
+  //   this.isLoggedIn = false;
+  //   localStorage.setItem('isLoggedIn', 'false');
+  //   this.setDisplayName(''); // Zurücksetzen
+  //   this.setInitials(''); // Zurücksetzen (statt 'GM')
+  // }
 }
