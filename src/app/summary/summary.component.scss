@@ -1,4 +1,8 @@
 @use "../../styles.scss" as *;
+$darkblue: rgba(43, 54, 70, 1);
+$urgentBg: #ff3d00;
+$mediumBg: #ffa800;
+$lowBg: #7ae229;
 
 h1,
 h2,
@@ -18,6 +22,7 @@ p {
   transition:
     transform 0.125s ease,
     background-color 0.125s ease;
+  gap: 1em;
 
   &:hover {
     transform: scale(1.1);
@@ -73,6 +78,22 @@ main {
         font-size: 2em;
       }
     }
+    #prioContainer {
+      width: 50px; // Feste Größe für den Kreis
+      height: 50px; // Feste Größe für den Kreis
+      border: 1px solid $darkgrey; // Rand
+      border-radius: 50%; // Kreisform
+      display: flex;
+      justify-content: center; // Bild horizontal zentrieren
+      align-items: center; // Bild vertikal zentrieren
+      padding: 5px; // Optional: Innenabstand
+
+      img {
+        max-width: 100%; // Bild in Originalgröße
+        max-height: 100%; // Bild in Originalgröße
+        object-fit: contain; // Bild anpassen, ohne es zu verzerren
+      }
+    }
 
     #dashboard-greeting-container {
       display: flex;
@@ -91,6 +112,21 @@ main {
 
           .border-style {
             flex: 1;
+
+            .amount-description {
+              text-align: center;
+              display: flex;
+              flex-direction: column;
+              flex-direction: column;
+
+              p:nth-child(1) {
+                font-size: 4em;
+              }
+
+              #date-p {
+                font-size: 2em;
+              }
+            }
           }
           #todo-done {
             display: flex;
@@ -98,7 +134,6 @@ main {
               flex: 1;
             }
           }
-
           #deadline {
             .border-style {
               flex: 1;

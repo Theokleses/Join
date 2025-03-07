@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { LoginService } from '../firebase-services/login.service';
 import { FormsModule } from '@angular/forms';
+import { TasksService } from '../firebase-services/tasks.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginComponent implements AfterViewInit {
     private router: Router,
     private appComponent: AppComponent,
     private renderer: Renderer2,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private tasksService: TasksService,
   ) {}
 
   navigateToSummary() {

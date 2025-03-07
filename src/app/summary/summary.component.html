@@ -9,24 +9,79 @@
     <div id="dashboard-greeting-container">
       <div id="dashboard-container">
         <div id="todo-done">
-          <div class="border-style">To-do</div>
-          <div class="border-style">Done</div>
+          <div
+            class="border-style"
+            routerLink="/board"
+            (mouseenter)="onHoverEdit(true)"
+            (mouseleave)="onHoverEdit(false)"
+          >
+            <img [src]="editIconSrc" alt="Edit Icon" />
+            <div class="amount-description">
+              <p>{{ this.todo.length }}</p>
+              <p>To-do</p>
+            </div>
+          </div>
+
+          <div
+            class="border-style"
+            routerLink="/board"
+            (mouseenter)="onHoverDone(true)"
+            (mouseleave)="onHoverDone(false)"
+          >
+            <img [src]="doneIconSrc" alt="Edit Icon" />
+            <div class="amount-description">
+              <p>{{ this.done.length }}</p>
+              <p>Done</p>
+            </div>
+          </div>
         </div>
         <div id="deadline">
-          <div class="border-style">Upcoming Deadline</div>
+          <div class="border-style" routerLink="/board">
+            <div
+              id="prioContainer"
+              [ngStyle]="{ 'background-color': deadlineBgColor }"
+            >
+              <!-- Bild in Originalgröße und zentriert -->
+              <img [src]="deadlineImgSrc" alt="Priority Icon" />
+            </div>
+            <div>
+              <div class="amount-description">
+                <p>{{ urgentTaskCount }}</p>
+                <p>{{ highestPriority }}</p>
+              </div>
+            </div>
+            <div class="amount-description">
+              <p id="date-p">
+                {{ nextDueDate | date: "MMMM d, y" }}
+              </p>
+              <p>Upcoming Deadline</p>
+            </div>
+          </div>
         </div>
         <div id="tasks">
-          <div class="border-style">Tasks in Board</div>
-          <div class="border-style">Tasks in Progress</div>
-          <div class="border-style">Awaiting Feedback</div>
+          <div class="border-style" routerLink="/board">
+            <div class="amount-description">
+              <p>{{ this.allTasks.length }}</p>
+              <p>Tasks in Board</p>
+            </div>
+          </div>
+          <div class="border-style" routerLink="/board">
+            <div class="amount-description">
+              <p>{{ this.inProgress.length }}</p>
+              <p>Tasks in Progress</p>
+            </div>
+          </div>
+          <div class="border-style" routerLink="/board">
+            <div class="amount-description">
+              <p>{{ this.awaitFeedback.length }}</p>
+              <p>Awaiting Feedback</p>
+            </div>
+          </div>
         </div>
       </div>
       <div id="greeting-container">
-        <!--Wenn Gast Login dann nur Good morning sonst good morning, vor und zuname von der geloggten person 
-          Im Login Service muss Vor und Nachname als Variablen hinterlegt werden diese müssen auf Firebase abgelegt sein
-          beim Registrieren z.B. Vorname Nachname Email Passwort -->
-        <p>Good morning,</p>
-        <h2> {{ displayName }}</h2>
+        <p>{{ greetingMessage }}</p>
+        <h2>{{ displayName }}</h2>
       </div>
     </div>
   </div>
