@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
+  onAuthStateChanged
 } from '@angular/fire/auth';
 
 @Injectable({
@@ -21,8 +22,13 @@ export class LoginService {
   private displayNameSubject = new BehaviorSubject<string>('');
   displayName$ = this.displayNameSubject.asObservable();
   auth = getAuth();
+  isLoggedIn: boolean = false;
 
-  constructor() {}
+  constructor() {
+    onAuthStateChanged(this.auth, (user) => {
+      this.isLoggedIn = !!user; 
+    });
+  }
 
   updateInitials(initials: string) {
     this.initialsSubject.next(initials);
@@ -45,7 +51,6 @@ export class LoginService {
   }
 
   setInitials(initials: string) {
-    console.log('Setting initials to:', initials, 'from:', new Error().stack);
     this.initialsSubject.next(initials);
   }
 
@@ -63,6 +68,7 @@ export class LoginService {
       const user = userCredential.user;
 
       await updateProfile(user, { displayName });
+      this.isLoggedIn = true;
       console.log('Erfolgreich registriert:', user);
       return { success: true, user };
     } catch (error) {
@@ -81,7 +87,8 @@ export class LoginService {
         email,
         password
       );
-      const user = userCredential.user;  
+      const user = userCredential.user;
+      this.isLoggedIn = true;  
       if (user.displayName) {
         const [firstName, lastName] = user.displayName.split(' ').map(name => 
           name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
