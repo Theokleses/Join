@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   menuOpen = false;
   helpOpen = false;
-  initials: string = 'SM';
+  initials: string = 'GM';
 
   constructor(public loginService: LoginService, private router: Router) {}
 

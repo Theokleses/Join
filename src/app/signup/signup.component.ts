@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
-  name: string = '';
+  displayName: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -63,9 +63,24 @@ export class SignupComponent {
     this.confirmPasswordErrorMessage = '';
 
     // Validierung des Namens
-    if (!this.name && this.isNameTouched) {
+    if (!this.displayName && this.isNameTouched) {
       this.nameErrorMessage = 'Name is required';
       isValid = false;
+    } else if (this.isNameTouched) {
+      const nameParts = this.displayName.trim().split(/\s+/);
+      if (nameParts.length < 2) {
+        this.nameErrorMessage = 'Please enter both first and last name';
+        isValid = false;
+      } else {
+        const lettersOnlyRegex = /^[a-zA-Z]+$/;
+        for (const part of nameParts) {
+          if (!lettersOnlyRegex.test(part)) {
+            this.nameErrorMessage = 'Name must contain only letters';
+            isValid = false;
+            break;
+          }
+        }
+      }
     }
 
     // Validierung der E-Mail
@@ -104,25 +119,29 @@ export class SignupComponent {
 
     return isValid;
   }
-  
+
   async onSignUp() {
     this.isFormSubmitted = true;
     this.errorMessage = '';
-  
+
     this.isNameTouched = true;
     this.isEmailTouched = true;
     this.isPasswordTouched = true;
     this.isConfirmPasswordTouched = true;
-  
+
     if (!this.validateInputs()) {
       return;
     }
-  
-    const result = await this.loginService.signUp(this.email, this.password);
-  
+
+    const result = await this.loginService.signUp(
+      this.email,
+      this.password,
+      this.displayName
+    );
+
     if (result.success) {
-      this.showSuccessMessage = true; 
-  
+      this.showSuccessMessage = true;
+
       setTimeout(() => {
         this.router.navigate(['/login']);
       }, 2000);

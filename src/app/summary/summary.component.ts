@@ -15,9 +15,10 @@ export class SummaryComponent implements OnInit {
   initials: string = '';
   firstName: string = '';
   lastName: string = '';
+  displayName: string = '';
   constructor(
     private loginService: LoginService,
-    private taskService: TasksService,
+    private taskService: TasksService
   ) {}
 
   ngOnInit(): void {
@@ -27,6 +28,10 @@ export class SummaryComponent implements OnInit {
 
     this.loginService.lastName$.subscribe((lastName) => {
       this.lastName = lastName;
+    });
+    
+    this.loginService.displayName$.subscribe((displayName) => {
+      this.displayName = displayName;
     });
   }
 }

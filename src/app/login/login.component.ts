@@ -25,7 +25,7 @@ export class LoginComponent implements AfterViewInit {
     private router: Router,
     private appComponent: AppComponent,
     private renderer: Renderer2,
-    private loginService: LoginService,
+    private loginService: LoginService
   ) {}
 
   navigateToSummary() {
@@ -78,7 +78,6 @@ export class LoginComponent implements AfterViewInit {
     let isValid = true;
     this.emailErrorMessage = '';
     this.passwordErrorMessage = '';
-
     if (!this.email) {
       this.emailErrorMessage = 'Email is required';
       isValid = false;
@@ -87,7 +86,6 @@ export class LoginComponent implements AfterViewInit {
       this.passwordErrorMessage = 'Password is required';
       isValid = false;
     }
-
     return isValid;
   }
 
@@ -97,59 +95,20 @@ export class LoginComponent implements AfterViewInit {
 
   handleLogin() {
     if (this.email && this.email.includes('@')) {
-      const namePart = this.email.split('@')[0];
-      let initials = '';
-      // Fall 1: Mit Punkt getrennt (z. B. "max.mustermann")
-      if (namePart.includes('.')) {
-        const names = namePart.split('.');
-        if (names.length >= 2) {
-          this.firstName = this.capitalizeFirstLetter(names[0]);
-          this.lastName = this.capitalizeFirstLetter(names[1]);
-          initials =
-            names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
-        }
-      }
-      // Fall 2: Mit Bindestrich getrennt (z. B. "max-mustermann")
-      else if (namePart.includes('-')) {
-        const names = namePart.split('-');
-        if (names.length >= 2) {
-          this.firstName = this.capitalizeFirstLetter(names[0]);
-          this.lastName = this.capitalizeFirstLetter(names[1]);
-          initials =
-            names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
-        }
-      }
-      // Fall 3: Mit Unterstrich getrennt (z. B. "max_mustermann")
-      else if (namePart.includes('_')) {
-        const names = namePart.split('_');
-        if (names.length >= 2) {
-          this.firstName = this.capitalizeFirstLetter(names[0]);
-          this.lastName = this.capitalizeFirstLetter(names[1]);
-          initials =
-            names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
-        }
-      }
-      // Fall 4: Mit Großbuchstaben (z. B. "maxMustermann")
-      else if (namePart.match(/[A-Z]/)) {
-        const nameParts = namePart.split(/(?=[A-Z])/);
-        if (nameParts.length >= 2) {
-          this.firstName = this.capitalizeFirstLetter(nameParts[0]);
-          this.lastName = this.capitalizeFirstLetter(nameParts[1]);
-          initials =
-            nameParts[0].charAt(0).toUpperCase() +
-            nameParts[1].charAt(0).toUpperCase();
-        }
-      }
-      // Fall 5: Keine klare Trennung (z. B. "maxmustermann")
-      else {
-        this.firstName = namePart.slice(0, 1).toUpperCase();
-        this.lastName = namePart.slice(1, 2).toUpperCase();
-        initials = namePart.slice(0, 2).toUpperCase(); // Erste zwei Buchstaben
-      }
-      this.loginService.setFirstName(this.firstName);
-      this.loginService.setLastName(this.lastName);
-      this.loginService.setInitials(initials);
-      this.navigateToSummary();
+      this.loginService
+        .login(this.email, this.password)
+        .then((result) => {
+          if (result.success) {
+            this.loginService.setFirstName(this.firstName || '');
+            this.loginService.setLastName(this.lastName || '');
+            this.navigateToSummary();
+          } else {
+            console.error('Login fehlgeschlagen:', result.error);
+          }
+        })
+        .catch((error) => {
+          console.error('Fehler beim Login:', error);
+        });
     } else {
       console.log('Ungültige Email-Adresse');
     }
