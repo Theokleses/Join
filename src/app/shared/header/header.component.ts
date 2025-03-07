@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   menuOpen = false;
   helpOpen = false;
-  initials: string = 'GM';
+  initials: string = '';
 
   constructor(public loginService: LoginService, private router: Router) {}
 
@@ -35,5 +35,11 @@ export class HeaderComponent implements OnInit {
   goToHelp() {
     this.loginService.setHideHelpIcon(true);
     this.router.navigate(['/help-user']);
+  }
+
+  logout() {
+    this.loginService.logout(); // Vollständiges Logout aus dem Service
+    this.closeMenu(); // Menü schließen
+    this.router.navigate(['/login']); // Zum Login weiterleiten
   }
 }

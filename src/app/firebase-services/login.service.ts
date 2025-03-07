@@ -144,11 +144,13 @@ export class LoginService {
     this.setInitials('G');
   }
 
-  // logout() {
-  //   this.auth.signOut();
-  //   this.isLoggedIn = false;
-  //   localStorage.setItem('isLoggedIn', 'false');
-  //   this.setDisplayName(''); // Zurücksetzen
-  //   this.setInitials(''); // Zurücksetzen (statt 'GM')
-  // }
+  logout() {
+    this.auth.signOut();
+    this.isLoggedIn = false;
+    this.isGuest = false;
+    localStorage.setItem('isLoggedIn', 'false');
+    localStorage.setItem('isGuest', 'false');
+    // this.setDisplayName('');
+    // this.setInitials('');
+  }
 }
