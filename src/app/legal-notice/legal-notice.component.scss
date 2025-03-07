@@ -1,0 +1,15 @@
+@use "../../styles.scss" as *;
+
+body,
+html {
+  overflow-y: auto;
+}
+
+main {
+  @include dF();
+  flex-direction: column;
+  @include contentmax();
+  @include pad();
+  max-height: 100vh;
+  overflow-y: auto !important;
+}
