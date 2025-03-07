@@ -8,4 +8,10 @@ import { RouterModule } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  activeTab: string = 'home'; // Standardmäßig ist "Home" aktiv
+
+  setActiveTab(tab: string) {
+    this.activeTab = tab; // Setzt den aktiven Tab
+  }
+}

@@ -37,6 +37,10 @@ main {
     &:hover {
       background-color: rgb(77, 97, 126);
     }
+
+    &.active {
+      background-color: rgb(9 24 50);
+    }
   }
 
   .link {
@@ -44,7 +48,9 @@ main {
   }
 
   .special {
-    margin-right: 22px;
+    p {
+      margin-right: 21px;
+    }
   }
 
   img {

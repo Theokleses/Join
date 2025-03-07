@@ -7,7 +7,9 @@
     <div class="menu">
       <div class="link">
         <a routerLink="/summary"
-          ><img
+        [class.active]="activeTab === 'summary'"
+        (click)="setActiveTab('summary')"
+        ><img
             src="../../../assets/img/02_menubar/summary.png"
             alt=""
           />Summary</a
@@ -16,19 +18,26 @@
 
       <div class="link">
         <a routerLink="/tasks"
+        [class.active]="activeTab === 'tasks'"
+        (click)="setActiveTab('tasks')"
           ><img src="../../../assets/img/02_menubar/add-task.png" alt="" />Add
           task</a
         >
       </div>
 
-      <div class="link special">
+      <div class="link">
         <a routerLink="/board"
-          ><img src="../../../assets/img/02_menubar/board.png" alt="" />Board</a
+        [class.active]="activeTab === 'board'"
+        (click)="setActiveTab('board')"
+        class="special"
+          ><img src="../../../assets/img/02_menubar/board.png" alt="" /><p>Board</p></a
         >
       </div>
 
       <div class="link">
         <a routerLink="/contacts"
+        [class.active]="activeTab === 'contacts'"
+        (click)="setActiveTab('contacts')"
           ><img
             src="../../../assets/img/02_menubar/contacts.png"
             alt=""
