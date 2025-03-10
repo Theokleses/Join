@@ -125,9 +125,9 @@ export class BoardComponent implements OnInit {
 
   getSubtaskCount(task: Itasks): number {
     if (!task.subtask || task.subtask.length === 0) return 0;
-    const subtaskStatus =
-      task.subtaskStatus || new Array(task.subtask.length).fill(false);
-    return subtaskStatus.filter(Boolean).length;
+    const subtaskStatus = task.subtaskStatus || [];
+    const validStatus = subtaskStatus.slice(0, task.subtask.length); // Kürze auf die kürzere Länge
+    return validStatus.filter((status) => status).length; // Zähle nur abgeschlossene Subtasks
   }
 
   getInitials(firstname: string, lastname: string): string {
@@ -149,6 +149,11 @@ export class BoardComponent implements OnInit {
     } catch (error) {
       console.error('Fehler beim Löschen des Dokuments:', error);
     }
+  }
+
+  truncateDescription(description: string | undefined): string {
+    if (!description) return '';
+    return description.length > 60 ? description.substring(0, 60) + '... ( read more)' : description;
   }
 
   ngOnInit() {

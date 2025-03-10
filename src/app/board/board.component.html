@@ -59,7 +59,7 @@
             </div>
             <div class="description">
               <p class="task-title">{{ task.title }}</p>
-              <p>{{ task.description }}</p>
+              <p>{{ truncateDescription(task.description) }}</p>
             </div>
 
             <div class="progress">
@@ -68,12 +68,11 @@
                   class="progress-bar"
                   [style.width]="getSubtaskProgress(task) + '%'"
                 ></div>
-
-                <span class="progress-text">
-                  {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
-                  Subtasks
-                </span>
               </div>
+              <span class="progress-text">
+                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                Subtasks
+              </span>
             </div>
             <div class="contact">
               @if (task.assigned && task.assigned.length > 0) { @for (contact of
@@ -160,7 +159,7 @@
             </div>
             <div class="description">
               <p class="task-title">{{ task.title }}</p>
-              <p>{{ task.description }}</p>
+              <p>{{ truncateDescription(task.description) }}</p>
             </div>
             <div class="progress">
               <div class="progress-bar-container">
@@ -259,7 +258,7 @@
             </div>
             <div class="description">
               <p class="task-title">{{ task.title }}</p>
-              <p>{{ task.description }}</p>
+              <p>{{ truncateDescription(task.description) }}</p>
             </div>
             <div class="progress">
               <div class="progress-bar-container">
@@ -358,7 +357,7 @@
             </div>
             <div class="description">
               <p class="task-title">{{ task.title }}</p>
-              <p>{{ task.description }}</p>
+              <p>{{ truncateDescription(task.description) }}</p>
             </div>
             <div class="progress">
               <div class="progress-bar-container">

@@ -70,19 +70,23 @@
 
           <div id="phonenumber-container">
             <label for="phonenumber">Phone:</label>
-            <input
-              id="phonenumber"
-              type="tel"
-              placeholder="Phone"
-              inputmode="numeric"
-              pattern="[0-9]*"
-              [(ngModel)]="newContact.phonenumber"
-              name="phonenumber"
-              required
-            /><img src="../../../assets/img/06_contacts/phone.png" alt="" />
+            <div class="phone-input-wrapper">
+              <span class="phone-prefix">+</span>
+              <input
+                id="phonenumber"
+                type="tel"
+                placeholder="49123456789"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                [(ngModel)]="newContact.phonenumber"
+                name="phonenumber"
+                required
+              />
+              <img src="../../../assets/img/06_contacts/phone.png" alt="" />
+            </div>
           </div>
           @if (newContact.phonenumber && !isPhoneNumberValid()) {
-          <div class="error-message">Please add the country code +49.</div>
+            <div class="error-message">Please add a valid phonenumber.</div>
           }
           <div id="btn-section">
             <button

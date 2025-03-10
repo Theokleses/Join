@@ -110,7 +110,12 @@ export class TasksService implements OnDestroy {
   async addTask(task: Itasks) {
     try {
       const tasksCollection = collection(this.firestore, 'tasks');
-      const docRef = await addDoc(tasksCollection, task);
+      const newTask = {
+        ...task,
+        subtask: task.subtask || [], 
+        subtaskStatus: task.subtaskStatus || [],
+      };
+      const docRef = await addDoc(tasksCollection, newTask);
     } catch (error) {
       console.error('Fehler beim Hinzufügen des Tasks:', error);
     }

@@ -107,8 +107,10 @@ export class ContactaddComponent {
   // Validierung für Telefonnummer (bereits vorhanden)
   isPhoneNumberValid(): boolean {
     const phoneInput = this.newContact.phonenumber?.trim() || '';
-    return /^\+49\s?\d+$/.test(phoneInput);
+    return /^\s?\d+$/.test(phoneInput);
   }
+
+
 
   // Gesamtvalidierung für das Formular
   isFormValid(): boolean {
