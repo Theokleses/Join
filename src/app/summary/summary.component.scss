@@ -97,13 +97,13 @@ main {
 
     #dashboard-greeting-container {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 5em;
+      max-width: 1920px;
       #dashboard-container {
         display: flex;
         flex-direction: column;
         gap: 1em;
-        width: 50%;
         #todo-done,
         #deadline,
         #tasks {
@@ -148,7 +148,6 @@ main {
         }
       }
       #greeting-container {
-        width: 45%;
         p {
           font-size: 2em;
         }
@@ -157,6 +156,161 @@ main {
           color: $lightblue;
         }
       }
+    }
+  }
+}
+
+@media (max-width: 1500px) {
+  #greeting-container {
+    width: auto !important;
+    p {
+    }
+    h2 {
+      font-size: 3em !important;
+    }
+  }
+}
+
+@media (max-width: 1400px) {
+  main {
+    #padding {
+      padding: 2em 2em !important;
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  main {
+    #padding {
+      padding: 0 !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      #dashboard-greeting-container {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: start !important;
+        align-items: center !important;
+        gap: 1em !important;
+        #greeting-container {
+          p {
+            text-align: center;
+          }
+          h2 {
+            font-size: 4em !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .border-style {
+    padding: 1em !important;
+  }
+}
+
+@media (max-width: 700px) {
+  main {
+    #padding {
+      #header {
+        margin-bottom: 1em;
+        margin-top: 1em;
+        h1 {
+          font-size: 2em;
+        }
+        span {
+          margin: 0 0.2em;
+          font-size: 2em;
+          color: $lightblue;
+        }
+        p {
+          font-size: 1em;
+        }
+      }
+      #dashboard-greeting-container {
+        #greeting-container {
+          p {
+            text-align: center;
+          }
+          h2 {
+            font-size: 2em !important;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+
+  .border-style {
+    &:hover {
+      transform: scale(1);
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .border-style {
+    padding: 0.5em !important;
+  }
+
+  #prioContainer {
+    width: 40px !important;
+    height: auto !important;
+    aspect-ratio: 1/1 !important;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  #dashboard-greeting-container {
+    padding: 0 1em;
+    #todo-done {
+      img {
+        width: 50px;
+      }
+    }
+  }
+}
+
+@media (max-height: 750px) {
+  main {
+    #padding {
+      #header {
+        display: none;
+      }
+
+      #dashboard-greeting-container {
+        #greeting-container {
+          display: none;
+        }
+
+        #dashboard-container {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media (max-height: 550px) {
+  .border-style {
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+
+  #dashboard-greeting-container {
+    #greeting-container {
+    }
+
+    #dashboard-container {
+      gap: 0.5em !important;
     }
   }
 }

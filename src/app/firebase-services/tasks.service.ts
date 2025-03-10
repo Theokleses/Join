@@ -49,7 +49,7 @@ export class TasksService implements OnDestroy {
             todo,
             inProgress,
             awaitFeedback,
-            done
+            done,
           );
           index++;
         });
@@ -62,10 +62,17 @@ export class TasksService implements OnDestroy {
       },
       (error) => {
         console.error('Fehler beim Abrufen der Tasks:', error);
-      }
+      },
     );
   }
 
+  /**
+   * Creates a task object from Firestore data with the specified properties.
+   * @param {string} id - The unique ID of the task.
+   * @param {any} data - The raw task data from Firestore.
+   * @param {number} index - The index of the task in the list.
+   * @returns {Itasks} The constructed task object.
+   */
   setTaskObject(id: string, data: any, index: number): Itasks {
     return {
       id: id,
@@ -81,20 +88,34 @@ export class TasksService implements OnDestroy {
     };
   }
 
+  /**
+   * Toggles the editing dialog state.
+   */
   toggleDialogEdit() {
     this.isEditing = !this.isEditing;
   }
 
+  /**
+   * Toggles the adding dialog state.
+   */
   toggleDialogAdd() {
     this.isAdding = !this.isAdding;
   }
 
+  /**
+   * Categorizes a task into the appropriate status array.
+   * @param {Itasks} task - The task to categorize.
+   * @param {Itasks[]} todo - Array for tasks with 'todo' status.
+   * @param {Itasks[]} inProgress - Array for tasks with 'in-progress' status.
+   * @param {Itasks[]} awaitFeedback - Array for tasks with 'await-feedback' status.
+   * @param {Itasks[]} done - Array for tasks with 'done' status.
+   */
   categorizeTask(
     task: Itasks,
     todo: Itasks[],
     inProgress: Itasks[],
     awaitFeedback: Itasks[],
-    done: Itasks[]
+    done: Itasks[],
   ) {
     if (task.status === 'todo') {
       todo.push(task);
@@ -107,12 +128,16 @@ export class TasksService implements OnDestroy {
     }
   }
 
+  /**
+   * Adds a new task to Firestore.
+   * @param {Itasks} task - The task data to add.
+   */
   async addTask(task: Itasks) {
     try {
       const tasksCollection = collection(this.firestore, 'tasks');
       const newTask = {
         ...task,
-        subtask: task.subtask || [], 
+        subtask: task.subtask || [],
         subtaskStatus: task.subtaskStatus || [],
       };
       const docRef = await addDoc(tasksCollection, newTask);
@@ -121,6 +146,11 @@ export class TasksService implements OnDestroy {
     }
   }
 
+  /**
+   * Updates the status of a task in Firestore.
+   * @param {string} taskId - The ID of the task to update.
+   * @param {string} newStatus - The new status to set.
+   */
   async updateTaskStatus(taskId: string, newStatus: string) {
     if (!taskId || !newStatus) {
       console.error('Ungültige Parameter für updateTaskStatus:', {
@@ -133,12 +163,16 @@ export class TasksService implements OnDestroy {
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`);
     try {
       await updateDoc(taskDocRef, { status: newStatus });
-
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Task-Status:', error);
     }
   }
 
+  /**
+   * Updates a task in Firestore with new data.
+   * @param {string} taskId - The ID of the task to update.
+   * @param {Itasks} task - The updated task data.
+   */
   async updateTask(taskId: string, task: Itasks) {
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`);
     try {
@@ -149,6 +183,9 @@ export class TasksService implements OnDestroy {
     }
   }
 
+  /**
+   * Cleans up the Firestore subscription when the service is destroyed.
+   */
   ngOnDestroy() {
     if (this.unsubscribe) {
       this.unsubscribe();
