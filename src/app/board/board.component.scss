@@ -286,18 +286,40 @@ h2 {
 }
 
 @media (max-width: 800px) {
+  .content {
+  }
+
   .taskboard {
     flex-direction: column;
     height: auto;
     margin-bottom: 200px;
     gap: 16px;
     padding: 0 20px !important;
+    max-width: 500px;
   }
 
   .no-tasks {
     width: 80vw !important;
   }
 
+  .drop-area {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px;
+  }
+
+  .drop-area::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .drop-area::-webkit-scrollbar-thumb {
+    background-color: $darkgrey;
+    border-radius: 4px;
+  }
+
+  .drop-area::-webkit-scrollbar-track {
+    background-color: $grey;
+  }
   .header {
     flex-direction: column;
     align-items: start;
@@ -312,9 +334,16 @@ h2 {
   }
 }
 
-@media(max-width: 600px){
+@media (max-width: 600px) {
 
-  
+  .taskboard {
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 200px;
+    gap: 16px;
+    padding: 0 20px !important;
+    max-width: 400px;
+  }
 }
 
 @media (max-width: 500px) {
@@ -333,5 +362,15 @@ h2 {
         color: rgba(0, 0, 0, 0.2);
       }
     }
+  }
+
+  .task {
+    width: 60%;
+    gap: 12px;
+    margin-right: 12px;
+  }
+
+  .taskboard {
+    max-width: 280px;
   }
 }

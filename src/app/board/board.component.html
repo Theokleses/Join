@@ -1,450 +1,452 @@
 <main>
-  <div class="header">
-    <div class="headline">
-      <h2>Board</h2>
-    </div>
-    <div class="searchbar">
-      <div class="searchfield">
-        <input
-          type="search"
-          placeholder="Search task..."
-          [(ngModel)]="searchQuery"
-        />
-        <img src="../../assets/img/05_board/search.png" alt="search-icon" />
-      </div>
-      <button class="dark-btn" (click)="openAddTaskOverlay()">
-        <span>Add task</span> +
-      </button>
-    </div>
-  </div>
-
-  <div class="taskboard">
-    <div class="list-item">
+  <div class="content">
+    <div class="header">
       <div class="headline">
-        <h3>To do</h3>
-
-        <img
-          class="plus-button"
-          src="../../assets/img/05_board/plus button.png"
-          alt="plus-button"
-          (click)="openAddTaskOverlay('todo')"
-        />
+        <h2>Board</h2>
       </div>
-      <div class="tasks">
-        <div
-          id="todo"
-          cdkDropList
-          [cdkDropListData]="todo"
-          [cdkDropListConnectedTo]="['in-progress', 'await-feedback', 'done']"
-          class="drop-area"
-          (cdkDropListDropped)="drop($event)"
-        >
-          @if (todo.length === 0) {
-          <div class="no-tasks">
-            <p>No tasks To do</p>
-          </div>
-          } @for (task of todo; track task.id) {
-          <div
-            class="task"
-            cdkDrag
-            [cdkDragStartDelay]="{touch: 500, mouse: 0}"
-            (click)="selectTask(task)"
-            [ngClass]="{ hidden: !taskMatchesSearch(task) }"
-          >
-            <div>
-              @if (task.category === 'User Story') {
-              <p class="darkblue">{{ task.category }}</p>
-              } @else if (task.category === 'Technical Task') {
-              <p class="blue">{{ task.category }}</p>
-              }
-            </div>
-            <div class="description">
-              <p class="task-title">{{ task.title }}</p>
-              <p>{{ truncateDescription(task.description) }}</p>
-            </div>
+      <div class="searchbar">
+        <div class="searchfield">
+          <input
+            type="search"
+            placeholder="Search task..."
+            [(ngModel)]="searchQuery"
+          />
+          <img src="../../assets/img/05_board/search.png" alt="search-icon" />
+        </div>
+        <button class="dark-btn" (click)="openAddTaskOverlay()">
+          <span>Add task</span> +
+        </button>
+      </div>
+    </div>
 
-            <div class="progress">
-              <div class="progress-bar-container">
+    <div class="taskboard">
+      <div class="list-item">
+        <div class="headline">
+          <h3>To do</h3>
+
+          <img
+            class="plus-button"
+            src="../../assets/img/05_board/plus button.png"
+            alt="plus-button"
+            (click)="openAddTaskOverlay('todo')"
+          />
+        </div>
+        <div class="tasks">
+          <div
+            id="todo"
+            cdkDropList
+            [cdkDropListData]="todo"
+            [cdkDropListConnectedTo]="['in-progress', 'await-feedback', 'done']"
+            class="drop-area"
+            (cdkDropListDropped)="drop($event)"
+          >
+            @if (todo.length === 0) {
+            <div class="no-tasks">
+              <p>No tasks To do</p>
+            </div>
+            } @for (task of todo; track task.id) {
+            <div
+              class="task"
+              cdkDrag
+              [cdkDragStartDelay]="{ touch: 500, mouse: 0 }"
+              (click)="selectTask(task)"
+              [ngClass]="{ hidden: !taskMatchesSearch(task) }"
+            >
+              <div>
+                @if (task.category === 'User Story') {
+                <p class="darkblue">{{ task.category }}</p>
+                } @else if (task.category === 'Technical Task') {
+                <p class="blue">{{ task.category }}</p>
+                }
+              </div>
+              <div class="description">
+                <p class="task-title">{{ task.title }}</p>
+                <p>{{ truncateDescription(task.description) }}</p>
+              </div>
+
+              <div class="progress">
+                <div class="progress-bar-container">
+                  <div
+                    class="progress-bar"
+                    [style.width]="getSubtaskProgress(task) + '%'"
+                  ></div>
+                </div>
+                <span class="progress-text">
+                  {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                  Subtasks
+                </span>
+              </div>
+              <div class="contact">
+                @if (task.assigned && task.assigned.length > 0) { @for (contact
+                of task.assigned.slice(0, 3); track contact.id) {
                 <div
-                  class="progress-bar"
-                  [style.width]="getSubtaskProgress(task) + '%'"
-                ></div>
+                  class="initial-circle"
+                  [style.background-color]="contact.initialBg"
+                  title="{{ contact.firstname }} {{ contact.lastname }}"
+                >
+                  {{ getInitials(contact.firstname, contact.lastname) }}
+                </div>
+                } @if (task.assigned.length > 3) {
+                <div class="more-contacts">
+                  +{{ task.assigned.length - 3 }} more
+                </div>
+                } } @else {
+                <img
+                  src="../../assets/img/06_contacts/default-img.png"
+                  alt="contact-list"
+                />
+                } @if (task.prio === 'Urgent') {
+                <img
+                  src="../../assets/img/04_task/high-unclicked.png"
+                  alt="high-prio"
+                  class="prio-img"
+                />
+                } @else if (task.prio === 'Medium') {
+                <img
+                  src="../../assets/img/04_task/medium-unclicked.png"
+                  alt="medium-prio"
+                  class="prio-img"
+                />
+                } @else if (task.prio === 'Low') {
+                <img
+                  src="../../assets/img/04_task/low-unclicked.png"
+                  alt="low-prio"
+                  class="prio-img"
+                />
+                }
               </div>
-              <span class="progress-text">
-                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
-                Subtasks
-              </span>
             </div>
-            <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned.slice(0, 3); track contact.id) {
-              <div
-                class="initial-circle"
-                [style.background-color]="contact.initialBg"
-                title="{{ contact.firstname }} {{ contact.lastname }}"
-              >
-                {{ getInitials(contact.firstname, contact.lastname) }}
-              </div>
-              } @if (task.assigned.length > 3) {
-              <div class="more-contacts">
-                +{{ task.assigned.length - 3 }} more
-              </div>
-              } } @else {
-              <img
-                src="../../assets/img/06_contacts/default-img.png"
-                alt="contact-list"
-              />
-              } @if (task.prio === 'Urgent') {
-              <img
-                src="../../assets/img/04_task/high-unclicked.png"
-                alt="high-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio === 'Medium') {
-              <img
-                src="../../assets/img/04_task/medium-unclicked.png"
-                alt="medium-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio === 'Low') {
-              <img
-                src="../../assets/img/04_task/low-unclicked.png"
-                alt="low-prio"
-                class="prio-img"
-              />
-              }
-            </div>
+            }
           </div>
-          }
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="headline">
+          <h3>In progress</h3>
+
+          <img
+            class="plus-button"
+            src="../../assets/img/05_board/plus button.png"
+            alt="plus-button"
+            (click)="openAddTaskOverlay('in-progress')"
+          />
+        </div>
+        <div class="tasks">
+          <div
+            id="in-progress"
+            cdkDropList
+            [cdkDropListData]="inProgress"
+            [cdkDropListConnectedTo]="['todo', 'await-feedback', 'done']"
+            class="drop-area"
+            (cdkDropListDropped)="drop($event)"
+          >
+            @if (inProgress.length === 0) {
+            <div class="no-tasks">
+              <p>No tasks in progress.</p>
+            </div>
+            } @for (task of inProgress; track task.id) {
+            <div
+              class="task"
+              cdkDrag
+              [cdkDragStartDelay]="{ touch: 500, mouse: 0 }"
+              (click)="selectTask(task)"
+              [ngClass]="{ hidden: !taskMatchesSearch(task) }"
+            >
+              <div>
+                @if (task.category === 'User Story') {
+                <p class="darkblue">{{ task.category }}</p>
+                } @else if (task.category === 'Technical Task') {
+                <p class="blue">{{ task.category }}</p>
+                }
+              </div>
+              <div class="description">
+                <p class="task-title">{{ task.title }}</p>
+                <p>{{ truncateDescription(task.description) }}</p>
+              </div>
+              <div class="progress">
+                <div class="progress-bar-container">
+                  <div
+                    class="progress-bar"
+                    [style.width]="getSubtaskProgress(task) + '%'"
+                  ></div>
+                </div>
+                <span class="progress-text">
+                  {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                  Subtasks
+                </span>
+              </div>
+              <div class="contact">
+                @if (task.assigned && task.assigned.length > 0) { @for (contact
+                of task.assigned.slice(0, 3); track contact.id) {
+                <div
+                  class="initial-circle"
+                  [style.background-color]="contact.initialBg"
+                  title="{{ contact.firstname }} {{ contact.lastname }}"
+                >
+                  {{ getInitials(contact.firstname, contact.lastname) }}
+                </div>
+                } @if (task.assigned.length > 3) {
+                <div class="more-contacts">
+                  +{{ task.assigned.length - 3 }} more
+                </div>
+                } } @else {
+                <img
+                  src="../../assets/img/06_contacts/default-img.png"
+                  alt="contact-list"
+                />
+                } @if (task.prio === 'Urgent') {
+                <img
+                  src="../../assets/img/04_task/high-unclicked.png"
+                  alt="high-prio"
+                  class="prio-img"
+                />
+                } @else if (task.prio === 'Medium') {
+                <img
+                  src="../../assets/img/04_task/medium-unclicked.png"
+                  alt="medium-prio"
+                  class="prio-img"
+                />
+                } @else if (task.prio === 'Low') {
+                <img
+                  src="../../assets/img/04_task/low-unclicked.png"
+                  alt="low-prio"
+                  class="prio-img"
+                />
+                }
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="headline">
+          <h3>Await feedback</h3>
+
+          <img
+            class="plus-button"
+            src="../../assets/img/05_board/plus button.png"
+            alt="plus-button"
+            (click)="openAddTaskOverlay('await-feedback')"
+          />
+        </div>
+        <div class="tasks">
+          <div
+            id="await-feedback"
+            cdkDropList
+            [cdkDropListData]="awaitFeedback"
+            [cdkDropListConnectedTo]="['todo', 'in-progress', 'done']"
+            class="drop-area"
+            (cdkDropListDropped)="drop($event)"
+          >
+            @if (awaitFeedback.length === 0) {
+            <div class="no-tasks">
+              <p>No tasks awaiting feedback.</p>
+            </div>
+            } @for (task of awaitFeedback; track task.id) {
+            <div
+              class="task"
+              cdkDrag
+              [cdkDragStartDelay]="{ touch: 500, mouse: 0 }"
+              (click)="selectTask(task)"
+              [ngClass]="{ hidden: !taskMatchesSearch(task) }"
+            >
+              <div>
+                @if (task.category === 'User Story') {
+                <p class="darkblue">{{ task.category }}</p>
+                } @else if (task.category === 'Technical Task') {
+                <p class="blue">{{ task.category }}</p>
+                }
+              </div>
+              <div class="description">
+                <p class="task-title">{{ task.title }}</p>
+                <p>{{ truncateDescription(task.description) }}</p>
+              </div>
+              <div class="progress">
+                <div class="progress-bar-container">
+                  <div
+                    class="progress-bar"
+                    [style.width]="getSubtaskProgress(task) + '%'"
+                  ></div>
+                </div>
+                <span class="progress-text">
+                  {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                  Subtasks
+                </span>
+              </div>
+              <div class="contact">
+                @if (task.assigned && task.assigned.length > 0) { @for (contact
+                of task.assigned.slice(0, 3); track contact.id) {
+                <div
+                  class="initial-circle"
+                  [style.background-color]="contact.initialBg"
+                  title="{{ contact.firstname }} {{ contact.lastname }}"
+                >
+                  {{ getInitials(contact.firstname, contact.lastname) }}
+                </div>
+                } @if (task.assigned.length > 3) {
+                <div class="more-contacts">
+                  +{{ task.assigned.length - 3 }} more
+                </div>
+                } } @else {
+                <img
+                  src="../../assets/img/06_contacts/default-img.png"
+                  alt="contact-list"
+                />
+                } @if (task.prio === 'Urgent') {
+                <img
+                  src="../../assets/img/04_task/high-unclicked.png"
+                  alt="high-prio"
+                  class="prio-img"
+                />
+                } @else if (task.prio === 'Medium') {
+                <img
+                  src="../../assets/img/04_task/medium-unclicked.png"
+                  alt="medium-prio"
+                  class="prio-img"
+                />
+                } @else if (task.prio === 'Low') {
+                <img
+                  src="../../assets/img/04_task/low-unclicked.png"
+                  alt="low-prio"
+                  class="prio-img"
+                />
+                }
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="headline">
+          <h3>Done</h3>
+
+          <img
+            class="plus-button"
+            src="../../assets/img/05_board/plus button.png"
+            alt="plus-button"
+            (click)="openAddTaskOverlay('done')"
+          />
+        </div>
+        <div class="tasks">
+          <div
+            id="done"
+            cdkDropList
+            [cdkDropListData]="done"
+            [cdkDropListConnectedTo]="['todo', 'in-progress', 'await-feedback']"
+            class="drop-area"
+            (cdkDropListDropped)="drop($event)"
+          >
+            @if (done.length === 0) {
+            <div class="no-tasks">
+              <p>No tasks done yet.</p>
+            </div>
+            } @for (task of done; track task.id) {
+            <div
+              class="task"
+              cdkDrag
+              [cdkDragStartDelay]="{ touch: 500, mouse: 0 }"
+              (click)="selectTask(task)"
+              [ngClass]="{ hidden: !taskMatchesSearch(task) }"
+            >
+              <div>
+                @if (task.category === 'User Story') {
+                <p class="darkblue">{{ task.category }}</p>
+                } @else if (task.category === 'Technical Task') {
+                <p class="blue">{{ task.category }}</p>
+                }
+              </div>
+              <div class="description">
+                <p class="task-title">{{ task.title }}</p>
+                <p>{{ truncateDescription(task.description) }}</p>
+              </div>
+              <div class="progress">
+                <div class="progress-bar-container">
+                  <div
+                    class="progress-bar"
+                    [style.width]="getSubtaskProgress(task) + '%'"
+                  ></div>
+                </div>
+                <span class="progress-text">
+                  {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                  Subtasks
+                </span>
+              </div>
+              <div class="contact">
+                @if (task.assigned && task.assigned.length > 0) { @for (contact
+                of task.assigned.slice(0, 3); track contact.id) {
+                <div
+                  class="initial-circle"
+                  [style.background-color]="contact.initialBg"
+                  title="{{ contact.firstname }} {{ contact.lastname }}"
+                >
+                  {{ getInitials(contact.firstname, contact.lastname) }}
+                </div>
+                } @if (task.assigned.length > 3) {
+                <div class="more-contacts">
+                  +{{ task.assigned.length - 3 }} more
+                </div>
+                } } @else {
+                <img
+                  src="../../assets/img/06_contacts/default-img.png"
+                  alt="contact-list"
+                />
+                } @if (task.prio === 'Urgent') {
+                <img
+                  src="../../assets/img/04_task/high-unclicked.png"
+                  alt="high-prio"
+                  class="prio-img"
+                />
+                } @else if (task.prio === 'Medium') {
+                <img
+                  src="../../assets/img/04_task/medium-unclicked.png"
+                  alt="medium-prio"
+                  class="prio-img"
+                />
+                } @else if (task.prio === 'Low') {
+                <img
+                  src="../../assets/img/04_task/low-unclicked.png"
+                  alt="low-prio"
+                  class="prio-img"
+                />
+                }
+              </div>
+            </div>
+            }
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="list-item">
-      <div class="headline">
-        <h3>In progress</h3>
-
-        <img
-          class="plus-button"
-          src="../../assets/img/05_board/plus button.png"
-          alt="plus-button"
-          (click)="openAddTaskOverlay('in-progress')"
-        />
-      </div>
-      <div class="tasks">
-        <div
-          id="in-progress"
-          cdkDropList
-          [cdkDropListData]="inProgress"
-          [cdkDropListConnectedTo]="['todo', 'await-feedback', 'done']"
-          class="drop-area"
-          (cdkDropListDropped)="drop($event)"
-        >
-          @if (inProgress.length === 0) {
-          <div class="no-tasks">
-            <p>No tasks in progress.</p>
-          </div>
-          } @for (task of inProgress; track task.id) {
-          <div
-            class="task"
-            cdkDrag
-            [cdkDragStartDelay]="{touch: 500, mouse: 0}"
-            (click)="selectTask(task)"
-            [ngClass]="{ hidden: !taskMatchesSearch(task) }"
-          >
-            <div>
-              @if (task.category === 'User Story') {
-              <p class="darkblue">{{ task.category }}</p>
-              } @else if (task.category === 'Technical Task') {
-              <p class="blue">{{ task.category }}</p>
-              }
-            </div>
-            <div class="description">
-              <p class="task-title">{{ task.title }}</p>
-              <p>{{ truncateDescription(task.description) }}</p>
-            </div>
-            <div class="progress">
-              <div class="progress-bar-container">
-                <div
-                  class="progress-bar"
-                  [style.width]="getSubtaskProgress(task) + '%'"
-                ></div>
-              </div>
-              <span class="progress-text">
-                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
-                Subtasks
-              </span>
-            </div>
-            <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned.slice(0, 3); track contact.id) {
-              <div
-                class="initial-circle"
-                [style.background-color]="contact.initialBg"
-                title="{{ contact.firstname }} {{ contact.lastname }}"
-              >
-                {{ getInitials(contact.firstname, contact.lastname) }}
-              </div>
-              } @if (task.assigned.length > 3) {
-              <div class="more-contacts">
-                +{{ task.assigned.length - 3 }} more
-              </div>
-              } } @else {
-              <img
-                src="../../assets/img/06_contacts/default-img.png"
-                alt="contact-list"
-              />
-              } @if (task.prio === 'Urgent') {
-              <img
-                src="../../assets/img/04_task/high-unclicked.png"
-                alt="high-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio === 'Medium') {
-              <img
-                src="../../assets/img/04_task/medium-unclicked.png"
-                alt="medium-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio === 'Low') {
-              <img
-                src="../../assets/img/04_task/low-unclicked.png"
-                alt="low-prio"
-                class="prio-img"
-              />
-              }
-            </div>
-          </div>
-          }
-        </div>
+    <div
+      class="overlay"
+      [ngStyle]="{ display: selectedTask ? 'flex' : 'none' }"
+      (click)="handleDialogToggle()"
+    >
+      <div class="overlay-content" (click)="stopPropagation($event)">
+        @if (selectedTask) {
+        <app-task-detail
+          [task]="selectedTask"
+          (dialogClosed)="onDialogClosed()"
+        ></app-task-detail>
+        }
       </div>
     </div>
-
-    <div class="list-item">
-      <div class="headline">
-        <h3>Await feedback</h3>
-
-        <img
-          class="plus-button"
-          src="../../assets/img/05_board/plus button.png"
-          alt="plus-button"
-          (click)="openAddTaskOverlay('await-feedback')"
-        />
+    <div
+      class="overlay-background"
+      [ngStyle]="{ display: isTasksOverlayOpen ? 'block' : 'none' }"
+      (click)="openAddTaskOverlay()"
+    >
+      <div class="overlay-content" (click)="stopPropagation($event)">
+        <app-add-task
+          [targetStatus]="targetStatus"
+          (taskAdded)="closeAddTaskOverlay()"
+          (closeOverlay)="closeAddTaskOverlay()"
+        ></app-add-task>
       </div>
-      <div class="tasks">
-        <div
-          id="await-feedback"
-          cdkDropList
-          [cdkDropListData]="awaitFeedback"
-          [cdkDropListConnectedTo]="['todo', 'in-progress', 'done']"
-          class="drop-area"
-          (cdkDropListDropped)="drop($event)"
-        >
-          @if (awaitFeedback.length === 0) {
-          <div class="no-tasks">
-            <p>No tasks awaiting feedback.</p>
-          </div>
-          } @for (task of awaitFeedback; track task.id) {
-          <div
-            class="task"
-            cdkDrag
-            [cdkDragStartDelay]="{touch: 500, mouse: 0}"
-            (click)="selectTask(task)"
-            [ngClass]="{ hidden: !taskMatchesSearch(task) }"
-          >
-            <div>
-              @if (task.category === 'User Story') {
-              <p class="darkblue">{{ task.category }}</p>
-              } @else if (task.category === 'Technical Task') {
-              <p class="blue">{{ task.category }}</p>
-              }
-            </div>
-            <div class="description">
-              <p class="task-title">{{ task.title }}</p>
-              <p>{{ truncateDescription(task.description) }}</p>
-            </div>
-            <div class="progress">
-              <div class="progress-bar-container">
-                <div
-                  class="progress-bar"
-                  [style.width]="getSubtaskProgress(task) + '%'"
-                ></div>
-              </div>
-              <span class="progress-text">
-                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
-                Subtasks
-              </span>
-            </div>
-            <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned.slice(0, 3); track contact.id) {
-              <div
-                class="initial-circle"
-                [style.background-color]="contact.initialBg"
-                title="{{ contact.firstname }} {{ contact.lastname }}"
-              >
-                {{ getInitials(contact.firstname, contact.lastname) }}
-              </div>
-              } @if (task.assigned.length > 3) {
-              <div class="more-contacts">
-                +{{ task.assigned.length - 3 }} more
-              </div>
-              } } @else {
-              <img
-                src="../../assets/img/06_contacts/default-img.png"
-                alt="contact-list"
-              />
-              } @if (task.prio === 'Urgent') {
-              <img
-                src="../../assets/img/04_task/high-unclicked.png"
-                alt="high-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio === 'Medium') {
-              <img
-                src="../../assets/img/04_task/medium-unclicked.png"
-                alt="medium-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio === 'Low') {
-              <img
-                src="../../assets/img/04_task/low-unclicked.png"
-                alt="low-prio"
-                class="prio-img"
-              />
-              }
-            </div>
-          </div>
-          }
-        </div>
-      </div>
-    </div>
-
-    <div class="list-item">
-      <div class="headline">
-        <h3>Done</h3>
-
-        <img
-          class="plus-button"
-          src="../../assets/img/05_board/plus button.png"
-          alt="plus-button"
-          (click)="openAddTaskOverlay('done')"
-        />
-      </div>
-      <div class="tasks">
-        <div
-          id="done"
-          cdkDropList
-          [cdkDropListData]="done"
-          [cdkDropListConnectedTo]="['todo', 'in-progress', 'await-feedback']"
-          class="drop-area"
-          (cdkDropListDropped)="drop($event)"
-        >
-          @if (done.length === 0) {
-          <div class="no-tasks">
-            <p>No tasks done yet.</p>
-          </div>
-          } @for (task of done; track task.id) {
-          <div
-            class="task"
-            cdkDrag
-            [cdkDragStartDelay]="{touch: 500, mouse: 0}"
-            (click)="selectTask(task)"
-            [ngClass]="{ hidden: !taskMatchesSearch(task) }"
-          >
-            <div>
-              @if (task.category === 'User Story') {
-              <p class="darkblue">{{ task.category }}</p>
-              } @else if (task.category === 'Technical Task') {
-              <p class="blue">{{ task.category }}</p>
-              }
-            </div>
-            <div class="description">
-              <p class="task-title">{{ task.title }}</p>
-              <p>{{ truncateDescription(task.description) }}</p>
-            </div>
-            <div class="progress">
-              <div class="progress-bar-container">
-                <div
-                  class="progress-bar"
-                  [style.width]="getSubtaskProgress(task) + '%'"
-                ></div>
-              </div>
-              <span class="progress-text">
-                {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
-                Subtasks
-              </span>
-            </div>
-            <div class="contact">
-              @if (task.assigned && task.assigned.length > 0) { @for (contact of
-              task.assigned.slice(0, 3); track contact.id) {
-              <div
-                class="initial-circle"
-                [style.background-color]="contact.initialBg"
-                title="{{ contact.firstname }} {{ contact.lastname }}"
-              >
-                {{ getInitials(contact.firstname, contact.lastname) }}
-              </div>
-              } @if (task.assigned.length > 3) {
-              <div class="more-contacts">
-                +{{ task.assigned.length - 3 }} more
-              </div>
-              } } @else {
-              <img
-                src="../../assets/img/06_contacts/default-img.png"
-                alt="contact-list"
-              />
-              } @if (task.prio === 'Urgent') {
-              <img
-                src="../../assets/img/04_task/high-unclicked.png"
-                alt="high-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio === 'Medium') {
-              <img
-                src="../../assets/img/04_task/medium-unclicked.png"
-                alt="medium-prio"
-                class="prio-img"
-              />
-              } @else if (task.prio === 'Low') {
-              <img
-                src="../../assets/img/04_task/low-unclicked.png"
-                alt="low-prio"
-                class="prio-img"
-              />
-              }
-            </div>
-          </div>
-          }
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="overlay"
-    [ngStyle]="{ display: selectedTask ? 'flex' : 'none' }"
-    (click)="handleDialogToggle()"
-  >
-    <div class="overlay-content" (click)="stopPropagation($event)">
-      @if (selectedTask) {
-      <app-task-detail
-        [task]="selectedTask"
-        (dialogClosed)="onDialogClosed()"
-      ></app-task-detail>
-      }
-    </div>
-  </div>
-  <div
-    class="overlay-background"
-    [ngStyle]="{ display: isTasksOverlayOpen ? 'block' : 'none' }"
-    (click)="openAddTaskOverlay()"
-  >
-    <div class="overlay-content" (click)="stopPropagation($event)">
-      <app-add-task
-        [targetStatus]="targetStatus"
-        (taskAdded)="closeAddTaskOverlay()"
-        (closeOverlay)="closeAddTaskOverlay()"
-      ></app-add-task>
     </div>
   </div>
 </main>
