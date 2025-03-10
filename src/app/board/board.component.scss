@@ -5,6 +5,7 @@ main {
   background-color: $grey;
   overflow-y: auto;
   text-wrap: wrap;
+  width: 100%;
 }
 
 .overlay-background {
@@ -67,8 +68,8 @@ h2 {
 }
 
 .list-item {
-  width: 30%;
   text-wrap: wrap;
+  min-width: 0;
 }
 
 .headline {
@@ -79,6 +80,7 @@ h2 {
   background-color: white;
   gap: 12px;
   height: 220px;
+  width: 200px;
   margin-bottom: 12px;
   border-radius: 20px;
   padding: 25px 20px;
@@ -90,16 +92,14 @@ h2 {
 .contact {
   @include dF(space-between, center);
   img {
-    margin-top: 24px;
-    margin-bottom: -24px;
     width: 40px;
     height: 40px;
   }
 }
 
 .prio-img {
-  width: 14px !important;
-  height: 14px !important;
+  width: 12px !important;
+  height: 12px !important;
 }
 
 .darkblue {
@@ -178,7 +178,7 @@ h2 {
   color: #666;
 }
 
-.more-contacts{
+.more-contacts {
   font-size: 12px;
   color: #666;
 }
@@ -268,12 +268,18 @@ h2 {
   }
 
   .drop-area {
+    display: flex;
     height: 50%;
     overflow-y: auto;
   }
 
+  .task{
+    gap: 12px;
+    margin-right: 12px;
+  }
+
   .list-item {
-    width: 35%;
+    width: 100%;
   }
 }
 
@@ -282,15 +288,6 @@ h2 {
     flex-direction: column;
     height: auto;
     margin-bottom: 200px;
-  }
-  .list-item {
-    width: 40%;
-  }
-
-  .tasks {
-    flex-direction: row; // Task-Karten nebeneinander
-    flex-wrap: wrap; // Umbruch bei zu vielen Karten
-    justify-content: flex-start;
   }
 
   .header {
@@ -304,16 +301,9 @@ h2 {
 }
 
 @media (max-width: 600px) {
-  .list-item {
-    width: 50%;
-  }
 }
 
 @media (max-width: 500px) {
-  .list-item {
-    width: 100%;
-  }
-
   .searchfield {
     @include dF();
     background-color: white;
