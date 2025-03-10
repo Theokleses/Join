@@ -19,6 +19,7 @@ section {
 
 form {
   width: 65%;
+  margin-bottom: -15px;
 }
 
 footer {
@@ -103,7 +104,7 @@ a {
   display: flex;
   justify-content: center;
   gap: 30px;
-  padding-top: 30px;
+  padding-top: 45px;
   > .dark-btn {
     padding: 0.6rem 1.3rem;
   }
@@ -247,7 +248,8 @@ a {
     opacity: 1;
   }
   100% {
-    top: 50px;
+    // top: 50px;
+    top: 25px;
     left: 25px;
     transform: scale(1);
     opacity: 1;
@@ -267,39 +269,6 @@ a {
 }
 
 @media (max-width: 750px) {
-  .log-in {
-    width: 550px;
-    height: 500px;
-  }
-  .sign-up {
-    position: absolute;
-    justify-content: center;
-    bottom: 165px;
-    left: 0;
-    width: 100%;
-    z-index: 2;
-  }
-}
-
-@media (max-width: 550px) {
-  .sign-up {
-    bottom: 190px;
-  }
-  .log-in {
-    width: 320px;
-  }
-  .dark-btn {
-    font-size: 1rem;
-  }
-  .bright-btn {
-    font-size: 1rem;
-  }
-  p {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 700px) {
   main {
     animation: changeBackgroundMobile 2s ease-in-out;
   }
@@ -377,5 +346,134 @@ a {
     100% {
       opacity: 1;
     }
+  }
+}
+
+@media (max-width: 750px) {
+  .log-in {
+    width: 550px;
+    height: 450px;
+    margin-top: -40px;
+  }
+  .sign-up {
+    position: absolute;
+    justify-content: center;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+  }
+  footer {
+    padding-bottom: 2rem;
+  }
+}
+
+@media (max-width: 590px) {
+  h1 {
+    font-size: 3.5rem;
+  }
+  .sign-up {
+    bottom: 85px;
+  }
+  .log-in {
+    width: 460px;
+    height: 430px;
+  }
+  .dark-btn {
+    font-size: 1rem;
+  }
+  .bright-btn {
+    font-size: 1rem;
+  }
+  p {
+    font-size: 1rem;
+  }
+  .login-button {
+    padding-top: 45px;
+  }
+  .input-wrapper img {
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 490px) {
+  form {
+    width: auto;
+  }
+  .log-in {
+    width: 360px;
+    height: 400px;
+  }
+  h1 {
+    font-size: 3rem;
+  }
+  .login-button {
+    padding-top: 45px;
+  }
+  .sign-up {
+    bottom: 90px;
+  }
+}
+
+@media (max-width: 380px) {
+  .log-in {
+    width: 305px;
+  }
+}
+
+@media (max-height: 720px) {
+  #inputs {
+    gap: 1rem;
+  }
+  .above-input {
+    padding-bottom: 0.5rem;
+  }
+  .error-message {
+    padding-top: 3px;
+    padding-bottom: 5px;
+  }
+  .log-in {
+    height: 315px;
+  }
+  .login-button {
+    padding-top: 12px;
+  }
+  .sign-up {
+    bottom: 80px;
+  }
+}
+
+@media (max-height: 600px) {
+  .header-img img {
+    height: 50px;
+  }
+}
+@media (max-height: 580px) {
+  h1 {
+    font-size: 2rem;
+  }
+  .log-in {
+    height: 300px;
+  }
+  .sign-up {
+    bottom: 60px;
+  }
+  .dark-btn {
+    padding: 0.5rem 0.5rem;
+  }
+  footer {
+    padding-bottom: 0.2rem;
+  }
+}
+
+@media (max-height: 530px) {
+  .sign-up {
+    bottom: 30px;
+  }
+}
+
+@media (min-height: 850px) {
+  .sign-up {
+    bottom: 110px;
   }
 }

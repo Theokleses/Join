@@ -38,8 +38,8 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.loginService.logout(); // Vollständiges Logout aus dem Service
-    this.closeMenu(); // Menü schließen
-    this.router.navigate(['/login']); // Zum Login weiterleiten
+    this.loginService.logout(); 
+    this.closeMenu(); 
+    this.router.navigate(['/login']); 
   }
 }

@@ -225,8 +225,27 @@ a {
     color: $lightblue;
   }
 }
+@media (max-width: 1400px) {
+  footer {
+    padding-bottom: 1.5rem;
+  }
+}
+@media (max-width: 1250px) {
+  .header-img img {
+    height: 85px;
+  }
+  h1 {
+    font-size: 2.8rem;
+  }
+  footer {
+    padding-bottom: 1rem;
+  }
+}
 
 @media (max-width: 850px) {
+  header {
+    padding: 20px 0 0px 10px;
+  }
   h1 {
     font-size: 2rem;
   }
@@ -240,10 +259,32 @@ a {
 }
 
 @media (max-width: 640px) {
-  header {
-    padding: 20px 0 0px 20px;
-  }
   .sign-up {
     margin-top: -20px;
+    width: 305px;
+  }
+}
+
+@media (max-height: 750px) {
+  main {
+    overflow-y: auto;
+  }
+  .sign-up {
+    margin-top: 15px;
+  }
+  footer {
+    padding-top: 1rem;
+  }
+}
+
+@media (max-height: 560px) {
+  header {
+    padding: 5px 0 0 10px;
+  }
+  .header-img img {
+    height: 30px;
+  }
+  .sign-up {
+    margin-top: 0;
   }
 }

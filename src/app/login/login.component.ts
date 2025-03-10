@@ -126,7 +126,7 @@ export class LoginComponent implements AfterViewInit {
       }, 10);
     };
 
-    const mediaQuery = window.matchMedia('(max-width: 700px)');
+    const mediaQuery = window.matchMedia('(max-width: 750px)');
     const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
       if (e.matches) {
         resetAnimation();
