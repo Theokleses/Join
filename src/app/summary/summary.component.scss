@@ -79,19 +79,19 @@ main {
       }
     }
     #prioContainer {
-      width: 50px; // Feste Größe für den Kreis
-      height: 50px; // Feste Größe für den Kreis
-      border: 1px solid $darkgrey; // Rand
-      border-radius: 50%; // Kreisform
+      width: 50px;
+      height: 50px;
+      border: 1px solid $darkgrey;
+      border-radius: 50%;
       display: flex;
-      justify-content: center; // Bild horizontal zentrieren
-      align-items: center; // Bild vertikal zentrieren
-      padding: 5px; // Optional: Innenabstand
+      justify-content: center;
+      align-items: center;
+      padding: 5px;
 
       img {
-        max-width: 100%; // Bild in Originalgröße
-        max-height: 100%; // Bild in Originalgröße
-        object-fit: contain; // Bild anpassen, ohne es zu verzerren
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
       }
     }
 
