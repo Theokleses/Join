@@ -26,7 +26,6 @@
       </div>
 
       <div id="right-side-right">
-        <!-- <div *ngIf="!updateSuccess"></div> -->
         <a (click)="contacts.toggleDialogEdit()">X</a>
 
         <div id="inputs">
@@ -88,7 +87,7 @@
           @if (phonenumber && !isPhoneNumberValid()) {
             <div class="error-message">Please add the country code +49.</div>
           }
-          
+
           <div id="btn-section">
             <button
               id="delete"

@@ -24,6 +24,9 @@ export class ContactoverviewComponent {
     this.contacts;
   }
 
+  /**
+   * Initializes the component by subscribing to the selected contact ID and updating the selected contact.
+   */
   ngOnInit(): void {
     this.contacts.selectedContactId$.subscribe((id) => {
       if (id) {
@@ -37,6 +40,9 @@ export class ContactoverviewComponent {
     });
   }
 
+  /**
+   * Triggers a brief animation by toggling the showAnimation flag.
+   */
   triggerAnimation() {
     this.showAnimation = false;
     setTimeout(() => {
@@ -44,6 +50,9 @@ export class ContactoverviewComponent {
     });
   }
 
+  /**
+   * Deletes the currently selected contact from Firestore.
+   */
   async deleteContact() {
     try {
       this.idToDelete = this.contacts.selectedContactId$.value || '';
@@ -54,21 +63,34 @@ export class ContactoverviewComponent {
     }
   }
 
+  /**
+   * Toggles the visibility of the edit/delete options.
+   */
   toggleEditDelete() {
     this.showEditDelete = !this.showEditDelete;
   }
 
+  /**
+   * Responds to window resize events and adjusts the UI accordingly.
+   * @param {any} event - The resize event object.
+   */
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.checkScreenWidth();
   }
 
+  /**
+   * Checks the screen width and hides edit/delete options on larger screens.
+   */
   checkScreenWidth() {
     if (window.innerWidth > 600) {
-      this.showEditDelete = false; 
+      this.showEditDelete = false;
     }
   }
 
+  /**
+   * Navigates back to the contacts list by hiding the overview.
+   */
   backToContacts() {
     this.contacts.showOverview = false;
     this.showEditDelete = false;
