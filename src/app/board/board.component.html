@@ -47,6 +47,7 @@
           <div
             class="task"
             cdkDrag
+            [cdkDragStartDelay]="{touch: 500, mouse: 0}"
             (click)="selectTask(task)"
             [ngClass]="{ hidden: !taskMatchesSearch(task) }"
           >
@@ -147,6 +148,7 @@
           <div
             class="task"
             cdkDrag
+            [cdkDragStartDelay]="{touch: 500, mouse: 0}"
             (click)="selectTask(task)"
             [ngClass]="{ hidden: !taskMatchesSearch(task) }"
           >
@@ -246,6 +248,7 @@
           <div
             class="task"
             cdkDrag
+            [cdkDragStartDelay]="{touch: 500, mouse: 0}"
             (click)="selectTask(task)"
             [ngClass]="{ hidden: !taskMatchesSearch(task) }"
           >
@@ -345,6 +348,7 @@
           <div
             class="task"
             cdkDrag
+            [cdkDragStartDelay]="{touch: 500, mouse: 0}"
             (click)="selectTask(task)"
             [ngClass]="{ hidden: !taskMatchesSearch(task) }"
           >

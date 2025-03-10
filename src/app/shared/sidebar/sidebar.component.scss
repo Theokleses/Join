@@ -97,7 +97,9 @@ main {
     gap: 20px;
 
     .special {
-      margin-right: 0px;
+      p {
+        margin-right: 0px;
+      }
     }
 
     .link a {
