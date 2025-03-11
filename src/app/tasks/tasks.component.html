@@ -12,7 +12,6 @@
     <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
       <div id="all-fields">
         <div id="left-field">
-          <!-- Titel -->
           <div class="label-input-container">
             <label for="title">Title<span>*</span></label>
             <input
@@ -34,7 +33,6 @@
             >
           </div>
 
-          <!-- Beschreibung -->
           <div class="label-input-container">
             <label for="description">Description</label>
             <textarea
@@ -44,7 +42,6 @@
               maxlength="500"
             ></textarea>
 
-            <!-- Dropdown für Kontakte -->
             <div class="label-input-container">
               <label for="assignedTo">Assigned To</label>
               <div class="dropdown">
@@ -287,7 +284,6 @@
                 <div id="subtask">
                   <div id="index-subtask">
                     <p>{{ $index + 1 }}:</p>
-                    <!-- <p>{{ subtask }}</p> -->
                     @if (editingIndex === $index) {
                       <input
                         type="text"
@@ -302,14 +298,12 @@
                   </div>
                   <div id="subtask-actions">
                     @if (editingIndex === $index) {
-                      <!-- Zeige das Häkchen-Icon, wenn im Bearbeitungsmodus -->
                       <img
                         src="../../assets/img/04_task/check.png"
                         alt="Save"
                         (click)="saveEditedSubtask($index)"
                       />
                     } @else {
-                      <!-- Zeige das Stift-Icon, wenn nicht im Bearbeitungsmodus -->
                       <img
                         src="../../assets/img/04_task/pen.png"
                         alt="Edit"
@@ -328,7 +322,6 @@
           </div>
         </div>
       </div>
-      <!-- Text & Buttons -->
       <div id="infotext-btn-container">
         <p><span>*</span>This field is required</p>
         <div id="btn-container">
