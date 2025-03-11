@@ -142,6 +142,7 @@
                   src="../../assets/img/04_task/arrow_drop_down_down.png"
                   alt=""
                   (click)="toggleDropdown()"
+                  class="drop-down-arrow"
                 />
               </div>
               @if (isDropdownOpen) {
@@ -169,8 +170,7 @@
               </div>
               }
               <div id="contact-initials">
-                @for (contact of contacts.contactlist; track $index) { @if
-                (contact.checked) {
+                @for (contact of selectedContacts.slice(0, 5); track $index) {
                 <div
                   id="initials"
                   [ngStyle]="{ 'background-color': contact.initialBg }"
@@ -180,13 +180,15 @@
                     }}{{ contact.lastname[0].toUpperCase() }}
                   </p>
                 </div>
-                } }
+                } @if (selectedContacts.length > 5) {
+                <div id="more-contacts">+{{ selectedContacts.length - 5 }}</div>
+                }
               </div>
             </div>
           </div>
 
           <!-- Subtasks -->
-          <div class="label-input-container">
+          <div class="label-input-container subtask-container">
             <label for="subtask">Subtasks</label>
             <div id="subtask-input-container">
               <input

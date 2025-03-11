@@ -62,10 +62,10 @@ export class ContactaddComponent {
     this.contactsService.addContact(this.newContact);
     this.clearForm();
     this.addSuccess = true;
-
+  
     setTimeout(() => {
       this.addSuccess = false;
-      this.toggleDialogAdd();
+      this.contactsService.isAdding = false; // Direkte Zuweisung
     }, 2000);
   }
 

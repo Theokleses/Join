@@ -309,6 +309,10 @@ export class TaskEditComponent implements OnInit {
     }
   }
 
+
+  get selectedContacts(): Icontacts[] {
+    return this.contacts.contactlist.filter(contact => contact.checked);
+  }
   cancelEdit() {
     this.editComplete.emit(null);
   }
