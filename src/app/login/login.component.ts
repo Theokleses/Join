@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, Renderer2, AfterViewInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { LoginService } from '../firebase-services/login.service';
@@ -49,19 +49,22 @@ export class LoginComponent implements AfterViewInit {
   }
 
   async onLogin() {
-    this.errorMessage = '';
-
     if (!this.validateInputs()) {
+      setTimeout(() => {
+        this.emailErrorMessage = '';
+        this.passwordErrorMessage = '';
+      }, 2000);
       return;
     }
-
     const result = await this.loginService.login(this.email, this.password);
-
     if (result.success) {
       this.navigateToSummary();
       this.handleLogin();
     } else {
       this.errorMessage = 'Incorrect email or password';
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
     }
   }
 
@@ -139,13 +142,4 @@ export class LoginComponent implements AfterViewInit {
   }
 }
 
-// constructor(private router: Router) {}
 
-// navigateToSummary() {
-//   this.router.navigate(['/summary']); // Navigiere zur SummaryComponent
-// }
-
-//  navigateToSignup() {
-//   this.router.navigate(['/signup']);
-// }
-// }

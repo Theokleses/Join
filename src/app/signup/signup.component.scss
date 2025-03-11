@@ -4,6 +4,7 @@ main {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  @include contentmax();
 }
 
 header {
@@ -33,6 +34,10 @@ p {
 
 a {
   color: rgba(168, 168, 168, 1);
+}
+
+.bg-color {
+  background-color: #f6f7f8;
 }
 
 .header-img {

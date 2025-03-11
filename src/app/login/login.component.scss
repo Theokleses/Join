@@ -4,6 +4,7 @@ main {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  @include contentmax();
 }
 
 header {
@@ -39,8 +40,12 @@ a {
   color: rgba(168, 168, 168, 1);
 }
 
+.bg-color {
+  background-color: #f6f7f8;
+}
+
 .header-img {
-  position: absolute;
+  position: fixed;
   z-index: 9999;
   > img {
     height: 100px;
@@ -59,7 +64,6 @@ a {
 }
 
 .logo {
-  position: absolute;
   animation: logoMove 1.3s forwards;
 }
 
@@ -213,7 +217,7 @@ a {
   }
   100% {
     top: 50px;
-    left: 100px;
+    left: clamp(100px, calc(100px + ((100vw - 1920px) / 2)), calc((1920px - 100px)));
     transform: scale(1);
     opacity: 1;
   }
@@ -248,7 +252,6 @@ a {
     opacity: 1;
   }
   100% {
-    // top: 50px;
     top: 25px;
     left: 25px;
     transform: scale(1);
@@ -361,7 +364,6 @@ a {
     bottom: 80px;
     left: 0;
     width: 100%;
-    z-index: 2;
   }
   footer {
     padding-bottom: 2rem;
@@ -448,6 +450,7 @@ a {
     height: 50px;
   }
 }
+
 @media (max-height: 580px) {
   h1 {
     font-size: 2rem;
@@ -469,11 +472,5 @@ a {
 @media (max-height: 530px) {
   .sign-up {
     bottom: 30px;
-  }
-}
-
-@media (min-height: 850px) {
-  .sign-up {
-    bottom: 110px;
   }
 }
