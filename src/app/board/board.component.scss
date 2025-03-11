@@ -292,11 +292,11 @@ h2 {
     margin-bottom: 200px;
     gap: 16px;
     padding: 0 20px !important;
-    max-width: 500px;
+    max-width: 560px;
   }
 
   .no-tasks {
-    width: 80vw !important;
+    width:100vw !important;
   }
 
   .drop-area {
@@ -335,7 +335,7 @@ h2 {
     margin-bottom: 200px;
     gap: 16px;
     padding: 0 20px !important;
-    max-width: 400px;
+    max-width: 470px;
   }
 }
 
@@ -364,6 +364,30 @@ h2 {
   }
 
   .taskboard {
+    max-width: 400px;
+  }
+}
+
+
+@media (max-width: 430px) {
+  .taskboard {
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 200px;
+    gap: 16px;
+    padding: 0 20px !important;
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 390px) {
+  .taskboard {
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 200px;
+    gap: 16px;
+    padding: 0 20px !important;
     max-width: 280px;
   }
 }
+
