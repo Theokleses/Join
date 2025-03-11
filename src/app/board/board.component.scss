@@ -286,9 +286,6 @@ h2 {
 }
 
 @media (max-width: 800px) {
-  .content {
-  }
-
   .taskboard {
     flex-direction: column;
     height: auto;
@@ -326,16 +323,12 @@ h2 {
     padding: 0 20px !important;
   }
 
-  .headline {
-  }
-
   .dark-btn span {
     display: none;
   }
 }
 
 @media (max-width: 600px) {
-
   .taskboard {
     flex-direction: column;
     height: auto;

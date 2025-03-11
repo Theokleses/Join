@@ -98,6 +98,7 @@ export class TaskDetailComponent implements OnChanges {
     if (this.task) {
       this.isEditing = true;
     }
+    console.log('After Start Edit - isEditing:', this.isEditing);
   }
 
   onEditComplete(updatedTask: Itasks | null) {

@@ -1,6 +1,6 @@
+@if (!isEditing) {
 <div class="overlay">
   <div class="overlay-content">
-    @if (!isEditing) {
     <div class="task-detail">
       <div class="top">
         <div class="category">
@@ -15,7 +15,7 @@
       <h2>{{ task?.title }}</h2>
       <p>{{ task?.description }}</p>
       <p>Due Date: {{ task?.dueDate }}</p>
-      <p>Prio: {{task?.prio}}</p>
+      <p>Prio: {{ task?.prio }}</p>
       <div class="assigned">
         <h3>Assigned to:</h3>
         <ul>
@@ -37,31 +37,44 @@
         <h3>Subtasks</h3>
         <ul>
           @for (subtask of task?.subtask; track $index) {
-            <li>
-              <input 
-                type="checkbox" 
-                [checked]="task?.subtaskStatus?.[$index]" 
-                (change)="toggleSubtask($index)" 
-              />
-              {{ subtask }}
-            </li>
+          <li>
+            <input
+              type="checkbox"
+              [checked]="task?.subtaskStatus?.[$index]"
+              (change)="toggleSubtask($index)"
+            />
+            {{ subtask }}
+          </li>
           }
         </ul>
       </div>
       <div class="button-section">
         <div class="del" (click)="deleteTask()">
-          <img src="../../../assets/img/06_contacts/delete.png" alt="delete-button" />
+          <img
+            src="../../../assets/img/06_contacts/delete.png"
+            alt="delete-button"
+          />
           <p>Delete</p>
         </div>
         <div class="slash">|</div>
         <div class="edit" (click)="startEdit()">
-          <img src="../../../assets/img/06_contacts/edit.png" alt="edit-button" />
+          <img
+            src="../../../assets/img/06_contacts/edit.png"
+            alt="edit-button"
+          />
           <p>Edit</p>
         </div>
       </div>
     </div>
-    } @else {
-    <app-task-edit [task]="task" (editComplete)="onEditComplete($event)"></app-task-edit>
-    }
   </div>
 </div>
+} @if (isEditing) {
+<div class="overlay">
+  <app-task-edit
+    [task]="task"
+    (editComplete)="onEditComplete($event)"
+  ></app-task-edit>
+</div>
+} @if (deleteError) {
+<div class="error">{{ deleteError }}</div>
+}
