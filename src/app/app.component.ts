@@ -8,9 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
-
-
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -19,7 +16,7 @@ import { SignupComponent } from './signup/signup.component';
     HeaderComponent,
     SidebarComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -38,7 +35,6 @@ export class AppComponent {
       event instanceof LoginComponent || event instanceof SignupComponent
     );
 
-    // Wenn der Benutzer angemeldet ist und zur Login-Seite navigiert, leite ihn zur Summary-Seite um
     if (this.isLoggedIn && event instanceof LoginComponent) {
       this.router.navigate(['/summary']);
     }
@@ -46,17 +42,3 @@ export class AppComponent {
 
   onRouterOutletDeactivate(event: any) {}
 }
-
-
-  //   constructor() {
-  //     this.contacts;
-  //   }
-  //   onRouterOutletActivate(event: any) {
-  //     // Überprüfe, ob die aktive Komponente die LoginComponent ist
-  //     this.showHeaderAndSidebar = !(event instanceof LoginComponent);
-  //   }
-
-  //   onRouterOutletDeactivate(event: any) {
-  //     // Optional: Hier kannst du Logik hinzufügen, wenn eine Komponente deaktiviert wird
-  //   }
-  // }

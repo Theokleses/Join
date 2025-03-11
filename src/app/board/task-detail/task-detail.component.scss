@@ -25,12 +25,15 @@
   max-height: 80vh;
   overflow-y: auto;
   margin: 0 auto;
+  overflow-wrap: break-word;
 }
 
 h2 {
   margin-top: 12px;
   margin-bottom: 12px;
   font-size: 56px !important;
+  text-wrap: wrap;
+  overflow-wrap: break-word;
 }
 
 .task-detail {

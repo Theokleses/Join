@@ -2,10 +2,22 @@
 
 main {
   height: 100vh;
-  background-color: $grey;
   overflow-y: auto;
   text-wrap: wrap;
-  max-width: 1520px;
+  max-width: calc(1920px - $width);
+  background-color: $grey;
+}
+
+.bg {
+  position: fixed;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  background-color: $grey;
+  height: 100vh;
+  width: 100vw;
+  z-index: -10000;
+  overflow-x: hidden;
 }
 
 .overlay-background {
@@ -100,6 +112,14 @@ h2 {
 .prio-img {
   width: 12px !important;
   height: 12px !important;
+}
+
+.medium {
+  height: 6px !important;
+}
+
+.description {
+  margin-bottom: 20px; /* Abstand unter der Beschreibung */
 }
 
 .darkblue {
@@ -296,7 +316,7 @@ h2 {
   }
 
   .no-tasks {
-    width:100vw !important;
+    width: 100vw !important;
   }
 
   .drop-area {
@@ -368,7 +388,6 @@ h2 {
   }
 }
 
-
 @media (max-width: 430px) {
   .taskboard {
     flex-direction: column;
@@ -390,4 +409,3 @@ h2 {
     max-width: 280px;
   }
 }
-

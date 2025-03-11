@@ -1,3 +1,5 @@
+<div class="bg"></div>
+
 <main>
   <div class="content">
     <div class="header">
@@ -64,7 +66,7 @@
                 <p class="task-title">{{ task.title }}</p>
                 <p>{{ truncateDescription(task.description) }}</p>
               </div>
-
+              @if (task.subtask && task.subtask.length > 0) {
               <div class="progress">
                 <div class="progress-bar-container">
                   <div
@@ -73,10 +75,11 @@
                   ></div>
                 </div>
                 <span class="progress-text">
-                  {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                  {{ getSubtaskCount(task) }}/{{ task.subtask.length }}
                   Subtasks
                 </span>
               </div>
+              }
               <div class="contact">
                 @if (task.assigned && task.assigned.length > 0) { @for (contact
                 of task.assigned.slice(0, 3); track contact.id) {
@@ -166,6 +169,7 @@
                 <p class="task-title">{{ task.title }}</p>
                 <p>{{ truncateDescription(task.description) }}</p>
               </div>
+              @if (task.subtask && task.subtask.length > 0) {
               <div class="progress">
                 <div class="progress-bar-container">
                   <div
@@ -174,10 +178,11 @@
                   ></div>
                 </div>
                 <span class="progress-text">
-                  {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                  {{ getSubtaskCount(task) }}/{{ task.subtask.length }}
                   Subtasks
                 </span>
               </div>
+              }
               <div class="contact">
                 @if (task.assigned && task.assigned.length > 0) { @for (contact
                 of task.assigned.slice(0, 3); track contact.id) {
@@ -207,7 +212,7 @@
                 <img
                   src="../../assets/img/04_task/medium-unclicked.png"
                   alt="medium-prio"
-                  class="prio-img"
+                  class="prio-img medium"
                 />
                 } @else if (task.prio === 'Low') {
                 <img
@@ -267,6 +272,7 @@
                 <p class="task-title">{{ task.title }}</p>
                 <p>{{ truncateDescription(task.description) }}</p>
               </div>
+              @if (task.subtask && task.subtask.length > 0) {
               <div class="progress">
                 <div class="progress-bar-container">
                   <div
@@ -275,10 +281,11 @@
                   ></div>
                 </div>
                 <span class="progress-text">
-                  {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                  {{ getSubtaskCount(task) }}/{{ task.subtask.length }}
                   Subtasks
                 </span>
               </div>
+              }
               <div class="contact">
                 @if (task.assigned && task.assigned.length > 0) { @for (contact
                 of task.assigned.slice(0, 3); track contact.id) {
@@ -368,6 +375,7 @@
                 <p class="task-title">{{ task.title }}</p>
                 <p>{{ truncateDescription(task.description) }}</p>
               </div>
+              @if (task.subtask && task.subtask.length > 0) {
               <div class="progress">
                 <div class="progress-bar-container">
                   <div
@@ -376,10 +384,11 @@
                   ></div>
                 </div>
                 <span class="progress-text">
-                  {{ getSubtaskCount(task) }}/{{ task.subtask?.length || 0 }}
+                  {{ getSubtaskCount(task) }}/{{ task.subtask.length }}
                   Subtasks
                 </span>
               </div>
+              }
               <div class="contact">
                 @if (task.assigned && task.assigned.length > 0) { @for (contact
                 of task.assigned.slice(0, 3); track contact.id) {

@@ -6,6 +6,7 @@
   max-width: 400px;
   width: 400px;
   height: auto;
+  max-height: 90vh;
   margin: 0 auto;
   background: white;
   position: fixed;
@@ -13,11 +14,13 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
+  overflow-y: auto;
 }
 
 .overlay-content {
   padding: 20px;
   font-size: 14px;
+  min-height: 700px;
 }
 
 .edit-detail {
@@ -101,7 +104,7 @@
     }
 
     img {
-      width: 16px;
+      width: 6px;
       cursor: pointer;
     }
   }
@@ -141,6 +144,7 @@
       #checkbox {
         input {
           margin: 0;
+          margin-right: 12px;
         }
       }
     }
@@ -169,10 +173,15 @@
   gap: 6px;
 }
 
+.sub{
+  overflow-y: auto;
+}
+
 #input-subtask-container {
   display: flex;
   gap: 5px;
   margin-top: 5px;
+  overflow-y: auto;
 
   input {
     flex: 1;
@@ -200,8 +209,11 @@
 
 #subtasks {
   margin-top: 10px;
-
+  max-height: 100px;
+  overflow-y: auto; 
+  
   #subtask {
+    overflow-y: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -399,6 +411,33 @@ input {
 
   .overlay {
     max-width: 400px;
+    width: 300px;
+  }
+
+  .close-btn {
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 160px;
+  }
+}
+
+@media (max-width: 400px) {
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  .overlay {
+    max-width: 300px;
     width: 300px;
   }
 

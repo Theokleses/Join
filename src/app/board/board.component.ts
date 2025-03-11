@@ -42,30 +42,59 @@ export class BoardComponent implements OnInit {
   targetStatus: string = 'todo';
   searchQuery: string = '';
 
+  /**
+   * Opens the add task overlay with the specified status.
+   */
+
   openAddTaskOverlay(status: string = 'todo') {
     this.targetStatus = status; // Speichere den Zielstatus
     this.isTasksOverlayOpen = true; // Öffne das Overlay
   }
 
+  /**
+   * Closes the add task overlay.
+   */
+
   closeAddTaskOverlay() {
     this.isTasksOverlayOpen = false;
   }
+
+  /**
+   * Selects a task and creates a copy for detailed view.
+   */
 
   selectTask(task: Itasks) {
     this.selectedTask = { ...task };
   }
 
+  /**
+   * Prevents event propagation to the parent element.
+   */
+
   stopPropagation(event: Event) {
     event.stopPropagation();
   }
+
+  /**
+   * Resets the selected task when the dialog is closed.
+   */
 
   onDialogClosed() {
     this.selectedTask = null;
   }
 
+  /**
+   * Resets the selected task when the dialog is toggled.
+   */
+
   handleDialogToggle() {
     this.selectedTask = null;
   }
+
+  /**
+   * Handles the drop event for drag-and-drop functionality.
+   * Reorders or transfers tasks based on the container.
+   */
 
   drop(event: CdkDragDrop<Itasks[]>) {
     if (this.isSameContainer(event)) {
@@ -76,9 +105,18 @@ export class BoardComponent implements OnInit {
     }
   }
 
+  /**
+   * Checks if the drop event occurred within the same container.
+   * Returns true if the previous and current containers are the same.
+   */
+
   private isSameContainer(event: CdkDragDrop<Itasks[]>): boolean {
     return event.previousContainer === event.container;
   }
+
+  /**
+   * Reorders items within the same container based on the drop event.
+   */
 
   private reorderWithinContainer(event: CdkDragDrop<Itasks[]>) {
     moveItemInArray(
@@ -87,6 +125,10 @@ export class BoardComponent implements OnInit {
       event.currentIndex
     );
   }
+
+  /**
+   * Transfers an item between different containers based on the drop event.
+   */
 
   private transferBetweenContainers(event: CdkDragDrop<Itasks[]>) {
     transferArrayItem(
@@ -97,12 +139,21 @@ export class BoardComponent implements OnInit {
     );
   }
 
+  /**
+   * Updates the task status in the service when moved between containers.
+   */
+
   private updateTaskStatus(event: CdkDragDrop<Itasks[]>) {
     const currentTask = event.container.data[event.currentIndex];
     if (currentTask.id) {
       this.tasksService.updateTaskStatus(currentTask.id, event.container.id);
     }
   }
+
+  /**
+   * Checks if a task matches the current search query.
+   * Returns true if the task matches or no query is present.
+   */
 
   taskMatchesSearch(task: Itasks): boolean {
     if (!this.searchQuery) {
@@ -115,6 +166,11 @@ export class BoardComponent implements OnInit {
     );
   }
 
+  /**
+   * Calculates the progress percentage of completed subtasks.
+   * Returns 0 if no subtasks exist.
+   */
+
   getSubtaskProgress(task: Itasks): number {
     if (!task.subtask || task.subtask.length === 0) return 0;
     const subtaskStatus =
@@ -122,6 +178,11 @@ export class BoardComponent implements OnInit {
     const completed = subtaskStatus.filter(Boolean).length;
     return (completed / task.subtask.length) * 100;
   }
+
+  /**
+   * Counts the number of completed subtasks.
+   * Returns 0 if no subtasks exist.
+   */
 
   getSubtaskCount(task: Itasks): number {
     if (!task.subtask || task.subtask.length === 0) return 0;
@@ -135,6 +196,12 @@ export class BoardComponent implements OnInit {
       lastname?.charAt(0)?.toUpperCase() || ''
     }`;
   }
+
+  /**
+   * Deletes the selected task from Firestore.
+   * Resets the selected task on success and logs errors on failure.
+   * Returns a promise that resolves when the deletion is complete.
+   */
 
   async deleteTask() {
     if (!this.selectedTask?.id) {
@@ -151,10 +218,21 @@ export class BoardComponent implements OnInit {
     }
   }
 
+  /**
+   * Truncates a description to 60 characters with an ellipsis if too long.
+   * Returns an empty string if the description is undefined.
+   */
+  
   truncateDescription(description: string | undefined): string {
     if (!description) return '';
-    return description.length > 60 ? description.substring(0, 60) + '... ( read more)' : description;
+    return description.length > 60
+      ? description.substring(0, 60) + '... ( read more)'
+      : description;
   }
+
+  /**
+   * Initializes the component by subscribing to task service observables.
+   */
 
   ngOnInit() {
     this.tasksService.todo$.subscribe((tasks) => (this.todo = tasks));

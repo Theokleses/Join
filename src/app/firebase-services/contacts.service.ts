@@ -108,7 +108,6 @@ export class ContactsService implements OnDestroy {
   async addContact(contacts: Omit<Icontacts, 'id' | 'initialBg'>) {
     try {
       await addDoc(collection(this.firestore, 'contacts'), contacts);
-      console.log('Kontakt erfolgreich hinzugefügt');
     } catch (error) {
       console.error('Fehler beim Hinzufügen des Kontakts:', error);
     }

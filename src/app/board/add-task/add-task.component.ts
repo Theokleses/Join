@@ -71,6 +71,7 @@ export class AddTaskComponent {
     this.filteredContacts = this.contacts.contactlist;
   }
 
+  /** Initializes the component by setting up the task form with default values. */
   ngOnInit(): void {
     const today = new Date().toISOString().split('T')[0];
     this.taskForm = this.fb.group({
@@ -85,12 +86,14 @@ export class AddTaskComponent {
     this.date.setValue(new Date(this.taskForm.value.dueDate));
   }
 
+  /** Updates the date control with the selected date from the input element. */
   onDateChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const selectedDate = new Date(inputElement.value);
     this.date.setValue(selectedDate);
   }
 
+  /** Toggles the checked status of a contact and updates the contact list. */
   checkContact(contactId: string, event: MouseEvent) {
     const contact = this.contacts.contactlist.find((c) => c.id === contactId);
     if (contact) {
@@ -100,6 +103,7 @@ export class AddTaskComponent {
     }
   }
 
+  /** Closes the dropdown if a click occurs outside of it. */
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
     const dropdown = document.querySelector('.dropdown');
@@ -109,6 +113,7 @@ export class AddTaskComponent {
     }
   }
 
+  /** Filters contacts based on the search input and toggles the dropdown visibility. */
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const inputValue = inputElement.value.toLowerCase();
@@ -122,6 +127,7 @@ export class AddTaskComponent {
     }
   }
 
+  /** Toggles the visibility of the dropdown and focuses the search input. */
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
     setTimeout(() => this.inputSearch?.nativeElement.focus(), 0);
@@ -130,29 +136,34 @@ export class AddTaskComponent {
     }
   }
 
+  /** Toggles the urgent priority and updates related states. */
   toggleUrgent() {
     this.isUrgentClicked = !this.isUrgentClicked;
     if (this.isMediumClicked) this.isMediumClicked = false;
     if (this.isLowClicked) this.isLowClicked = false;
   }
 
+  /** Toggles the medium priority and updates related states. */
   toggleMedium() {
     this.isMediumClicked = !this.isMediumClicked;
     if (this.isUrgentClicked) this.isUrgentClicked = false;
     if (this.isLowClicked) this.isLowClicked = false;
   }
 
+  /** Toggles the low priority and updates related states. */
   toggleLow() {
     this.isLowClicked = !this.isLowClicked;
     if (this.isUrgentClicked) this.isUrgentClicked = false;
     if (this.isMediumClicked) this.isMediumClicked = false;
   }
 
+  /** Initiates editing mode for a subtask at the specified index. */
   startEditingSubtask(index: number) {
     this.editingIndex = index;
     this.editedSubtask = this.subtasklist[index];
   }
 
+  /** Saves the edited subtask and exits editing mode. */
   saveEditedSubtask(index: number) {
     if (this.editedSubtask.trim()) {
       this.subtasklist[index] = this.editedSubtask;
@@ -160,22 +171,27 @@ export class AddTaskComponent {
     this.editingIndex = null;
   }
 
+  /** Sets the hovered subtask index for hover effects. */
   onSubtaskHover(index: number | null) {
     this.hoveredSubtaskIndex = index;
   }
 
+  /** Focuses the subtask input element programmatically. */
   activateInput() {
     this.subtaskInputElement.nativeElement.focus();
   }
 
+  /** Sets the subtask input focus state to true. */
   onSubtaskInputFocus() {
     this.subtaskInputFocus = true;
   }
 
+  /** Sets the subtask input focus state to false. */
   onSubtaskInputBlur() {
     this.subtaskInputFocus = false;
   }
 
+  /** Adds a new subtask to the list if the input is not empty. */
   addToSubtasklist(event?: MouseEvent) {
     if (event) event.preventDefault();
     if (this.inputSubtask.trim()) {
@@ -184,6 +200,7 @@ export class AddTaskComponent {
     }
   }
 
+  /** Adds a subtask to the list when the Enter key is pressed. */
   onSubtaskInputKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -191,15 +208,18 @@ export class AddTaskComponent {
     }
   }
 
+  /** Clears the subtask input field. */
   clearSubtaskInput(event: MouseEvent) {
     event.preventDefault();
     this.inputSubtask = '';
   }
 
+  /** Removes a subtask from the list at the specified index. */
   deleteFromSubtasklist(index: number) {
     this.subtasklist.splice(index, 1);
   }
 
+  /** Submits the task form if valid, otherwise shows required info. */
   onSubmit() {
     this.taskForm.markAllAsTouched();
 
@@ -211,11 +231,13 @@ export class AddTaskComponent {
     }
   }
 
+  /** Creates a new task object from the form values. */
   private createNewTask(): Itasks {
     const formValues = this.taskForm.value;
     return this.buildTaskObject(formValues);
   }
 
+  /** Builds a task object with form values and additional properties. */
   private buildTaskObject(formValues: any): Itasks {
     const selectedContacts = this.getSelectedContacts();
     const prio = this.determinePriority();
@@ -233,20 +255,24 @@ export class AddTaskComponent {
     };
   }
 
+  /** Retrieves the list of selected contacts. */
   private getSelectedContacts(): Icontacts[] {
     return this.contacts.contactlist.filter((contact) => contact.checked);
   }
 
+  /** Determines the priority based on the clicked states. */
   private determinePriority(): 'Urgent' | 'Medium' | 'Low' {
     if (this.isUrgentClicked) return 'Urgent';
     if (this.isLowClicked) return 'Low';
     return 'Medium'; // Standardwert
   }
 
+  /** Formats the due date to a locale string. */
   private formatDueDate(): string {
     return this.date.value ? this.date.value.toLocaleDateString() : '';
   }
 
+  /** Saves the new task to the service and handles the response. */
   private saveNewTask(newTask: Itasks) {
     this.tasksService
       .addTask(newTask)
@@ -258,6 +284,7 @@ export class AddTaskComponent {
       });
   }
 
+  /** Handles successful task save with animations and emits taskAdded. */
   private handleTaskSaveSuccess() {
     this.onClear();
     this.newTaskAdded = true;
@@ -269,25 +296,30 @@ export class AddTaskComponent {
     }, 500);
   }
 
+  /** Logs an error if saving the task fails. */
   private handleTaskSaveError(error: any) {
     console.error('Fehler beim Hinzufügen des Tasks:', error);
   }
 
+  /** Resets the task added state and emits the taskAdded event. */
   private resetTaskAddedState() {
     this.newTaskAdded = false;
     this.isFadingOut = false;
     this.taskAdded.emit();
   }
 
+  /** Toggles the visibility of the required info message. */
   private toggleRequiredInfo() {
     this.requiredInfo = !this.requiredInfo;
   }
 
+  /** Clears the form and component state. */
   onClear() {
     this.resetTaskForm();
     this.clearComponentState();
   }
 
+  /** Resets the task form to its initial state. */
   private resetTaskForm() {
     const today = new Date().toISOString().split('T')[0];
     this.taskForm.reset({
@@ -301,6 +333,7 @@ export class AddTaskComponent {
     });
   }
 
+  /** Clears the component state including contacts and priorities. */
   private clearComponentState() {
     this.uncheckAllContacts();
     this.filteredContacts = [...this.contacts.contactlist];
@@ -313,10 +346,12 @@ export class AddTaskComponent {
     this.requiredInfo = false;
   }
 
+  /** Unchecks all contacts in the contact list. */
   private uncheckAllContacts() {
     this.contacts.contactlist.forEach((contact) => (contact.checked = false));
   }
 
+  /** Sets the default priority to Medium. */
   private setDefaultPriority() {
     this.isUrgentClicked = false;
     this.isMediumClicked = true;
