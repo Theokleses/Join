@@ -2,7 +2,8 @@
   <div class="header-text">
     <p>Kanban Project Management Tool</p>
     <img
-      class="header-icon d-none"
+      id="d-none"
+      class="header-icon"
       src="assets/img/logo-small.png"
       alt="Join-logo"
     />
@@ -10,14 +11,14 @@
   <div class="header-icons">
     <img
       class="icon"
-      [ngClass]="{'d-none': isLoginContext || loginService.hideHelpIcon}"
+      [ngClass]="{'hidden': isLoginContext || loginService.hideHelpIcon}"
       src="assets/img/07_header/help.png"
       alt="Questionmark-logo"
       (click)="goToHelp()"
     />
     <div
       class="avatar"
-      [ngClass]="{'d-none': isLoginContext, 'show': !isLoginContext && menuOpen}"
+      [ngClass]="{'hidden': isLoginContext, 'show': !isLoginContext && menuOpen}"
       (click)="toggleMenu()"
     >
       {{ initials }}

@@ -32,7 +32,11 @@ p {
   }
 }
 
-.d-none {
+.hidden {
+  display: none !important;
+}
+
+#d-none {
   display: none !important;
 }
 
@@ -84,6 +88,9 @@ p {
 }
 
 @media (max-width: 1000px) {
+  #d-none {
+    display: block !important;
+  }
   main {
     padding: 0 40px;
   }
@@ -91,13 +98,10 @@ p {
     > p {
       display: none;
     }
-    .d-none {
-      display: block;
-    }
   }
   .header-icons {
     > img {
-      display: none;
+      display: block !important;
     }
   }
 }
