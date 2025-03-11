@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Renderer2, AfterViewInit} from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule} from '@angular/router';
 import { AppComponent } from '../app.component';
 import { LoginService } from '../firebase-services/login.service';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { TasksService } from '../firebase-services/tasks.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -37,6 +37,12 @@ export class LoginComponent implements AfterViewInit {
 
   navigateToSignup() {
     this.router.navigate(['/signup']);
+  }
+
+  navigateTo(route: string) {
+    this.loginService.setLinkClicked(true); 
+    this.router.navigate([route]);
+    setTimeout(() => this.loginService.setLinkClicked(false), 100); 
   }
 
   guestLogin() {

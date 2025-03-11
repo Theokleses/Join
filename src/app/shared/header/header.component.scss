@@ -19,7 +19,6 @@ p {
 }
 
 .header-icons {
-  // padding-right: 40px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -34,7 +33,7 @@ p {
 }
 
 .d-none {
-  display: none;
+  display: none !important;
 }
 
 .header-icon {

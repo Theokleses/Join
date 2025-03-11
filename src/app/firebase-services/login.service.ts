@@ -12,6 +12,7 @@ import {
   providedIn: 'root',
 })
 export class LoginService {
+  private isLinkClicked: boolean = false;
   private _hideHelpIcon: boolean = false;
   private initialsSubject = new BehaviorSubject<string>('');
   initials$ = this.initialsSubject.asObservable();
@@ -59,7 +60,6 @@ export class LoginService {
       }
     });
   }
-
   /**
    * Updates the initials value in the BehaviorSubject.
    * @param {string} initials - The new initials to set.
@@ -116,6 +116,14 @@ export class LoginService {
   setDisplayName(displayName: string) {
     this.displayNameSubject.next(displayName);
     localStorage.setItem('displayName', displayName);
+  }
+
+  setLinkClicked(value: boolean) {
+    this.isLinkClicked = value;
+  }
+
+  getLinkClicked(): boolean {
+    return this.isLinkClicked;
   }
 
   /**

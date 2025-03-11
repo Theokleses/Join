@@ -9,6 +9,7 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 import { HelpUserComponent } from './help-user/help-user.component';
 import { authGuard } from './auth.guard';
+import { LinkGuard } from './link.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,12 +22,12 @@ export const routes: Routes = [
   {
     path: 'privacy-notice',
     component: PrivacyComponent,
-    canActivate: [authGuard],
+    canActivate: [LinkGuard]
   },
   {
     path: 'legal-notice',
     component: LegalNoticeComponent,
-    canActivate: [authGuard],
+    canActivate: [LinkGuard]
   },
   { path: 'help-user', component: HelpUserComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '/login' },

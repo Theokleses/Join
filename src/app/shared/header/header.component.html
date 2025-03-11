@@ -3,19 +3,23 @@
     <p>Kanban Project Management Tool</p>
     <img
       class="header-icon d-none"
-      src="assets\img\logo-small.png"
+      src="assets/img/logo-small.png"
       alt="Join-logo"
     />
   </div>
   <div class="header-icons">
     <img
       class="icon"
-      [ngClass]="{'d-none': loginService.hideHelpIcon}"
+      [ngClass]="{'d-none': isLoginContext || loginService.hideHelpIcon}"
       src="assets/img/07_header/help.png"
       alt="Questionmark-logo"
       (click)="goToHelp()"
     />
-    <div class="avatar" [ngClass]="{ show: menuOpen }" (click)="toggleMenu()">
+    <div
+      class="avatar"
+      [ngClass]="{'d-none': isLoginContext, 'show': !isLoginContext && menuOpen}"
+      (click)="toggleMenu()"
+    >
       {{ initials }}
     </div>
     <div class="menu" *ngIf="menuOpen">

@@ -15,13 +15,22 @@ export class HeaderComponent implements OnInit {
   menuOpen = false;
   helpOpen = false;
   initials: string = '';
-
+  isLoginContext: boolean = false;
   constructor(public loginService: LoginService, private router: Router) {}
 
   ngOnInit() {
     this.loginService.initials$.subscribe((newInitials) => {
       this.initials = newInitials;
     });
+    this.checkRoute();
+    this.router.events.subscribe(() => this.checkRoute())
+  }
+
+  checkRoute() {
+    const currentUrl = this.router.url;
+    console.log('Header - Current URL:', currentUrl);
+    this.isLoginContext = ['/login', '/privacy-notice', '/legal-notice'].includes(currentUrl);
+    console.log('Header - isLoginContext:', this.isLoginContext);
   }
 
   toggleMenu() {

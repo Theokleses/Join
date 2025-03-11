@@ -74,6 +74,10 @@ main {
   }
 }
 
+.d-none {
+  display: none;
+}
+
 @media (max-width: 1000px) {
   main {
     height: 60px;
@@ -83,7 +87,6 @@ main {
     left: 0;
     flex-direction: row;
     justify-content: space-around;
-    // padding: 0 10px;
     z-index: 9999;
     gap: 0px;
   }

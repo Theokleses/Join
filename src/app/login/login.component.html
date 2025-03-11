@@ -18,7 +18,7 @@
         <button class="dark-btn" (click)="navigateToSignup()">Sign up</button>
       </div>
     </header>
-    
+
     <div class="content-wrapper">
       <section>
         <div class="log-in">
@@ -76,8 +76,8 @@
 
       <footer>
         <div class="footer-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Legal notice</a>
+          <a (click)="navigateTo('/privacy-notice')">Privacy Policy</a>
+          <a (click)="navigateTo('/legal-notice')">Legal Notice</a>
         </div>
       </footer>
     </div>
