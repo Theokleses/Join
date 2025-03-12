@@ -24,7 +24,8 @@ export class SidebarComponent implements OnInit {
 
   checkRoute() {
     const currentUrl = this.router.url;
-    this.isLoginContext = ['/login', '/privacy-notice', '/legal-notice'].includes(currentUrl);
+    // this.isLoginContext = ['/login', '/privacy-notice', '/legal-notice'].includes(currentUrl);
+    this.isLoginContext = currentUrl === '/login' || this.loginService.getFromLoginOrSignup();
   }
 
   setActiveTab(tab: string) {

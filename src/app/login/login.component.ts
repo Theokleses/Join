@@ -1,17 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, Renderer2, AfterViewInit} from '@angular/core';
-import { Router, RouterModule} from '@angular/router';
-import { AppComponent } from '../app.component';
+import { Component, Renderer2, AfterViewInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../firebase-services/login.service';
 import { FormsModule } from '@angular/forms';
-import { TasksService } from '../firebase-services/tasks.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements AfterViewInit {
   email: string = '';
@@ -24,14 +22,11 @@ export class LoginComponent implements AfterViewInit {
 
   constructor(
     private router: Router,
-    private appComponent: AppComponent,
     private renderer: Renderer2,
-    private loginService: LoginService,
-    private tasksService: TasksService,
+    private loginService: LoginService
   ) {}
 
   navigateToSummary() {
-    this.appComponent.isLoggedIn = true;
     this.router.navigate(['/summary']);
   }
 
@@ -40,18 +35,11 @@ export class LoginComponent implements AfterViewInit {
   }
 
   navigateTo(route: string) {
-    this.loginService.setLinkClicked(true); 
+    this.loginService.setLinkClicked(true, true);
     this.router.navigate([route]);
-    setTimeout(() => this.loginService.setLinkClicked(false), 100); 
-  }
-
-  guestLogin() {
-    this.loginService.loginAsGuest();
-  }
-
-  handleGuestLogin() {
-    this.guestLogin();
-    this.navigateToSummary();
+    setTimeout(() => {
+      this.loginService.setLinkClicked(false, false);
+    }, 100);
   }
 
   async onLogin() {
@@ -65,21 +53,20 @@ export class LoginComponent implements AfterViewInit {
     const result = await this.loginService.login(this.email, this.password);
     if (result.success) {
       this.navigateToSummary();
-      this.handleLogin();
     } else {
       this.errorMessage = 'Incorrect email or password';
-      setTimeout(() => {
-        this.errorMessage = '';
-      }, 3000);
+      setTimeout(() => (this.errorMessage = ''), 3000);
     }
   }
 
+  handleGuestLogin() {
+    this.loginService.loginAsGuest();
+    this.navigateToSummary();
+  }
+
   onInput(field: string) {
-    if (field === 'email' && this.email) {
-      this.emailErrorMessage = '';
-    } else if (field === 'password' && this.password) {
-      this.passwordErrorMessage = '';
-    }
+    if (field === 'email' && this.email) this.emailErrorMessage = '';
+    if (field === 'password' && this.password) this.passwordErrorMessage = '';
   }
 
   validateInputs() {
@@ -97,31 +84,6 @@ export class LoginComponent implements AfterViewInit {
     return isValid;
   }
 
-  capitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
-
-  handleLogin() {
-    if (this.email && this.email.includes('@')) {
-      this.loginService
-        .login(this.email, this.password)
-        .then((result) => {
-          if (result.success) {
-            this.loginService.setFirstName(this.firstName || '');
-            this.loginService.setLastName(this.lastName || '');
-            this.navigateToSummary();
-          } else {
-            console.error('Login fehlgeschlagen:', result.error);
-          }
-        })
-        .catch((error) => {
-          console.error('Fehler beim Login:', error);
-        });
-    } else {
-      console.log('Ungültige Email-Adresse');
-    }
-  }
-
   ngAfterViewInit(): void {
     const logoElement = document.querySelector('.logo');
     const resetAnimation = () => {
@@ -129,23 +91,19 @@ export class LoginComponent implements AfterViewInit {
       this.renderer.removeClass(logoElement, 'animate-logo');
       setTimeout(() => {
         this.renderer.addClass(logoElement, 'animate-logo');
-        setTimeout(() => {
-          this.renderer.removeClass(logoElement, 'animate-logo');
-        }, 2000);
+        setTimeout(
+          () => this.renderer.removeClass(logoElement, 'animate-logo'),
+          2000
+        );
       }, 10);
     };
 
     const mediaQuery = window.matchMedia('(max-width: 750px)');
     const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
-      if (e.matches) {
-        resetAnimation();
-      } else {
-        this.renderer.removeClass(logoElement, 'animate-logo');
-      }
+      if (e.matches) resetAnimation();
+      else this.renderer.removeClass(logoElement, 'animate-logo');
     };
     handleMediaChange(mediaQuery);
     mediaQuery.addEventListener('change', handleMediaChange);
   }
 }
-
-

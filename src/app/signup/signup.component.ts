@@ -36,6 +36,12 @@ export class SignupComponent {
     this.router.navigate(['/login']);
   }
 
+  navigateTo(route: string) {
+    this.loginService.setLinkClicked(true, true); 
+    this.router.navigate([route]);
+    setTimeout(() => this.loginService.setLinkClicked(false), 100); 
+  }
+
   onCheckboxChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.isPrivacyAccepted = checkbox.checked;
@@ -72,7 +78,7 @@ export class SignupComponent {
         this.nameErrorMessage = 'Please enter both first and last name';
         isValid = false;
       } else {
-        const lettersOnlyRegex = /^[a-zA-Z]+$/;
+        const lettersOnlyRegex = /^[a-zA-ZäöüÄÖÜß]+$/;
         for (const part of nameParts) {
           if (!lettersOnlyRegex.test(part)) {
             this.nameErrorMessage = 'Name must contain only letters';

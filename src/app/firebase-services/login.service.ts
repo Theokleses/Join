@@ -13,6 +13,9 @@ import {
 })
 export class LoginService {
   private isLinkClicked: boolean = false;
+  private fromLoginOrSignup: boolean = false;
+  private fromLoginContext = false;
+  private linkClickedSubject = new BehaviorSubject<boolean>(false);
   private _hideHelpIcon: boolean = false;
   private initialsSubject = new BehaviorSubject<string>('');
   initials$ = this.initialsSubject.asObservable();
@@ -118,14 +121,27 @@ export class LoginService {
     localStorage.setItem('displayName', displayName);
   }
 
-  setLinkClicked(value: boolean) {
+  setLinkClicked(value: boolean, fromLoginOrSignup: boolean = false) {
     this.isLinkClicked = value;
+    this.fromLoginOrSignup = fromLoginOrSignup;
+    this.linkClickedSubject.next(value);
+  }
+
+  setFromLoginContext(value: boolean) {
+    this.fromLoginContext = value;
+  }
+
+  getFromLoginContext(): boolean {
+    return this.fromLoginContext;
+  }
+
+  getFromLoginOrSignup(): boolean {
+    return this.fromLoginOrSignup;
   }
 
   getLinkClicked(): boolean {
     return this.isLinkClicked;
   }
-
   /**
    * Signs up a new user with email, password, and display name.
    * @param {string} email - The user's email address.
@@ -138,7 +154,7 @@ export class LoginService {
       const userCredential = await createUserWithEmailAndPassword(
         this.auth,
         email,
-        password,
+        password
       );
       const user = userCredential.user;
       await updateProfile(user, { displayName });
@@ -160,13 +176,13 @@ export class LoginService {
    */
   async login(
     email: string,
-    password: string,
+    password: string
   ): Promise<{ success: boolean; user?: any; error?: any }> {
     try {
       const userCredential = await signInWithEmailAndPassword(
         this.auth,
         email,
-        password,
+        password
       );
       const user = userCredential.user;
       this.handleSuccessfulLogin(user);
@@ -200,7 +216,7 @@ export class LoginService {
     const [firstName, lastName] = displayName
       .split(' ')
       .map(
-        (name) => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase(),
+        (name) => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
       );
     const formattedDisplayName = [firstName, lastName]
       .filter(Boolean)
