@@ -6,14 +6,13 @@ main {
   width: 300px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
 }
 
 .content {
   @include dF(space-between, center);
-  @include contentmax();
   flex-direction: column;
+  @include contentmax();
   padding: 40px 0;
   width: 100%;
   flex-grow: 1;
@@ -132,5 +131,11 @@ main {
 @media (max-height: 715px) {
   main {
     z-index: 9;
+  }
+}
+
+@media (min-height: 1081px) {
+  .content {
+    max-height: 750px;
   }
 }
