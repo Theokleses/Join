@@ -6,6 +6,11 @@ main {
   text-wrap: wrap;
   max-width: calc(1920px - $width);
   background-color: $grey;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .bg {
@@ -72,7 +77,9 @@ h2 {
 }
 
 .taskboard {
-  height: 1000px;
+  height: auto;
+  min-height: calc(100vh - 15vh);
+  margin-bottom: 100px;
   @include dF(space-evenly, flex-start);
   @include pad();
   gap: 12px;
@@ -90,6 +97,9 @@ h2 {
 
 .task {
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   gap: 12px;
   height: 220px;
   width: 200px;
@@ -116,10 +126,6 @@ h2 {
 
 .medium {
   height: 6px !important;
-}
-
-.description {
-  margin-bottom: 20px; /* Abstand unter der Beschreibung */
 }
 
 .darkblue {
@@ -156,15 +162,15 @@ h2 {
 }
 
 .drop-area {
-  height: 100vh;
+  height: auto;
   overflow-y: auto;
+  max-height: calc(100vh - 15vh - 40px);
 }
 
 .progress {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 12px 0;
 }
 
 .progress-bar-container {
@@ -307,11 +313,8 @@ h2 {
 
 @media (max-width: 800px) {
   .taskboard {
-    flex-direction: column;
-    height: auto;
     margin-bottom: 200px;
     gap: 16px;
-    padding: 0 20px !important;
     max-width: 560px;
   }
 
@@ -350,26 +353,14 @@ h2 {
 
 @media (max-width: 600px) {
   .taskboard {
-    flex-direction: column;
-    height: auto;
-    margin-bottom: 200px;
-    gap: 16px;
-    padding: 0 20px !important;
     max-width: 470px;
   }
 }
 
 @media (max-width: 500px) {
   .searchfield {
-    @include dF();
-    background-color: white;
-    border-radius: 10px;
-    border: 1.5px solid $darkgrey;
     input {
       width: 160px;
-      border: none;
-      padding: 4px 6px;
-      outline: none;
 
       &::placeholder {
         color: rgba(0, 0, 0, 0.2);
@@ -390,22 +381,18 @@ h2 {
 
 @media (max-width: 430px) {
   .taskboard {
-    flex-direction: column;
-    height: auto;
-    margin-bottom: 200px;
-    gap: 16px;
-    padding: 0 20px !important;
     max-width: 360px;
   }
 }
 
 @media (max-width: 390px) {
   .taskboard {
-    flex-direction: column;
-    height: auto;
-    margin-bottom: 200px;
-    gap: 16px;
-    padding: 0 20px !important;
-    max-width: 280px;
+    max-width: 340px;
+  }
+}
+
+@media (max-width: 370px) {
+  .taskboard {
+    max-width: 294px;
   }
 }
