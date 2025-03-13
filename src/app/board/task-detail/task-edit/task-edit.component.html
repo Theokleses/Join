@@ -17,9 +17,10 @@
               placeholder="Enter a title"
               formControlName="title"
             />
-            @if (taskForm.get('title')?.invalid &&
-            taskForm.get('title')?.touched) {
-            <span class="error">This field is required</span>
+            @if (
+              taskForm.get("title")?.invalid && taskForm.get("title")?.touched
+            ) {
+              <span class="error">This field is required</span>
             }
           </div>
 
@@ -43,9 +44,11 @@
               formControlName="dueDate"
               (change)="onDateChange($event)"
             />
-            @if (taskForm.get('dueDate')?.invalid &&
-            taskForm.get('dueDate')?.touched) {
-            <span class="error">This field is required</span>
+            @if (
+              taskForm.get("dueDate")?.invalid &&
+              taskForm.get("dueDate")?.touched
+            ) {
+              <span class="error">This field is required</span>
             }
           </div>
 
@@ -58,15 +61,15 @@
                 (click)="toggleUrgent()"
                 [ngStyle]="{
                   'background-color': isUrgentClicked ? '#FF3D00' : 'white',
-                  color: isUrgentClicked ? 'white' : 'black'
+                  color: isUrgentClicked ? 'white' : 'black',
                 }"
               >
                 Urgent
                 <img
                   [src]="
                     isUrgentClicked
-                      ? '../../assets/img/04_task/high-clicked.png'
-                      : '../../assets/img/04_task/high-unclicked.png'
+                      ? './assets/img/04_task/high-clicked.png'
+                      : './assets/img/04_task/high-unclicked.png'
                   "
                   alt="high prio"
                 />
@@ -76,15 +79,15 @@
                 (click)="toggleMedium()"
                 [ngStyle]="{
                   'background-color': isMediumClicked ? '#FFA800' : 'white',
-                  color: isMediumClicked ? 'white' : 'black'
+                  color: isMediumClicked ? 'white' : 'black',
                 }"
               >
                 Medium
                 <img
                   [src]="
                     isMediumClicked
-                      ? '../../assets/img/04_task/medium-clicked.png'
-                      : '../../assets/img/04_task/medium-unclicked.png'
+                      ? './assets/img/04_task/medium-clicked.png'
+                      : './assets/img/04_task/medium-unclicked.png'
                   "
                   alt="medium prio"
                 />
@@ -94,15 +97,15 @@
                 (click)="toggleLow()"
                 [ngStyle]="{
                   'background-color': isLowClicked ? '#7AE229' : 'white',
-                  color: isLowClicked ? 'white' : 'black'
+                  color: isLowClicked ? 'white' : 'black',
                 }"
               >
                 Low
                 <img
                   [src]="
                     isLowClicked
-                      ? '../../assets/img/04_task/low-clicked.png'
-                      : '../../assets/img/04_task/low-unclicked.png'
+                      ? './assets/img/04_task/low-clicked.png'
+                      : './assets/img/04_task/low-unclicked.png'
                   "
                   alt="low prio"
                 />
@@ -118,9 +121,11 @@
               <option value="Technical Task">Technical Task</option>
               <option value="User Story">User Story</option>
             </select>
-            @if (taskForm.get('category')?.invalid &&
-            taskForm.get('category')?.touched) {
-            <span class="error">This field is required</span>
+            @if (
+              taskForm.get("category")?.invalid &&
+              taskForm.get("category")?.touched
+            ) {
+              <span class="error">This field is required</span>
             }
           </div>
 
@@ -139,17 +144,42 @@
                   (input)="onInputChange($event)"
                 />
                 <img
-                  src="../../assets/img/04_task/arrow_drop_down_down.png"
+                  src="./assets/img/04_task/arrow_drop_down_down.png"
                   alt=""
                   (click)="toggleDropdown()"
                   class="drop-down-arrow"
                 />
               </div>
               @if (isDropdownOpen) {
-              <div id="contactlist">
-                @for (contact of filteredContacts; track $index) { @if
-                (contact.id) {
-                <div class="contact" (click)="checkContact(contact.id, $event)">
+                <div id="contactlist">
+                  @for (contact of filteredContacts; track $index) {
+                    @if (contact.id) {
+                      <div
+                        class="contact"
+                        (click)="checkContact(contact.id, $event)"
+                      >
+                        <div
+                          id="initials"
+                          [ngStyle]="{ 'background-color': contact.initialBg }"
+                        >
+                          <p>
+                            {{ contact.firstname[0].toUpperCase()
+                            }}{{ contact.lastname[0].toUpperCase() }}
+                          </p>
+                        </div>
+                        <div id="contact-name">
+                          {{ contact.firstname }} {{ contact.lastname }}
+                        </div>
+                        <div id="checkbox">
+                          <input type="checkbox" [checked]="contact.checked" />
+                        </div>
+                      </div>
+                    }
+                  }
+                </div>
+              }
+              <div id="contact-initials">
+                @for (contact of selectedContacts.slice(0, 5); track $index) {
                   <div
                     id="initials"
                     [ngStyle]="{ 'background-color': contact.initialBg }"
@@ -159,29 +189,11 @@
                       }}{{ contact.lastname[0].toUpperCase() }}
                     </p>
                   </div>
-                  <div id="contact-name">
-                    {{ contact.firstname }} {{ contact.lastname }}
+                }
+                @if (selectedContacts.length > 5) {
+                  <div id="more-contacts">
+                    +{{ selectedContacts.length - 5 }}
                   </div>
-                  <div id="checkbox">
-                    <input type="checkbox" [checked]="contact.checked" />
-                  </div>
-                </div>
-                } }
-              </div>
-              }
-              <div id="contact-initials">
-                @for (contact of selectedContacts.slice(0, 5); track $index) {
-                <div
-                  id="initials"
-                  [ngStyle]="{ 'background-color': contact.initialBg }"
-                >
-                  <p>
-                    {{ contact.firstname[0].toUpperCase()
-                    }}{{ contact.lastname[0].toUpperCase() }}
-                  </p>
-                </div>
-                } @if (selectedContacts.length > 5) {
-                <div id="more-contacts">+{{ selectedContacts.length - 5 }}</div>
                 }
               </div>
             </div>
@@ -199,54 +211,56 @@
                 [ngModelOptions]="{ standalone: true }"
               />
               <img
-                src="../../assets/img/04_task/plus.png"
+                src="./assets/img/04_task/plus.png"
                 id="img-subtask"
                 (click)="addToSubtasklist()"
               />
             </div>
             @if (subtasklist.length > 0) {
-            <div id="subtask-list">
-              @for (subtask of subtasklist; track $index) {
-              <div
-                class="subtask-item"
-                (mouseover)="showIcons($index)"
-                (mouseleave)="hideIcons($index)"
-              >
-                @if (editingSubtaskIndex !== $index) {
-                <span>{{ $index + 1 }}: {{ subtask }}</span>
-                } @else {
-                <input
-                  type="text"
-                  [(ngModel)]="editedSubtaskText"
-                  [ngModelOptions]="{ standalone: true }"
-                  (keyup.enter)="saveSubtaskEdit($index)"
-                  (blur)="saveSubtaskEdit($index)"
-                  autofocus
-                />
+              <div id="subtask-list">
+                @for (subtask of subtasklist; track $index) {
+                  <div
+                    class="subtask-item"
+                    (mouseover)="showIcons($index)"
+                    (mouseleave)="hideIcons($index)"
+                  >
+                    @if (editingSubtaskIndex !== $index) {
+                      <span>{{ $index + 1 }}: {{ subtask }}</span>
+                    } @else {
+                      <input
+                        type="text"
+                        [(ngModel)]="editedSubtaskText"
+                        [ngModelOptions]="{ standalone: true }"
+                        (keyup.enter)="saveSubtaskEdit($index)"
+                        (blur)="saveSubtaskEdit($index)"
+                        autofocus
+                      />
+                    }
+                    <div class="subtask-icons" *ngIf="hoveredIndex === $index">
+                      <img
+                        [src]="
+                          editingSubtaskIndex === $index
+                            ? './assets/img/04_task/check.png'
+                            : './assets/img/06_contacts/edit.png'
+                        "
+                        [alt]="
+                          editingSubtaskIndex === $index ? 'confirm' : 'edit'
+                        "
+                        (click)="
+                          editingSubtaskIndex === $index
+                            ? saveSubtaskEdit($index)
+                            : startSubtaskEdit($index)
+                        "
+                      />
+                      <img
+                        src="./assets/img/06_contacts/delete.png"
+                        alt="delete"
+                        (click)="deleteFromSubtasklist($index)"
+                      />
+                    </div>
+                  </div>
                 }
-                <div class="subtask-icons" *ngIf="hoveredIndex === $index">
-                  <img
-                    [src]="
-                      editingSubtaskIndex === $index
-                        ? '../../assets/img/04_task/check.png'
-                        : '../../assets/img/06_contacts/edit.png'
-                    "
-                    [alt]="editingSubtaskIndex === $index ? 'confirm' : 'edit'"
-                    (click)="
-                      editingSubtaskIndex === $index
-                        ? saveSubtaskEdit($index)
-                        : startSubtaskEdit($index)
-                    "
-                  />
-                  <img
-                    src="../../assets/img/06_contacts/delete.png"
-                    alt="delete"
-                    (click)="deleteFromSubtasklist($index)"
-                  />
-                </div>
               </div>
-              }
-            </div>
             }
           </div>
 
@@ -273,7 +287,7 @@
         </form>
 
         @if (editError) {
-        <p class="error">{{ editError }}</p>
+          <p class="error">{{ editError }}</p>
         }
       </div>
     </div>

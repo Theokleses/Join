@@ -1,54 +1,59 @@
 <main>
   <div class="content">
     <div class="logo">
-      <img src=".././../../assets/img/main-logo-white.png" alt="" />
+      <img src="./assets/img/main-logo-white.png" alt="" />
     </div>
 
     <div class="menu">
-      <div class="link" [ngClass]="{'d-none': isLoginContext}">
+      <div class="link" [ngClass]="{ 'd-none': isLoginContext }">
         <a
           routerLink="/summary"
           [class.active]="activeTab === 'summary'"
           (click)="setActiveTab('summary')"
         >
-          <img src="../../../assets/img/02_menubar/summary.png" alt="" />Summary
+          <img src="./assets/img/02_menubar/summary.png" alt="" />Summary
         </a>
       </div>
 
-      <div class="link" [ngClass]="{'d-none': isLoginContext}">
+      <div class="link" [ngClass]="{ 'd-none': isLoginContext }">
         <a
           routerLink="/tasks"
           [class.active]="activeTab === 'tasks'"
           (click)="setActiveTab('tasks')"
         >
-          <img src="../../../assets/img/02_menubar/add-task.png" alt="" />Add task
+          <img src="./assets/img/02_menubar/add-task.png" alt="" />Add task
         </a>
       </div>
 
-      <div class="link" [ngClass]="{'d-none': isLoginContext}">
+      <div class="link" [ngClass]="{ 'd-none': isLoginContext }">
         <a
           routerLink="/board"
           [class.active]="activeTab === 'board'"
           (click)="setActiveTab('board')"
           class="special"
         >
-          <img src="../../../assets/img/02_menubar/board.png" alt="" /><p>Board</p>
+          <img src="./assets/img/02_menubar/board.png" alt="" />
+          <p>Board</p>
         </a>
       </div>
 
-      <div class="link" [ngClass]="{'d-none': isLoginContext}">
+      <div class="link" [ngClass]="{ 'd-none': isLoginContext }">
         <a
           routerLink="/contacts"
           [class.active]="activeTab === 'contacts'"
           (click)="setActiveTab('contacts')"
         >
-          <img src="../../../assets/img/02_menubar/contacts.png" alt="" />Contacts
+          <img src="./assets/img/02_menubar/contacts.png" alt="" />Contacts
         </a>
       </div>
 
-      <div class="link" [ngClass]="{'d-none': !isLoginContext}">
+      <div class="link" [ngClass]="{ 'd-none': !isLoginContext }">
         <a routerLink="/login">
-          <img src="../../../assets/img/02_menubar/logout.png" alt="Logout-icon" (click)="logout()" />Log Out
+          <img
+            src="./assets/img/02_menubar/logout.png"
+            alt="Logout-icon"
+            (click)="logout()"
+          />Log Out
         </a>
       </div>
     </div>
@@ -59,4 +64,3 @@
     </div>
   </div>
 </main>
-

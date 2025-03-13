@@ -8,108 +8,110 @@
 
 <main [class.slide-in]="showAnimation">
   <div id="left-side">
-    <img src="../../../assets/img/main-logo-white.png" alt="" id="logo" />
+    <img src="./assets/img/main-logo-white.png" alt="" id="logo" />
     <h2>Add contact</h2>
-    <img src="../../../assets/img/blueLine.png" alt="" id="blueLine" />
+    <img src="./assets/img/blueLine.png" alt="" id="blueLine" />
   </div>
-  @if (!addSuccess){
-  <div id="right-side">
-    <div id="right-side-left">
-      <img src="../../../assets/img/06_contacts/default-img.png" alt="" />
-    </div>
-    <div id="right-side-right">
-      <a (click)="contactsService.toggleDialogAdd()" class="close-btn">X</a>
-      <div id="inputs">
-        <form (ngSubmit)="addNewContact()">
-          <div id="firstname-container">
-            <label for="firstname">First name:</label>
-            <input
-              id="firstname"
-              type="text"
-              placeholder="First name"
-              [(ngModel)]="newContact.firstname"
-              name="firstname"
-              required
-            />
-            <img src="../../../assets/img/06_contacts/person.png" alt="" />
-          </div>
-          @if (newContact.firstname && !isFirstNameValid()) {
-          <div class="error-message">Please enter a valid first name.</div>
-          }
-
-          <div id="lastname-container">
-            <label for="lastname">Last name:</label>
-            <input
-              id="lastname"
-              type="text"
-              placeholder="Last name"
-              [(ngModel)]="newContact.lastname"
-              name="lastname"
-              required
-            />
-            <img src="../../../assets/img/06_contacts/person.png" alt="" />
-          </div>
-          @if (newContact.lastname && !isLastNameValid()) {
-          <div class="error-message">Please enter a valid last name.</div>
-          }
-
-          <div id="email-container">
-            <label for="email">E-Mail:</label>
-            <input
-              id="email"
-              type="email"
-              placeholder="E-Mail"
-              [(ngModel)]="newContact.email"
-              name="email"
-              required
-            /><img src="../../../assets/img/06_contacts/mail.png" alt="" />
-          </div>
-          @if (newContact.email && !isEmailValid()) {
-          <div class="error-message">Please enter a valid email address.</div>
-          }
-
-          <div id="phonenumber-container">
-            <label for="phonenumber">Phone:</label>
-            <div class="phone-input-wrapper">
-              <span class="phone-prefix">+</span>
+  @if (!addSuccess) {
+    <div id="right-side">
+      <div id="right-side-left">
+        <img src="./assets/img/06_contacts/default-img.png" alt="" />
+      </div>
+      <div id="right-side-right">
+        <a (click)="contactsService.toggleDialogAdd()" class="close-btn">X</a>
+        <div id="inputs">
+          <form (ngSubmit)="addNewContact()">
+            <div id="firstname-container">
+              <label for="firstname">First name:</label>
               <input
-                id="phonenumber"
-                type="tel"
-                placeholder="49123456789"
-                inputmode="numeric"
-                pattern="[0-9]*"
-                [(ngModel)]="newContact.phonenumber"
-                name="phonenumber"
+                id="firstname"
+                type="text"
+                placeholder="First name"
+                [(ngModel)]="newContact.firstname"
+                name="firstname"
                 required
               />
-              <img src="../../../assets/img/06_contacts/phone.png" alt="" />
+              <img src="./assets/img/06_contacts/person.png" alt="" />
             </div>
-          </div>
-          @if (newContact.phonenumber && !isPhoneNumberValid()) {
-            <div class="error-message">Please add a valid phonenumber.</div>
-          }
-          <div id="btn-section">
-            <button
-              type="submit"
-              class="save"
-              id="save"
-              [disabled]="!isFormValid()"
-              [ngStyle]="{
-              'background-color': isFormValid() ? '#0044cc' : 'grey',
-              color: isFormValid() ? 'white' : '#ccc',
-              cursor: isFormValid() ? 'pointer' : 'not-allowed',
-            }"
-            >
-              Add contact
-            </button>
-          </div>
-        </form>
+            @if (newContact.firstname && !isFirstNameValid()) {
+              <div class="error-message">Please enter a valid first name.</div>
+            }
+
+            <div id="lastname-container">
+              <label for="lastname">Last name:</label>
+              <input
+                id="lastname"
+                type="text"
+                placeholder="Last name"
+                [(ngModel)]="newContact.lastname"
+                name="lastname"
+                required
+              />
+              <img src="./assets/img/06_contacts/person.png" alt="" />
+            </div>
+            @if (newContact.lastname && !isLastNameValid()) {
+              <div class="error-message">Please enter a valid last name.</div>
+            }
+
+            <div id="email-container">
+              <label for="email">E-Mail:</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="E-Mail"
+                [(ngModel)]="newContact.email"
+                name="email"
+                required
+              /><img src="./assets/img/06_contacts/mail.png" alt="" />
+            </div>
+            @if (newContact.email && !isEmailValid()) {
+              <div class="error-message">
+                Please enter a valid email address.
+              </div>
+            }
+
+            <div id="phonenumber-container">
+              <label for="phonenumber">Phone:</label>
+              <div class="phone-input-wrapper">
+                <span class="phone-prefix">+</span>
+                <input
+                  id="phonenumber"
+                  type="tel"
+                  placeholder="49123456789"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  [(ngModel)]="newContact.phonenumber"
+                  name="phonenumber"
+                  required
+                />
+                <img src="./assets/img/06_contacts/phone.png" alt="" />
+              </div>
+            </div>
+            @if (newContact.phonenumber && !isPhoneNumberValid()) {
+              <div class="error-message">Please add a valid phonenumber.</div>
+            }
+            <div id="btn-section">
+              <button
+                type="submit"
+                class="save"
+                id="save"
+                [disabled]="!isFormValid()"
+                [ngStyle]="{
+                  'background-color': isFormValid() ? '#0044cc' : 'grey',
+                  color: isFormValid() ? 'white' : '#ccc',
+                  cursor: isFormValid() ? 'pointer' : 'not-allowed',
+                }"
+              >
+                Add contact
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
   } @else {
-  <div id="right-side">
-    <h3 id="success-message">Contact successfully added!</h3>
-  </div>
+    <div id="right-side">
+      <h3 id="success-message">Contact successfully added!</h3>
+    </div>
   }
 </main>

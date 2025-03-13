@@ -30,8 +30,8 @@ export class SummaryComponent implements OnInit {
   highestPriority: string = '';
   deadlineImgSrc: string = '';
   deadlineBgColor: string = '';
-  editIconSrc: string = '../../assets/img/03_summary/edit.png';
-  doneIconSrc: string = '../../assets/img/03_summary/done.png';
+  editIconSrc: string = './assets/img/03_summary/edit.png';
+  doneIconSrc: string = './assets/img/03_summary/done.png';
 
   constructor(
     private loginService: LoginService,
@@ -250,21 +250,21 @@ export class SummaryComponent implements OnInit {
       this.setTaskProperties(
         urgentTasks.length,
         'Urgent',
-        '../../assets/img/03_summary/urgent.png',
+        './assets/img/03_summary/urgent.png',
         '#ff3d00',
       );
     } else if (mediumTasks.length > 0) {
       this.setTaskProperties(
         mediumTasks.length,
         'Medium',
-        '../../assets/img/03_summary/medium.png',
+        './assets/img/03_summary/medium.png',
         '#ffa800',
       );
     } else if (lowTasks.length > 0) {
       this.setTaskProperties(
         lowTasks.length,
         'Low',
-        '../../assets/img/03_summary/low.png',
+        './assets/img/03_summary/low.png',
         '#7ae229',
       );
     } else {
@@ -311,8 +311,8 @@ export class SummaryComponent implements OnInit {
    */
   onHoverEdit(isHovering: boolean) {
     this.editIconSrc = isHovering
-      ? '../../assets/img/03_summary/edit-hover.png'
-      : '../../assets/img/03_summary/edit.png';
+      ? './assets/img/03_summary/edit-hover.png'
+      : './assets/img/03_summary/edit.png';
   }
 
   /**
@@ -321,7 +321,7 @@ export class SummaryComponent implements OnInit {
    */
   onHoverDone(isHovering: boolean) {
     this.doneIconSrc = isHovering
-      ? '../../assets/img/03_summary/done-hover.png'
-      : '../../assets/img/03_summary/done.png';
+      ? './assets/img/03_summary/done-hover.png'
+      : './assets/img/03_summary/done.png';
   }
 }

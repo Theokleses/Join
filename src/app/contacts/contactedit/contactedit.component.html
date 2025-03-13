@@ -7,9 +7,9 @@
 ></div>
 <main [class.slide-in]="showAnimation">
   <div id="left-side">
-    <img src="../../../assets/img/main-logo-white.png" alt="" id="logo" />
+    <img src="./assets/img/main-logo-white.png" alt="" id="logo" />
     <h2>Edit contact</h2>
-    <img src="../../../assets/img/blueLine.png" alt="" id="blueLine" />
+    <img src="./assets/img/blueLine.png" alt="" id="blueLine" />
   </div>
   @if (!updateSuccess) {
     <div id="right-side">
@@ -39,7 +39,7 @@
               required
               value="test"
             />
-            <img src="../../../assets/img/06_contacts/person.png" alt="" />
+            <img src="./assets/img/06_contacts/person.png" alt="" />
           </div>
           @if (firstname && !isFirstNameValid()) {
             <div class="error-message">Please enter a valid first name.</div>
@@ -54,7 +54,7 @@
               placeholder="Lastname"
               required
             />
-            <img src="../../../assets/img/06_contacts/person.png" alt="" />
+            <img src="./assets/img/06_contacts/person.png" alt="" />
           </div>
           @if (lastname && !isLastNameValid()) {
             <div class="error-message">Please enter a valid last name.</div>
@@ -68,7 +68,7 @@
               id="email"
               placeholder="E-Mail"
               required
-            /><img src="../../../assets/img/06_contacts/mail.png" alt="" />
+            /><img src="./assets/img/06_contacts/mail.png" alt="" />
           </div>
           @if (email && !isEmailValid()) {
             <div class="error-message">Please enter a valid email address.</div>
@@ -82,7 +82,7 @@
               id="phonenumber"
               placeholder="Phonenumber"
               required
-            /><img src="../../../assets/img/06_contacts/phone.png" alt="" />
+            /><img src="./assets/img/06_contacts/phone.png" alt="" />
           </div>
           @if (phonenumber && !isPhoneNumberValid()) {
             <div class="error-message">Please add the country code +49.</div>

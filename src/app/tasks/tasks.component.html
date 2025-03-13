@@ -56,7 +56,7 @@
                     (input)="onInputChange($event)"
                   />
                   <img
-                    src="../../assets/img/04_task/arrow_drop_down_down.png"
+                    src="./assets/img/04_task/arrow_drop_down_down.png"
                     alt=""
                     (click)="toggleDropdown()"
                   />
@@ -165,8 +165,8 @@
                 <img
                   [src]="
                     isUrgentClicked
-                      ? '../../assets/img/04_task/high-clicked.png'
-                      : '../../assets/img/04_task/high-unclicked.png'
+                      ? './assets/img/04_task/high-clicked.png'
+                      : './assets/img/04_task/high-unclicked.png'
                   "
                   alt="high prio"
                 />
@@ -184,8 +184,8 @@
                 <img
                   [src]="
                     isMediumClicked
-                      ? '../../assets/img/04_task/medium-clicked.png'
-                      : '../../assets/img/04_task/medium-unclicked.png'
+                      ? './assets/img/04_task/medium-clicked.png'
+                      : './assets/img/04_task/medium-unclicked.png'
                   "
                   alt="medium prio"
                 />
@@ -203,8 +203,8 @@
                 <img
                   [src]="
                     isLowClicked
-                      ? '../../assets/img/04_task/low-clicked.png'
-                      : '../../assets/img/04_task/low-unclicked.png'
+                      ? './assets/img/04_task/low-clicked.png'
+                      : './assets/img/04_task/low-unclicked.png'
                   "
                   alt="low prio"
                 />
@@ -259,19 +259,19 @@
                 }"
               >
                 <img
-                  src="../../assets/img/04_task/close.png"
+                  src="./assets/img/04_task/close.png"
                   alt=""
                   (mousedown)="clearSubtaskInput($event)"
                 />
                 <div></div>
                 <img
-                  src="../../assets/img/04_task/check.png"
+                  src="./assets/img/04_task/check.png"
                   alt=""
                   (mousedown)="addToSubtasklist($event)"
                 />
               </div>
               <img
-                src="../../assets/img/04_task/plus.png"
+                src="./assets/img/04_task/plus.png"
                 id="img-subtask"
                 [ngStyle]="{
                   display: subtaskInputFocus ? 'none' : 'block',
@@ -299,19 +299,19 @@
                   <div id="subtask-actions">
                     @if (editingIndex === $index) {
                       <img
-                        src="../../assets/img/04_task/check.png"
+                        src="./assets/img/04_task/check.png"
                         alt="Save"
                         (click)="saveEditedSubtask($index)"
                       />
                     } @else {
                       <img
-                        src="../../assets/img/04_task/pen.png"
+                        src="./assets/img/04_task/pen.png"
                         alt="Edit"
                         (click)="startEditingSubtask($index)"
                       />
                     }
                     <img
-                      src="../../assets/img/04_task/delete.png"
+                      src="./assets/img/04_task/delete.png"
                       alt="Delete"
                       (click)="deleteFromSubtasklist($index)"
                     />

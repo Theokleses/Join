@@ -32,7 +32,7 @@ import { Router } from '@angular/router';
 export class TasksComponent {
   @ViewChild('inputSearch') inputSearch!: ElementRef;
   @ViewChild('subtaskInputElement') subtaskInputElement!: ElementRef;
-  @Output() taskAdded = new EventEmitter<void>(); // Event für erfolgreiches Hinzufügen
+  @Output() taskAdded = new EventEmitter<void>();
   public contacts = inject(ContactsService);
   readonly date = new FormControl(new Date());
   readonly serializedDate = new FormControl(new Date().toISOString());
