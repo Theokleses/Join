@@ -1,21 +1,63 @@
 @use "../../styles.scss" as *;
 
-body,
-html {
-  overflow-y: auto;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 main {
-  @include dF();
+  max-width: calc(1920px - 330px);
+  padding: 2em;
+  display: flex;
   flex-direction: column;
-  @include contentmax();
-  @include pad();
-  max-height: 100vh;
-  overflow-y: auto !important;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  height: 100vh;
+  .content {
+    overflow-y: auto;
+    max-height: 80%;
+    width: 100%;
+  }
+
+  h2 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+  }
 }
 
-.content {
-  overflow-y: auto !important;
-  margin-bottom: 300px;
-  height: 100vh;
+@media (max-width: 1050px) {
+  main {
+    h1 {
+      font-size: 2em;
+    }
+    h2 {
+      font-size: 2em;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  main {
+    h1 {
+      font-size: 2em;
+    }
+    h2 {
+      font-size: 2em;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  main {
+    padding: 1em;
+    h1 {
+      font-size: 2em;
+    }
+    h2 {
+      font-size: 1em;
+    }
+  }
 }

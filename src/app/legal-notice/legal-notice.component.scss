@@ -1,15 +1,26 @@
 @use "../../styles.scss" as *;
 
-body,
-html {
-  overflow-y: auto;
+main {
+  max-width: calc(1920px - 330px);
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  h2 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+  }
 }
 
-main {
-  @include dF();
-  flex-direction: column;
-  @include contentmax();
-  @include pad();
-  max-height: 100vh;
-  overflow-y: auto !important;
+@media (max-width: 500px) {
+  main {
+    h1 {
+      font-size: 3em;
+    }
+    h2 {
+      font-size: 2em;
+    }
+  }
 }
