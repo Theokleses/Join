@@ -26,7 +26,7 @@
     >
       {{ initials }}
     </div>
-    <div class="menu" [ngClass]="{ 'menu-open': menuOpen }">
+    <div class="menu" [ngClass]="{ 'menu-open': menuOpen, 'menu-closing': menuClosing }">
       <a (click)="navigateTo('/privacy-notice')">Privacy Policy</a>
       <a (click)="navigateTo('/legal-notice')">Legal Notice</a>
       <a href="#" (click)="logout()">Log out</a>

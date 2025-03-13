@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   menuOpen = false;
+  menuClosing = false;
   helpOpen = false;
   initials: string = '';
   isLoginContext: boolean = false;
@@ -43,12 +44,22 @@ export class HeaderComponent implements OnInit {
         currentUrl === '/privacy-notice' ||
         currentUrl === '/legal-notice');
   }
+  
   toggleMenu() {
-    this.menuOpen = !this.menuOpen;
+    if (this.menuOpen) {
+      this.closeMenu(); 
+    } else {
+      this.menuOpen = true; 
+      this.menuClosing = false; 
+    }
   }
 
   closeMenu() {
-    this.menuOpen = false;
+    this.menuClosing = true; 
+    setTimeout(() => {
+      this.menuOpen = false; 
+      this.menuClosing = false; 
+    }, 500); 
   }
 
   goToHelp() {
