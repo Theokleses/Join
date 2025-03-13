@@ -2,7 +2,7 @@
 <main>
   <header>
     <div class="header-img">
-      <img src="/assets/img/main-logo.png" alt="Main-logo" />
+      <img src="./assets/img/main-logo.png" alt="Main-logo" />
     </div>
   </header>
 
@@ -15,13 +15,13 @@
         <div class="back-arrow">
           <img
             (click)="navigateToLogin()"
-            src="assets/img/01_login/arrow-left-line.png"
+            src="./assets/img/01_login/arrow-left-line.png"
             alt="Arrow-left"
           />
         </div>
         <div class="above-input-right">
           <h1>Sign up</h1>
-          <img src="/assets/img/blueLine.png" alt="Blue-line" />
+          <img src="./assets/img/blueLine.png" alt="Blue-line" />
         </div>
       </div>
       <div id="inputs">
@@ -35,7 +35,7 @@
               [(ngModel)]="displayName"
               (input)="onInputTouched('name')"
               required
-            /><img src="/assets/img/01_login/person.png" alt="" />
+            /><img src="./assets/img/01_login/person.png" alt="" />
           </div>
           <p class="error-message">{{ nameErrorMessage }}</p>
         </div>
@@ -49,7 +49,7 @@
               [(ngModel)]="email"
               (input)="onInputTouched('email')"
               required
-            /><img src="/assets/img/06_contacts/mail.png" alt="" />
+            /><img src="./assets/img/06_contacts/mail.png" alt="" />
           </div>
           <p class="error-message">{{ emailErrorMessage }}</p>
         </div>
@@ -63,7 +63,7 @@
               [(ngModel)]="password"
               (input)="onInputTouched('password')"
               required
-            /><img src="/assets/img/01_login/lock.png" alt="" />
+            /><img src="./assets/img/01_login/lock.png" alt="" />
           </div>
           <p class="error-message">{{ passwordErrorMessage }}</p>
         </div>
@@ -77,7 +77,7 @@
               [(ngModel)]="confirmPassword"
               (input)="onInputTouched('confirm-password')"
               required
-            /><img src="/assets/img/01_login/lock.png" alt="" />
+            /><img src="./assets/img/01_login/lock.png" alt="" />
           </div>
           <p class="error-message">{{ confirmPasswordErrorMessage }}</p>
         </div>
