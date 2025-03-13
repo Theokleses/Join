@@ -1,5 +1,4 @@
 import { Component} from '@angular/core';
-import { Location } from '@angular/common';
 import { LoginService } from '../firebase-services/login.service';
 import { Router } from '@angular/router';
 

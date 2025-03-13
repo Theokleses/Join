@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LoginService } from '../../firebase-services/login.service';
-import { HelpUserComponent } from '../../help-user/help-user.component';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, HelpUserComponent, RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
@@ -26,26 +25,24 @@ export class HeaderComponent implements OnInit {
       this.initials = newInitials;
     });
     this.checkRoute();
-    this.router.events.subscribe(() => this.checkRoute())
+    this.router.events.subscribe(() => this.checkRoute());
   }
 
   navigateTo(route: string) {
-    this.loginService.setLinkClicked(true); 
+    this.loginService.setLinkClicked(true);
     this.router.navigate([route]);
     this.closeMenu();
-    setTimeout(() => this.loginService.setLinkClicked(false), 100); 
+    setTimeout(() => this.loginService.setLinkClicked(false), 100);
   }
 
   checkRoute() {
     const currentUrl = this.router.url;
-    this.isLoginContext = currentUrl === '/login';
-    if (currentUrl === '/privacy-notice' || currentUrl === '/legal-notice') {
-      this.fromLoginContext = this.loginService.getFromLoginOrSignup(); 
-    } else {
-      this.fromLoginContext = currentUrl === '/login';
-    }
+    this.fromLoginContext =
+      !this.loginService.isLoggedIn &&
+      (currentUrl === '/login' ||
+        currentUrl === '/privacy-notice' ||
+        currentUrl === '/legal-notice');
   }
-
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
@@ -60,8 +57,8 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.loginService.logout(); 
-    this.closeMenu(); 
-    this.router.navigate(['/login']); 
+    this.loginService.logout();
+    this.closeMenu();
+    this.router.navigate(['/login']);
   }
 }

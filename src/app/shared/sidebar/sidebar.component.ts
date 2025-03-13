@@ -13,28 +13,37 @@ import { LoginService } from '../../firebase-services/login.service';
 })
 export class SidebarComponent implements OnInit {
   activeTab: string = 'summary';
-  isLoginContext: boolean = false; 
+  isLoginContext: boolean = false;
 
   constructor(private router: Router, public loginService: LoginService) {}
 
   ngOnInit() {
     this.checkRoute();
-    this.router.events.subscribe(() => this.checkRoute())
+    this.router.events.subscribe(() => this.checkRoute());
+  }
+
+  navigateTo(route: string) {
+    this.loginService.setLinkClicked(true);
+    this.router.navigate([route]);
+    setTimeout(() => this.loginService.setLinkClicked(false), 100);
   }
 
   checkRoute() {
     const currentUrl = this.router.url;
-    // this.isLoginContext = ['/login', '/privacy-notice', '/legal-notice'].includes(currentUrl);
-    this.isLoginContext = currentUrl === '/login' || this.loginService.getFromLoginOrSignup();
+    this.isLoginContext =
+      !this.loginService.isLoggedIn &&
+      (currentUrl === '/login' ||
+        currentUrl === '/privacy-notice' ||
+        currentUrl === '/legal-notice');
   }
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
-    this.checkRoute(); 
+    this.checkRoute();
   }
 
   logout() {
-    this.loginService.logout(); 
-    this.router.navigate(['/login']); 
+    this.loginService.logout();
+    this.router.navigate(['/login']);
   }
 }
