@@ -4,7 +4,7 @@ main {
   height: 100vh;
   overflow-y: auto;
   text-wrap: wrap;
-  max-width: calc(1920px - $width);
+  max-width: calc(1920px - 250px);
   background-color: $grey;
   scrollbar-width: none;
   -ms-overflow-style: none;
